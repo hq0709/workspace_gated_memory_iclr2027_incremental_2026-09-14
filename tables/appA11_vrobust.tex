@@ -1,0 +1,23 @@
+\begin{table}[h]
+\centering
+\caption{Verbal-probe paraphrase robustness and the canonical 1--10 rating
+baseline (Qwen; $W$ reference at 7B on the Decoupled benchmark: 0.641).
+Rating-gated selection runs use their own generation budgets, so compare
+within-run columns only.}
+\label{tab:appA11}
+\small
+\begin{tabular}{lcc}
+\toprule
+Importance probe & $V$ AUC [95\% CI] & paired $W-V$ [95\% CI] \\
+\midrule
+P1 (original) & 0.486 [0.389, 0.581] & \textcolor{gain}{$+0.155$} [$+0.053$, $+0.263$] \\
+P2 (keep-notes) & 0.347 [0.259, 0.436] & \textcolor{gain}{$+0.294$} [$+0.193$, $+0.394$] \\
+P3 (useful-later) & 0.530 [0.435, 0.620] & \textcolor{gain}{$+0.111$} [$+0.009$, $+0.215$] \\
+3-prompt ensemble & 0.428 [0.335, 0.521] & \textcolor{gain}{$+0.214$} [$+0.113$, $+0.318$] \\
+\addlinespace
+1--10 rating, Decoupled 7B & 0.493 [0.417, 0.573] & --- \\
+1--10 rating, Decoupled-L 7B & 0.457 [0.397, 0.519] & --- \\
+1--10 rating, Evoked 0.5B & 0.565 [0.493, 0.638] & --- \\
+\bottomrule
+\end{tabular}
+\end{table}

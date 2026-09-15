@@ -1,0 +1,27 @@
+\begin{table}[t]
+\centering
+\caption{\textbf{The dissociation scales with model capability (Qwen3 family).}
+Workspace$-$verbal gap $\Delta{=}\mathrm{AUC}(W){-}\mathrm{AUC}(V)$ by
+provenance regime and model size (episode-cluster bootstrap; $^{*}$: 95\% CI
+excludes zero; per-cell $W$, $V$ in App.~\ref{app:master}). On
+silently inferred content the gap is significantly positive at both capable
+scales (4B and 8B, every inferred regime) and peaks at $+0.317$ (Decoupled,
+8B), on par with the strongest dissociation in any family
+(Table~\ref{tab:master}); it emerges by 1.7B. On explicit content the gap is null or favors the
+verbal channel (significantly so at 1.7B): the anti-calibration is specific to
+inferred content and strengthens as the model gets larger---bigger models
+carry more in the workspace yet report it no better.}
+\label{tab:q3scale}
+\small
+\begin{tabular}{lcccc}
+\toprule
+Regime & Qwen3-0.6B & Qwen3-1.7B & Qwen3-4B & Qwen3-8B \\
+\midrule
+Evoked & +0.105$^{*}$ & +0.076 & +0.206$^{*}$ & +0.237$^{*}$ \\
+Decoupled & +0.035 & +0.235$^{*}$ & +0.113$^{*}$ & \textbf{\textcolor{gain}{+0.317$^{*}$}} \\
+Compositional & -0.003 & +0.131$^{*}$ & +0.195$^{*}$ & +0.220$^{*}$ \\
+\addlinespace
+\refrow Explicit (control) & -0.021 & -0.137$^{*}$ & +0.051 & +0.005 \\
+\bottomrule
+\end{tabular}
+\end{table}

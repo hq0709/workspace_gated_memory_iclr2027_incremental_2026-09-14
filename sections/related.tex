@@ -1,0 +1,89 @@
+\section{Related Work}
+\label{sec:related}
+
+\textbf{Agent memory and admission control.}
+Reflection-based importance scoring originates with Generative Agents
+\citep{park2023generative} and persists through MemGPT
+\citep{packer2023memgpt}, Mem0 \citep{mem0}, and agentic-memory successors
+\citep{amem2025}; retrieval-centric systems such as HippoRAG
+\citep{hipporag2024} sidestep write admission rather than solve it. Internal signals have gated segmentation (surprisal event
+boundaries in EM-LLM, \citealp{fostiropoulos2024emllm}), token retention (entropy in
+SirLLM, \citealp{yao2024sirllm}), and parametric test-time memory (gradient surprise
+in Titans, \citealp{behrouz2025titans}), and latent prediction error gates robot
+episodic memory \citep{surpriserobot2026}; none score concept-level utility
+from the residual stream, and none compare against the model's own report.
+Concurrent admission-control work replaces the verbal 1--10 rating with surface
+features \citep{amac2026,valuemodel2026} or with retrieval-time behavioral
+interventions \citep{cmi2026}, and circuit analysis has been used to
+diagnose memory operations \citep{memcircuits2026}; we instead gate writes
+from a mechanistic readout at encoding time and explain why the verbal
+rating fails (below-chance ranking of construct-valid inferred content), outperforming the tested surface-feature fusion proxy (App.~\ref{app:fusion}).
+A parallel line learns or hand-designs structured episodic memory rather than
+scoring individual writes: knowledge-graph world models
+\citep{arigraph2024}, distributed episodic-memory controllers with one-shot
+write and selective forgetting \citep{larimar2024}, dual-level Hebbian
+episodic--semantic graphs \citep{helamem2026}, active cue--tag--content
+reconstruction that challenges the fixed-budget retrieve-then-reason paradigm
+\citep{mragent2026}, self-organizing spatio-temporal episodic buffers
+\citep{artem2026}, and structured task-memory engines \citep{ye2025tme};
+cognitive-architecture proposals and position papers add working-memory hubs
+and episodic buffers \citep{guo2024wm}, articulate desiderata for human-like
+episodic memory \citep{dong2025episodic,pink2025position}, survey long-term
+memory mechanisms and their open problems \citep{hatalis2024memory}, and use
+episodic traces to suggest next tasks \citep{fiorini2025episodic}; empirical
+studies of add/delete policies characterize how write choices propagate
+downstream \citep{xiong2025memory}. These learn or structure \emph{where} a
+memory is placed and how it is recalled, but the admitted unit is still a span
+of read or emitted text selected by behavior or surface relevance; the
+workspace score is a drop-in replacement for that selection signal inside any
+of them, and its provenance-controlled evaluation complements episodic-memory
+generation-and-recall benchmarks \citep{huet2025episodic}.
+These systems differ in how memories are stored, organized, and retrieved,
+but agree on what a memory is: a span of text the agent read or emitted,
+admitted by asking the model about its importance. Our question is prior to
+theirs: what should count as the memory of an episode at all. Human episodic
+memory does not archive transcripts; it stores what the reader understood,
+including inferences never present in the text
+\citep{bartlett1932remembering,reyna1995fuzzy}. The provenance-controlled
+benchmarks make that distinction operational for LLM agents, and the central
+finding is that the content most specific to comprehension, the silently
+inferred bridge, is exactly what verbal importance scoring discards on the
+construct-valid benchmarks. Reading
+the admission signal off the computation itself rather than off the emitted
+surface is therefore a claim about what agent memory should be made of, not
+an implementation detail; the gate is one module-level consequence that any
+of the systems above can adopt.
+
+\textbf{Reading internal states.}
+Our readout is built from the logit lens \citep{nostalgebraist2020logitlens} and
+the J-lens workspace construction of \citet{anthropic2026workspace}, which
+established that verbalizable intermediate concepts occupy a decodable residual
+workspace and can be causally swapped; tuned and future-token lenses
+\citep{belrose2023tuned,pal2023futurelens}, patchscopes
+\citep{ghandeharioun2024patchscopes}, and representation engineering
+\citep{zou2023repe} provide the underlying techniques; latent multi-hop
+reasoning over bridge entities is known to be partial and layer-dependent
+\citep{yang2024latent,biran2024hopping}, which motivates measuring
+availability instead of assuming it. We claim no novelty for the
+construct; our contribution is its application to write admission, the
+regime-controlled comparison against self-report, and one finding in tension with
+the ``verbalizable'' framing: globally decodable content can remain unreportable
+(\S\ref{sec:results}), the machine analogue of availability without access.
+
+\textbf{Introspection and self-knowledge.}
+Models partially know what they know at the answer level
+\citep{kadavath2022know,azaria2023internal} and can be trained to report on
+themselves \citep{binder2024introspection}; behavioral work shows LLM salience
+is consistent yet not introspectable \citep{trienes2025salience}, chain-of-thought explanations are unfaithful
+\citep{turpin2023cot}, and internal states encode more than outputs reveal for
+truthfulness \citep{orgad2024llmsknow}; injected concepts can be detected
+internally while being verbally denied \citep{lindsey2025introspection,
+latentintrospection2026}, and hidden
+states outperform self-assessment for tool-call gating \citep{toolcalling2026}. We
+extend this family to memory utility with a sharper failure mode
+(anti-calibration, not noise), a provenance-based regime map explaining when
+self-report works, causal grounding, and task payoff. The formal framing borrows
+metacognitive sensitivity from psychophysics \citep{fleming2014how,nelson1990}; the
+cognitive parallels (judgments-of-learning driven by surface cues,
+\citealp{koriat1997}; blindsight, \citealp{weiskrantz1986}; global-workspace
+access, \citealp{dehaene2011}) are developed in App.~\ref{app:brain}.

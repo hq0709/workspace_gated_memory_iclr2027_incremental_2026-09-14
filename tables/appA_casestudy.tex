@@ -1,0 +1,60 @@
+\begin{table}[t]
+\centering
+\caption{Case study: budget-$k{=}3$ write gating on Decoupled-L episodes
+(Qwen2.5-7B). Each episode plants one silently inferred bridge concept, never
+written in the text, that the probe needs. The verbal importance probe rates
+the bridge unimportant (score in parentheses) and the gate drops it;
+the answer then fails. The workspace readout ranks the same bridge into the
+budget and the answer succeeds. \textcolor{failorange}{Rose}: verbal-gated
+failure (dropped bridge, wrong answer). \textcolor{wsblue}{Blue}:
+workspace-gated success. Answers are verbatim model generations from the
+kept set alone.}
+\label{tab:casestudy}
+\small
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{@{}p{0.14\textwidth}p{0.29\textwidth}p{0.24\textwidth}p{0.24\textwidth}@{}}
+\toprule
+\textbf{Inference} & \textbf{Episode and silent bridge} &
+\textbf{\textcolor{failorange}{Verbal-gated (fails)}} &
+\textbf{\textcolor{wsblue}{Workspace-gated (succeeds)}} \\
+\midrule
+
+attribute\newline $\rightarrow$ entity &
+\emph{``\ldots her second attempt to capture the famous red spot\ldots the
+largest planet came into focus.''}\newline
+\textbf{Q:} what object was she observing? \textbf{[Jupiter]}\newline
+bridge: \textbf{\emph{jovian}} (never written) &
+\textcolor{failorange}{Rates \emph{jovian} unimportant $(0.15)$, drops it;
+keeps \{telescope, planet, notebook\}.}\newline
+\textcolor{failorange}{``a planet\ldots using a telescope.'' $\times$} &
+\textcolor{wsblue}{Keeps \{\emph{jovian}, spot, planet\}.}\newline
+\textcolor{wsblue}{``likely referring to \textbf{Jupiter}\ldots'' $\checkmark$} \\
+\addlinespace
+
+place $\rightarrow$\newline language &
+\emph{``\ldots the famous blue-and-yellow express\ldots over the towering
+viaduct toward the mountains.''}\newline
+\textbf{Q:} in what language would he buy the ticket? \textbf{[French]}\newline
+bridge: \textbf{\emph{millau}} (never written) &
+\textcolor{failorange}{Rates \emph{millau} unimportant $(0.00)$, drops it;
+keeps \{platform, express, clock\}.}\newline
+\textcolor{failorange}{``not possible to determine the language\ldots'' $\times$} &
+\textcolor{wsblue}{Keeps \{platform, \emph{millau}, clock\}.}\newline
+\textcolor{wsblue}{``\textbf{French}.'' $\checkmark$} \\
+\addlinespace
+
+place $\rightarrow$\newline resource &
+\emph{``\ldots descended into a cold, dark shaft\ldots glittering seams
+embedded in rock faces\ldots faint flecks clung to her skin.''}\newline
+\textbf{Q:} what was she extracting? \textbf{[gold]}\newline
+bridge: \textbf{\emph{witwatersrand}} (never written) &
+\textcolor{failorange}{Rates \emph{witwatersrand} unimportant $(0.00)$, drops
+it; keeps \{mine, cart, beam\}.}\newline
+\textcolor{failorange}{``minerals or resources\ldots'' $\times$} &
+\textcolor{wsblue}{Keeps \{cart, \emph{witwatersrand}, mine\}.}\newline
+\textcolor{wsblue}{``\textbf{Gold}, as Witwatersrand is\ldots'' $\checkmark$} \\
+
+\bottomrule
+\end{tabular}
+\end{table}

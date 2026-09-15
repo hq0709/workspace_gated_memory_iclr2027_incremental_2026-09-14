@@ -1,0 +1,32 @@
+\begin{table}[h]
+\centering
+\caption{Availability-family grids, dynamic members: Rehearsal (emission /
+decoded reactivation, $K{=}8$ rollouts $\times$ 40 tokens) and Leverage
+(utility-gradient) across models and batteries.}
+\label{tab:appA7}
+\small
+\begin{tabular}{llcc>{\columncolor{wsRow}}c}
+\toprule
+Benchmark & Model & $W_{rep}^{emit}$ & $W_{rep}^{dec}$ & $W_J$ [95\% CI] \\
+\midrule
+Evoked & 0.5B & 0.560 & 0.518 & 0.440 [0.373, 0.509] \\
+Evoked & 1.5B & 0.639 & 0.684 & 0.512 [0.443, 0.583] \\
+Evoked & 3B & 0.586 & 0.666 & 0.542 [0.460, 0.624] \\
+Evoked & 7B & 0.608 & 0.684 & 0.506 [0.428, 0.585] \\
+Evoked & olmo7b & 0.588 & 0.652 & 0.559 [0.480, 0.633] \\
+\addlinespace
+Decoupled & 0.5B & 0.449 & 0.405 & 0.518 [0.442, 0.595] \\
+Decoupled & 1.5B & 0.526 & 0.526 & 0.505 [0.427, 0.583] \\
+Decoupled & 3B & 0.485 & 0.579 & 0.600 [0.528, 0.674] \\
+Decoupled & 7B & 0.563 & 0.578 & 0.550 [0.470, 0.629] \\
+Decoupled & olmo7b & 0.512 & 0.597 & 0.532 [0.459, 0.605] \\
+\addlinespace
+Compositional & 0.5B & 0.430 & 0.364 & 0.489 [0.402, 0.576] \\
+Compositional & 1.5B & 0.569 & 0.561 & 0.573 [0.485, 0.655] \\
+Compositional & 3B & 0.496 & 0.532 & 0.594 [0.508, 0.684] \\
+Compositional & 7B & 0.565 & 0.553 & 0.639 [0.550, 0.725] \\
+Compositional & olmo7b & 0.504 & 0.541 & 0.515 [0.426, 0.604] \\
+\addlinespace
+\bottomrule
+\end{tabular}
+\end{table}

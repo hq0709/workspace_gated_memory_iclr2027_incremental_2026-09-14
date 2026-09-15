@@ -1,0 +1,24 @@
+\begin{table}[h]
+\centering
+\caption{OLMo-2-0425-1B post-training stages. The workspace channel never improves
+(base is highest on Evoked); the verbal channel is miscalibrated already in the raw-probed
+base model and becomes more confidently wrong through the chat template.}
+\label{tab:appA5}
+\small
+\begin{tabular}{llccc}
+\toprule
+Benchmark & Stage & $W$ [95\% CI] & $V$ (chat) & $V_{raw}$ \\
+\midrule
+\refrow Evoked & BASE & 0.631 [0.565, 0.696] & --- & 0.524 \\
+ & SFT & 0.599 [0.528, 0.665] & 0.508 & 0.484 \\
+ & DPO & 0.576 [0.502, 0.644] & 0.492 & 0.498 \\
+ & RLVR & 0.580 [0.506, 0.648] & 0.487 & 0.510 \\
+\addlinespace
+\refrow Compositional & BASE & 0.513 [0.421, 0.611] & --- & 0.445 \\
+ & SFT & 0.477 [0.384, 0.573] & 0.302 & 0.313 \\
+ & DPO & 0.475 [0.380, 0.577] & 0.277 & 0.314 \\
+ & RLVR & 0.477 [0.381, 0.576] & 0.267 & 0.331 \\
+\addlinespace
+\bottomrule
+\end{tabular}
+\end{table}

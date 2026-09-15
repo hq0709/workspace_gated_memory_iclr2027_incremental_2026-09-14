@@ -1,0 +1,25 @@
+\begin{table}[h]
+\centering
+\caption{\textbf{The workspace readout is robust to the layer-aggregation choice}
+(Qwen2.5-7B, AUC at recovering load-bearing items; per-layer end-position
+reciprocal ranks recomputed from a single forward pass). Replacing the
+peak-over-layers of Eq.~\ref{eq:wrr} with a smooth mean over all layers changes
+AUC by ${\le}0.01$; restricting to the last-quarter layer band alone, or a
+mean over the mid-to-late band, recovers the score; and a leave-one-layer-out
+sweep moves AUC by ${\le}0.03$, so no single layer is load-bearing and the
+advantage is not a lucky-band artifact. $W$ is a stable late-layer property,
+consistent with the localization in Fig.~\ref{fig:mechanism}.}
+\label{tab:aggrobust}
+\small
+\begin{tabular}{lcc}
+\toprule
+Aggregation of end-position reciprocal rank & Evoked & Decoupled \\
+\midrule
+\wsrow Peak over all layers (Eq.~\ref{eq:wrr}) & 0.633 & 0.641 \\
+Mean over all layers & 0.642 & 0.645 \\
+Peak over last-quarter band (L22--28) & 0.640 & 0.625 \\
+Mean over mid--late band (L10--28) & 0.635 & 0.641 \\
+Leave-one-layer-out, peak (range) & [0.619, 0.646] & [0.636, 0.646] \\
+\bottomrule
+\end{tabular}
+\end{table}

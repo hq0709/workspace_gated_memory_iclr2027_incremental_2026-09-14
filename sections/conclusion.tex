@@ -1,0 +1,68 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+Agent memory systems inherit a convenient assumption: that a model can say what is
+worth remembering. Under controlled content provenance the assumption breaks in a structured
+way: self-rated importance is excellent for explicit content and, on the
+construct-valid benchmarks, at or below chance for silently inferred content
+at every scale and post-training stage we measured, in four model families,
+with the cue-density boundary mapped in App.~\ref{app:replications}. A J-lens-derived
+workspace readout recovers much of the signal that self-report loses on evoked
+content and causally feeds memory-based answers. \updated{Used as a write gate
+(with PRG as a provenance-routed extension), it adds zero importance-probe
+passes and reaches selection-oracle quality on the primary construct-valid
+workspace-only cell. Verbal-policy contrasts that depend on pre-migration
+selected sets are retained as historical analyses, not corrected-v3 headline
+evidence.} The failure is remediable: post-training never connects the verbal channel to
+the workspace because none of its objectives depend on that connection, and
+roughly 500 self-supervised steps suffice to establish it. Beyond agents, we read this as a post-training lesson: report-channel objectives
+do not by themselves calibrate self-report against internal state, but
+self-distillation from internal signals cheaply can.
+\updated{The new multi-seed evidence adds a second, complementary conclusion:
+the same underlying interface failure can be repaired either by teaching the
+model to report its workspace ranking or by training a probe-blind controller
+to choose memories from downstream utility. The former changes Qwen3-8B
+verbal AUC by $+0.2128$ on average without moving $W$; the latter improves
+budget-2 recall by $+5.88$--$+8.82$ points across three seeds. These are
+separate repair routes, not evidence that RL-QA consumes the workspace
+signal.}
+
+\textbf{Limitations.}
+Our benchmarks are synthetic and single-word-concept by design; control over
+provenance is the point, and it is not available elsewhere: on the two
+standard naturalistic benchmarks (LoCoMo, LongMemEval) every candidate is
+surface content by construction, no question-blind channel separates from
+random there, and the evidence oracle doubles all of them
+(App.~\ref{app:locomo}). A naturalistic stream rich in silent inference does
+not yet exist and is the natural next instrument; embedding our episodes in
+real dialogue carriers preserves the dissociation at 7B
+(App.~\ref{app:locomo}), so the obstacle is benchmark construction, not
+transfer of the effect. Each benchmark is written by one LLM generator, so we replicated across
+three: the workspace readout is stable across the generators that produce the
+construct-valid design ($0.53$--$0.66$; on gpt-4o's weakly evoked bridges both
+channels attenuate), while the verbal channel's calibration on silent
+inferences swings in both directions, anti-calibrated on sparse-cue episodes
+at every scale and recovering on densely cued ones at 7B
+(App.~\ref{app:replications}); the anti-calibration claim is scoped
+accordingly, and the workspace channel's stability is precisely its case.
+Episode counts (52--120 per benchmark) give adequate power only for the
+pre-specified contrasts. The Leverage readout's compositional-regime win holds
+for Qwen but not OLMo-2-7B; the 3B downstream gap on Decoupled-class tasks is bounded by
+recall-time composition, not selection; and in vision--language probes, visually presented
+identity behaves like the explicit regime (near-perfect ask-time verbal access
+in both Qwen2-VL-2B and LLaVA-1.5-7B), while its word-level workspace trace is
+family-dependent, absent at 2B and partial in LLaVA-7B
+(App.~\ref{app:multimodal}), so our claims are about language-derived
+inference. Post-training claims are scoped to our stage sweep and to utility-salience. Our
+results establish the value of training-free internal readouts for write
+admission; whether supervised hidden-state probes do better is open (they would
+require labeled training data that the write-gate setting does not naturally
+provide). Full deviations from the pre-specified
+predictions are listed in App.~\ref{app:prereg}.
+
+\textbf{Outlook.}
+Three extensions look immediate: widening PRG's routing to the full
+availability family (the gradient-based Leverage readout for compositional
+content), metacognitive alignment at scale and for other self-knowledge
+channels, and evaluating workspace gating inside production memory stacks on
+naturalistic long-horizon streams.

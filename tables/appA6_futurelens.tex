@@ -1,0 +1,24 @@
+\begin{table}[h]
+\centering
+\caption{Trained tuned-future-lens negative control: initialized at the model's own
+unembedding, trained on disjoint Explicit-benchmark contexts to place mass on a 12-token future
+window. It never rescues Compositional-benchmark bridges and is significantly \emph{worse}
+than the logit lens on evoked bridges at 7B; the static-state boundary is not a
+readout artifact.}
+\label{tab:appA6}
+\small
+\begin{tabular}{llccc}
+\toprule
+Benchmark & Size & FutureLens AUC & Logit-lens $W$ & FL$-W$ [95\% CI] \\
+\midrule
+Compositional & 0.5B & 0.523 [0.432, 0.611] & 0.416 & \textcolor{gain}{+0.107} [+0.029, +0.189]$^{*}$ \\
+Compositional & 1.5B & 0.585 [0.496, 0.673] & 0.549 & +0.035 [-0.034, +0.113] \\
+Compositional & 3B & 0.525 [0.435, 0.615] & 0.498 & +0.028 [-0.052, +0.112] \\
+Compositional & 7B & 0.563 [0.473, 0.658] & 0.514 & +0.049 [-0.053, +0.149] \\
+Evoked & 0.5B & 0.507 [0.435, 0.575] & 0.516 & -0.009 [-0.081, +0.065] \\
+Evoked & 1.5B & 0.562 [0.495, 0.632] & 0.579 & -0.016 [-0.091, +0.058] \\
+Evoked & 3B & 0.576 [0.511, 0.643] & 0.579 & -0.003 [-0.071, +0.068] \\
+Evoked & 7B & 0.545 [0.476, 0.614] & 0.633 & \textcolor{loss}{-0.088} [-0.157, -0.022]$^{*}$ \\
+\bottomrule
+\end{tabular}
+\end{table}

@@ -1,0 +1,25 @@
+\begin{table}[t]
+\centering
+\caption{\textbf{Causal effect of workspace interventions on memory-based answers.} Steering the residual stream
+along the stored bridge's input-side direction (real) vs.\ an unrelated,
+norm-matched direction (sham) while the model answers from memory; Qwen2.5
+and Qwen3 checkpoints; 20 disjoint episode pairs; a flip is a sign change of the
+stored-vs-target answer log-odds. Exact McNemar on paired real-vs-sham flips; exact two-sided
+Wilcoxon signed-rank on paired $\Delta$log-odds. Specificity (real high, sham
+low) holds at gentle steering scales and degrades as strength grows.}
+\label{tab:causal}
+\small
+\begin{tabular}{llccccc}
+\toprule
+Model & Scale & Real flip & Sham flip & McNemar & $p$ & Wilcoxon $p$ \\
+\midrule
+Qwen2.5-7B & 0.5 & 0.70\dgain{+0.65} & 0.05 & $+13/-0$ & 0.0002 & 4.8e-05 \\
+Qwen2.5-7B & 1.0 & 0.90\dgain{+0.60} & 0.30 & $+12/-0$ & 0.0005 & 1.9e-06 \\
+Qwen2.5-3B & 0.5 & 0.60\dgain{+0.50} & 0.10 & $+11/-1$ & 0.0063 & 1.3e-04 \\
+Qwen2.5-3B & 1.0 & 0.85\dgain{+0.50} & 0.35 & $+10/-0$ & 0.0019 & 3.8e-06 \\
+Qwen2.5-0.5B & 1.0 & 0.75\dgain{+0.55} & 0.20 & $+11/-0$ & 0.0010 & 1.7e-04 \\
+Qwen3-8B & 0.5 & 0.90\dgain{+0.75} & 0.15 & $+15/-0$ & 0.0001 & 1.9e-06 \\
+Qwen3-8B & 1.0 & 0.95\dgain{+0.60} & 0.35 & $+12/-0$ & 0.0005 & 5.7e-06 \\
+\bottomrule
+\end{tabular}
+\end{table}

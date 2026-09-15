@@ -1,0 +1,30 @@
+\begin{table}[t]
+\centering
+\caption{\textbf{Metacognitive alignment}, two model families: ${\sim}$500
+fine-tuning steps on yes/no labels derived from each model's own workspace
+ranking, using disjoint benchmarks (Evoked, Explicit, Evoked-G2). The verbal
+channel is repaired on fully held-out benchmarks (+0.28--0.39 AUC) while the
+workspace channel is untouched, full-context QA is statistically unchanged,
+and general capability (MMLU, GSM8K, ARC) is unaffected (Table~\ref{tab:geneval})
+(App.~\ref{app:metacog}). For the Qwen-0.5B Compositional row the repaired
+reporter converges to its teacher's (chance) level; where generation-time
+computation adds signal (OLMo Compositional) the student can exceed the
+static teacher (\S\ref{sec:metacog}).}
+\label{tab:metacog}
+\small
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{llcccc}
+\toprule
+\multirow{2}{*}{Model} & \multirow{2}{*}{Held-out benchmark} & \multicolumn{2}{c}{Verbal report $V$ (AUC)} & \multicolumn{2}{c}{Workspace $W$} \\
+\cmidrule(lr){3-4} \cmidrule(lr){5-6}
+ & & before & after & before & after \\
+\midrule
+OLMo-2-1B & Decoupled & 0.326 [0.251, 0.400] & \textbf{0.671}\dgain{+0.35} [0.584, 0.751] & 0.580 & 0.586 \\
+OLMo-2-1B & Compositional & 0.267 [0.179, 0.360] & \textbf{0.580}\dgain{+0.31} [0.482, 0.677] & 0.477 & 0.491 \\
+\addlinespace
+Qwen2.5-0.5B & Decoupled & 0.281 [0.210, 0.354] & \textbf{0.668}\dgain{+0.39} [0.595, 0.737] & 0.526 & 0.524 \\
+Qwen2.5-0.5B & Compositional & 0.172 [0.112, 0.241] & \textbf{0.451}\dgain{+0.28} [0.367, 0.534] & 0.416 & 0.409 \\
+\bottomrule
+\end{tabular}
+}
+\end{table}

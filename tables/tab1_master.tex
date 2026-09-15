@@ -1,0 +1,39 @@
+\begin{table}[t]
+\centering
+\caption{\textbf{Workspace and verbal channels by provenance regime (7--8B, four model families).} AUC of the workspace
+readout ($W$) and the verbal importance report ($V$) at recovering oracle-labeled
+load-bearing items, with the paired episode-cluster bootstrap difference (2{,}000 resamples; $^{*}$:
+95\% CI excludes 0) and machine metacognitive efficiency
+$M_s{=}\frac{\mathrm{AUC}(V)-0.5}{\mathrm{AUC}(W)-0.5}$ (reported only when $W \ge 0.55$; the denominator is unstable otherwise).
+Verbal report wins on explicit content (at chance for both channels in Qwen3-8B), is anti-calibrated on the
+construct-valid inferred regimes (Decoupled and Compositional, $M_s<0$ in five
+of five reportable cells), and never catches up on these sparse-cue benchmarks (generator dependence: App.~\ref{app:replications}).}
+\label{tab:master}
+\small
+\begin{tabular}{llcccc}
+\toprule
+Regime & Family & $W$ & $V$ & $W-V$ [95\% CI] & $M_s$ \\
+\midrule
+Explicit & Qwen2.5-7B & 0.538 & 0.681 & \textcolor{loss}{-0.142} [-0.228, -0.048]$^{*}$ & n/a \\
+Explicit & Qwen3-8B & 0.509 & 0.504 & +0.005 [-0.070, +0.077] & n/a \\
+Explicit & OLMo-2-7B & 0.492 & 0.622 & \textcolor{loss}{-0.129} [-0.211, -0.045]$^{*}$ & n/a \\
+Explicit & Mistral-7B & 0.532 & 0.622 & -0.089 [-0.184, +0.003] & n/a \\
+\addlinespace
+Evoked & Qwen2.5-7B & 0.633 & 0.579 & +0.054 [-0.034, +0.140] & 0.59 \\
+Evoked & Qwen3-8B & 0.620 & 0.383 & \textcolor{gain}{+0.237} [+0.157, +0.314]$^{*}$ & -0.97 \\
+Evoked & OLMo-2-7B & 0.669 & 0.539 & \textcolor{gain}{+0.130} [+0.049, +0.205]$^{*}$ & 0.23 \\
+Evoked & Mistral-7B & 0.670 & 0.589 & +0.080 [-0.004, +0.167] & 0.53 \\
+\addlinespace
+Decoupled & Qwen2.5-7B & 0.641 & 0.486 & \textcolor{gain}{+0.155} [+0.050, +0.259]$^{*}$ & -0.10 \\
+Decoupled & Qwen3-8B & 0.654 & 0.337 & \textcolor{gain}{\textbf{+0.317}} [+0.238, +0.402]$^{*}$ & -1.06 \\
+Decoupled & OLMo-2-7B & 0.665 & 0.352 & \textcolor{gain}{+0.313} [+0.229, +0.401]$^{*}$ & -0.89 \\
+Decoupled & Mistral-7B & 0.672 & 0.481 & \textcolor{gain}{+0.191} [+0.092, +0.294]$^{*}$ & -0.11 \\
+\addlinespace
+Compositional & Qwen2.5-7B & 0.514 & 0.344 & \textcolor{gain}{+0.170} [+0.071, +0.273]$^{*}$ & n/a \\
+Compositional & Qwen3-8B & 0.545 & 0.325 & \textcolor{gain}{+0.220} [+0.146, +0.306]$^{*}$ & n/a \\
+Compositional & OLMo-2-7B & 0.534 & 0.296 & \textcolor{gain}{+0.238} [+0.136, +0.335]$^{*}$ & n/a \\
+Compositional & Mistral-7B & 0.596 & 0.322 & \textcolor{gain}{+0.274} [+0.186, +0.366]$^{*}$ & -1.85 \\
+\addlinespace
+\bottomrule
+\end{tabular}
+\end{table}

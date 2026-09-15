@@ -1,0 +1,22 @@
+\begin{table}[t]
+\centering
+\caption{\textbf{Availability readouts by provenance regime} (Qwen-7B AUC; full grids
+incl.\ CIs in App.~\ref{app:family}). Decode-based members win on evoked content;
+the utility-gradient member is the only family member whose paired gain over
+the static readout is significant on Compositional
+($W_J{-}W_{rr}$: $+0.125$ [$+0.010$, $+0.244$]; head-to-head vs.\ the
+conditional-likelihood baseline it does not separate, App.~\ref{app:vrobust});
+replay's Compositional ceiling is budget-independent. Bold: column best.}
+\label{tab:family}
+\small
+\begin{tabular}{lccc}
+\toprule
+Member & Evoked & Decoupled & Compositional \\
+\midrule
+Spotlight $W$ (static) & 0.633 & \textcolor{gain}{\textbf{0.641}} & 0.514 \\
+Broadcast breadth (static) & 0.637 & 0.557 & 0.486 \\
+Rehearsal $W_{rep}$ (dynamic) & \textcolor{gain}{\textbf{0.684}} & 0.578 & 0.553 \\
+Leverage $W_{J}$ (dynamic) & 0.506 & 0.550 & \textcolor{gain}{\textbf{0.639}} \\
+\bottomrule
+\end{tabular}
+\end{table}

@@ -1,0 +1,191 @@
+\section{Benchmarks and Measurement Protocol}
+\label{sec:setup}
+
+\subsection{Problem Setting}
+\label{sec:problem}
+
+Let $\mathcal{M}$ be a frozen language model and let an \emph{episode} be a
+tuple $e=(x, C, q, a)$: a context passage $x$, a candidate set
+$C=\{c_1,\dots,c_m\}$ of concepts that could be written to memory, and a probe
+question $q$ with gold answer $a$ that arrives only after $x$ has left the
+context window. A \emph{write-admission policy} with budget $k$ is a map
+\begin{equation}
+\pi_k : (x, C) \mapsto K \subseteq C, \qquad |K| \le k,
+\label{eq:policy}
+\end{equation}
+constrained to observe only the encoding-time state, with access to neither
+$q$ nor $a$.
+At recall, the model answers from the kept set alone, and the policy's value is
+its downstream accuracy,
+\begin{equation}
+\mathrm{Acc}_k(\pi) \;=\; \mathbb{E}_{e}\!\left[\,
+\mathbf{1}\{\mathcal{M}(q_e \mid \pi_k(x_e, C_e)) \simeq a_e\}\,\right],
+\label{eq:acc}
+\end{equation}
+where $\simeq$ denotes answer match under the grader of App.~\ref{app:repro}.
+Each candidate carries a latent utility label $y(c)\in\{0,1\}$ ($y{=}1$ iff $c$
+is required to answer $q$; we call such items \emph{load-bearing}). A policy
+reduces to a scoring function $S(c; x)\in\mathbb{R}$ ranked within episodes,
+and its selection quality is the probability of ranking a load-bearing item
+above a non-load-bearing one,
+\begin{equation}
+\mathrm{AUC}(S) \;=\; \Pr\big[\,S(c^{+}; x^{+}) > S(c^{-}; x^{-})\,\big]
+\;+\; \tfrac{1}{2}\,\Pr\big[\,S(c^{+}; x^{+}) = S(c^{-}; x^{-})\,\big],
+\label{eq:auc}
+\end{equation}
+where $(c^{+}, x^{+})$ and $(c^{-}, x^{-})$ are drawn uniformly from the pooled
+item populations with $y{=}1$ and $y{=}0$ respectively, and exact ties (common
+for the rank-valued scores below) receive half credit.
+
+\textbf{Provenance.} The variable this paper manipulates is the
+\emph{provenance} of the load-bearing concept,
+\begin{equation}
+\rho(c, x) \;=\; \mathbf{1}\{\text{$c$ occurs as a surface form in } x\},
+\label{eq:provenance}
+\end{equation}
+distinguishing content that is \emph{stated} ($\rho{=}1$) from content that is
+\emph{silently inferred} ($\rho{=}0$): derivable from $x$ but never written.
+Our central question is how the reliability of different scoring channels
+depends on $\rho$.
+
+\subsection{Benchmarks}
+\label{sec:benchmarks}
+
+\textbf{Why controlled construction is necessary.}
+Answering the question above imposes two requirements on a benchmark: the
+provenance of the load-bearing item must vary across episodes, so that
+episodes exist whose outcome hinges on a $\rho{=}0$ concept, and which
+candidate is load-bearing must be known independently of every channel under
+test. Existing naturalistic memory benchmarks satisfy neither, and not by
+accident but by construction: their candidate memories are surface content.
+In LongMemEval \citep{wu2025longmemeval} the natural memory units are the
+conversation turns themselves, verbatim substrings of the context, so every
+candidate has $\rho{=}1$; in LoCoMo \citep{maharana2024locomo} the annotated
+observations summarize stated dialogue content (a median of $83\%$ of a
+note's content words appear verbatim in the source session). On such streams
+the regime in which the channels could dissociate never occurs, and
+empirically no question-blind admission policy separates from random
+selection on either benchmark, while an oracle given the evidence location
+doubles their accuracy (App.~\ref{app:locomo}). Measuring the effect of
+$\rho$ therefore requires constructing the variation deliberately, which is
+what our benchmarks do.
+
+Each episode contains one load-bearing concept, two to three vivid but useless
+\textsc{distractor} concepts present in $x$, and neutral \textsc{filler} items.
+The four benchmarks differ only in the provenance and role of the load-bearing
+item:
+\textbf{Explicit} ($\rho{=}1$; stated in text; $88$ episodes / $417$ items);
+\textbf{Evoked} ($\rho{=}0$; a one-hop silent bridge, e.g.\ $x$ mentions Oslo
+and $c^{+}$ is \emph{norway}; $75/352$);
+\textbf{Decoupled} ($\rho{=}0$; as Evoked, but the gold answer $a$ is one
+further knowledge hop from $c^{+}$, with $a \notin C$, $a \notin x$, and $q$
+sharing no content word with $x$ except a person's name, so neither the probe
+nor any stored surface item reveals $a$; $68/335$, plus a $120$-episode scaled
+version, \textbf{Decoupled-L}); and
+\textbf{Compositional} ($\rho{=}0$; the bridge is only weakly evoked and
+matters solely through a two-hop composition; $52/261$; its probes carry
+surface anchors, so it is construct-valid for encoding-time prediction only,
+App.~\ref{app:benchmarks}).
+We call Decoupled and Compositional \emph{construct-valid}: by construction,
+neither the probe nor any stored surface item reveals the answer, so recall
+success must pass through the inferred bridge. Evoked is
+\emph{answer-coupled}: its bridge is also the gold answer, which makes it the
+most sensitive design but lets stored surface content occasionally substitute
+for the bridge.
+Benchmarks are LLM-generated under these constraints and mechanically
+re-validated (bridge absent from $x$; Decoupled: $a$ absent from $x$ and $C$;
+probe anchor-free), then concept-deduplicated; construction details and a
+leakage audit appear in App.~\ref{app:benchmarks}. As a sanity check, the
+surface predictor $S{=}\rho$ carries no signal on Explicit
+($\mathrm{AUC}{=}0.48$), and dropping every audit-flagged near-miss episode
+changes no conclusion. On the inferred-regime benchmarks the planted bridge
+is by design nearly the only context-absent candidate, so bare absence
+($1{-}\rho$) trivially separates it at the episode level; the workspace
+signal is not bare absence: among purely absent candidates the readout ranks
+the evoked bridge far above matched absent foils, and the confound analyses
+of App.~\ref{app:vrobust} separate evocation from absence and from semantic
+relatedness.
+
+\subsection{Two Channels for Scoring Utility}
+\label{sec:channels}
+
+\textbf{Workspace channel.}
+The J-lens construction \citep{anthropic2026workspace} established that
+verbalizable intermediate concepts occupy a decodable residual-stream
+workspace: reading intermediate layers through the model's own unembedding
+surfaces concepts the model is carrying, and swapping the corresponding
+directions swaps downstream behavior. We inherit exactly that measurement
+and contribute its use as a write-admission signal. Let
+$h_\ell(x)\in\mathbb{R}^{d}$ be the residual-stream state at the final position
+of $x$ in layer $\ell$, and let
+$z_\ell(x) = W_U\,\mathrm{LN}\!\left(h_\ell(x)\right) \in
+\mathbb{R}^{|\mathcal{V}|}$ be its logit-lens decoding through the model's own
+final norm and unembedding \citep{nostalgebraist2020logitlens}. Writing
+$\mathrm{rank}_\ell(t)$ for the rank of token $t$ in $z_\ell(x)$, the workspace
+salience of a concept $c$ is its peak reciprocal rank,
+\begin{equation}
+W(c; x) \;=\; \max_{\ell \le L} \;\max_{t \in T(c)}\;
+\frac{1}{\mathrm{rank}_\ell(t)},
+\label{eq:wrr}
+\end{equation}
+where $T(c)$ is the small set of case-variant first tokens of $c$
+(App.~\ref{app:repro}). $W$ is training-free, requires no forward passes beyond
+encoding, and is read blind to $q$; reciprocal rank rather than probability
+keeps the score scale-free across a ${\sim}150$k-token vocabulary. The readout
+is robust to the aggregation: a smooth mean over layers matches the peak to
+within $0.01$ AUC, no single layer is load-bearing (leave-one-out ${\le}0.03$),
+and any late-layer band recovers the score (App.~\ref{app:aggrobust}).
+
+\textbf{Verbal channel.}
+The same model is asked directly. With yes/no token sets $Y, N$ and the
+importance probe $u(c, x)$ of App.~\ref{app:vrobust},
+\begin{equation}
+\colorbox{yellow!55}{$\displaystyle
+V(c;x)=\sigma\!\left(
+\operatorname{LSE}_{t\in Y}z_t-
+\operatorname{LSE}_{t\in N}z_t
+\right)$},
+\label{eq:v}
+\end{equation}
+\updated{where $z_t$ is the next-token logit. This v3 log-space form is
+algebraically equivalent to normalization over the yes/no token sets, but
+remains numerically stable when almost all probability mass lies elsewhere in
+the vocabulary. All updated predictive, Alignment, and RL-QA results use this
+definition and reject pre-v3 cached scores.} It is a binary-probability proxy
+for the Generative-Agents-style importance score;
+the canonical 1--10 rating variant is evaluated in App.~\ref{app:vrobust} and
+is likewise at or below chance on the construct-valid benchmarks. Base
+checkpoints are additionally probed with a template-free variant $V_{raw}$.
+Baselines include embedding relevance $E(c;x)=\cos(\phi(c),\phi(x))$ under a
+sentence encoder $\phi$ (bge-small-en-v1.5, CLS pooling), recency, frequency, a surface-feature fusion proxy
+(App.~\ref{app:fusion}), and three paraphrases of the probe $u$.
+
+\subsection{Evaluation Protocol}
+\label{sec:protocol}
+
+The primary predictive metric is Eq.~\eqref{eq:auc} per channel, benchmark, and
+model, with item-level bootstrap CIs in tables and episode-cluster bootstrap
+CIs ($B{=}4{,}000$, resampling episodes) for all headline contrasts; the four
+pre-specified primary contrasts ($W{-}V$ on Decoupled at each size) are
+Bonferroni-corrected. By loose analogy with metacognitive-sensitivity analysis
+\citep{fleming2014how}, each cell is summarized by a descriptive ratio
+\begin{equation}
+\Ms \;=\; \frac{\mathrm{AUC}(V) - 0.5}{\mathrm{AUC}(W) - 0.5},
+\label{eq:ms}
+\end{equation}
+reported only where $\mathrm{AUC}(W)\ge 0.55$; $\Ms<0$ indicates that the
+verbal report ranks truly load-bearing items below the rest even though the
+signal is present in the system ($\Ms$ is negative throughout the
+construct-valid regime; on answer-coupled Evoked it can be positive).
+\updated{Because the original $M_s$ entries were derived from pre-migration
+scores, the present revision treats $M_s$ as descriptive only and bases all
+headline claims on paired $W{-}V$ contrasts and their episode bootstrap
+intervals.} Throughout, ``below chance'' refers to
+ranking AUC, not probabilistic calibration in the forecasting sense.
+Downstream, Eq.~\eqref{eq:acc} is estimated per policy and budget with
+per-episode correctness logged for every condition; policies are compared on
+identical episodes with exact McNemar tests, bounded by no-memory and
+full-context references. Models: Qwen2.5 0.5B--7B \citep{qwen2025}, OLMo-2
+1B/7B with released SFT/DPO/RLVR stages \citep{olmo2}, Mistral-7B
+\citep{jiang2023mistral}; greedy decoding; a single fixed harness for all
+checkpoints so that lens bias cancels in contrasts.

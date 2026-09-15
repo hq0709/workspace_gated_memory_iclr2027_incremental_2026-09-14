@@ -1,0 +1,22 @@
+\begin{table}[H]
+\centering
+\caption{Corrected Qwen3 Decoupled scale sweep. The endpoint contrast
+$\Delta(W{-}V)$ from 8B to 32B is $+0.1027$ with paired 95\% CI
+$[+0.0093,+0.1944]$; adjacent changes are non-monotonic.}
+\label{tab:scale}
+\small
+\setlength{\tabcolsep}{7pt}
+\begin{tabular}{lrrr}
+\toprule
+Model & $V$ & $W$ & $W{-}V$ \\
+\midrule
+\updatedrow Qwen3-1.7B & 0.3174 & 0.5607 & +0.2433$^{*}$ \\
+\updatedrow Qwen3-4B & 0.4862 & 0.5291 & +0.0429 \\
+\updatedrow Qwen3-8B & 0.4020 & 0.6545 & +0.2525$^{*}$ \\
+\updatedrow Qwen3-14B & 0.3480 & 0.6677 & +0.3196$^{*}$ \\
+\updatedrow Qwen3-32B & 0.3366 & 0.6919 & +0.3553$^{*}$ \\
+\bottomrule
+\end{tabular}
+\vspace{2pt}
+\parbox{0.94\linewidth}{\scriptsize $^{*}$Paired 95\% CI on $W{-}V$ excludes zero.}
+\end{table}

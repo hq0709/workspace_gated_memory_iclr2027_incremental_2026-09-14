@@ -1,0 +1,117 @@
+\documentclass{article}
+\usepackage{iclr2027_conference,times}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage[table]{xcolor}
+\definecolor{failorange}{HTML}{C16E71}
+\definecolor{wsblue}{HTML}{6E8FB2}
+% --- exemplar-style table/writing toolkit, rendered in the paper's muted palette ---
+\definecolor{gain}{HTML}{4E8A6B}   % readable sage green (same family as figure sage #7DA494)
+\definecolor{loss}{HTML}{B5545A}   % readable muted terracotta (same family as V/rose #C16E71)
+\definecolor{deltaz}{gray}{0.55}   % neutral for negligible change
+\newcommand{\dgain}[1]{\,\textcolor{gain}{\scriptsize #1}}   % small green delta, append after a number
+\newcommand{\dloss}[1]{\,\textcolor{loss}{\scriptsize #1}}   % small terracotta delta
+\newcommand{\dzero}[1]{\,\textcolor{deltaz}{\scriptsize #1}} % small neutral delta
+\definecolor{wsRow}{HTML}{EEF3F8}  % very light steel-blue tint for the workspace/method row
+\definecolor{refRow}{gray}{0.955}  % very light gray for reference / oracle / diagnostic rows
+\newcommand{\wsrow}{\rowcolor{wsRow}}
+\newcommand{\refrow}{\rowcolor{refRow}}
+\newcommand{\myparagraph}[1]{\vspace{2pt}\noindent\textbf{#1}\ }
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{algpseudocode}
+\usepackage{soul}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+
+% Compatibility for the local TeX Live array/colortbl version pair.
+\makeatletter
+\@ifundefined{insert@pcolumn}{\let\insert@pcolumn\insert@column}{}
+\makeatother
+
+% Yellow revision markup for the incremental experimental update.
+% Change \showupdatestrue to \showupdatesfalse for a clean copy.
+\newif\ifshowupdates
+\showupdatestrue
+\sethlcolor{yellow}
+\ifshowupdates
+  \newcommand{\updated}[1]{\hl{#1}}
+  \newcommand{\updatednum}[1]{\colorbox{yellow!55}{\strut #1}}
+  \newcommand{\updatedrow}{\rowcolor{yellow!25}}
+  \newcommand{\updatedparagraph}[1]{\par\smallskip\noindent\colorbox{yellow!20}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{#1}}\par\smallskip}
+\else
+  \newcommand{\updated}[1]{#1}
+  \newcommand{\updatednum}[1]{#1}
+  \newcommand{\updatedrow}{}
+  \newcommand{\updatedparagraph}[1]{#1}
+\fi
+
+\newcommand{\Wrr}{\ensuremath{W}}
+\newcommand{\Vrep}{\ensuremath{V}}
+\newcommand{\Ms}{\ensuremath{M_s}}
+
+\title{Remember What You Thought, Not What You Said:\\
+Workspace-Gated Episodic Memory for LLMs}
+\author{Anonymous authors}
+\date{}
+
+% Uncomment only for the camera-ready version.
+% \iclrfinalcopy
+\begin{document}
+\maketitle
+
+\begin{center}
+\itshape ``We can know more than we can tell.''\\[2pt]
+{\upshape --- Michael Polanyi, \emph{The Tacit Dimension} (1966)}
+\end{center}
+\vspace{4pt}
+
+\begin{abstract}
+Memory-limited LLM agents decide what to store by asking the model what is
+important, the self-rated importance scores introduced by Generative Agents
+and inherited by most agent memory systems. Under experimental control of
+content provenance, we show this practice fails exactly where memory matters
+most: information the model inferred while reading but never wrote down. On
+sparsely cued construct-valid benchmarks, verbal importance ratings fall at
+or below chance as a ranking signal, while the same models demonstrably carry
+the inferred content. A training-free workspace readout of the residual
+stream, derived from the J-lens construction, recovers it on one-hop designs
+and causally patching the corresponding directions flips memory-based answers
+where sham directions do not ($0.70$ vs.\ $0.05$ at 7B,
+$p{=}2.4\times10^{-4}$). \updated{Under a corrected log-space verbal-score
+definition, the Decoupled workspace--report gap is $+0.1526$ to $+0.3135$
+across four capable-scale model families, with every paired confidence
+interval excluding zero.} The model knows more than it tells, so we gate
+memory on what it knows: a training-free write gate scores candidates with
+the workspace readout at zero additional probe passes and reaches the
+selection-oracle accuracy on the primary construct-valid cell.
+\updated{The reporting channel is repairable at scale: workspace-derived
+self-distillation raises Qwen3-8B verbal AUC by $+0.2128$ on average across
+three locked seeds while changing workspace AUC by less than $0.001$. A
+separate, probe-blind RL-QA policy repairs the action interface, improving
+budget-2 recall by $+5.88$ to $+8.82$ percentage points across three Qwen3-8B
+seeds.} Agents should remember what they thought, not what they say they
+thought.
+\end{abstract}
+
+\input{sections/intro}
+\input{sections/related}
+\input{sections/setup}
+\input{sections/method}
+\input{sections/results}
+\input{sections/extensions}
+\input{sections/new_experiments}
+\input{sections/conclusion}
+
+\bibliographystyle{iclr2027_conference}
+\bibliography{references}
+
+\clearpage
+\appendix
+\input{sections/appendix}
+
+\end{document}
