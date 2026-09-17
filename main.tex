@@ -23,9 +23,51 @@
 \newcommand{\refrow}{\rowcolor{refRow}}
 \newcommand{\myparagraph}[1]{\vspace{2pt}\noindent\textbf{#1}\ }
 \usepackage{longtable}
+\usepackage{xparse}
 \usepackage{float}
-\usepackage{algpseudocode}
-\usepackage{soul}
+\usepackage{placeins}
+\raggedbottom
+% Keep short paragraphs intact; a split leaves at least five lines on each page.
+\clubpenalties 5 10000 10000 10000 10000 0
+\widowpenalties 5 10000 10000 10000 10000 0
+% Reserve float-only pages for substantial groups of figures or tables.
+\renewcommand{\floatpagefraction}{0.8}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning}
+
+% Titled box for verbatim-style material: episode examples and the prompts.
+\definecolor{sdaboxrule}{HTML}{D6D6D6}
+\definecolor{sdaboxhead}{HTML}{42474B}
+\definecolor{sdaboxbody}{HTML}{FBFBFB}
+\newsavebox{\sdabodybox}
+\newlength{\sdaboxbh}
+\newlength{\sdaboxth}
+\setlength{\sdaboxth}{2.0em}
+\NewDocumentEnvironment{sdabox}{m}{%
+  \par\addvspace{0.8\baselineskip}%
+  \def\sdaboxtitle{#1}%
+  \begin{lrbox}{\sdabodybox}%
+    \begin{minipage}{\dimexpr\linewidth-2.4em\relax}\small
+    \setlength{\parskip}{0.45em}\setlength{\parindent}{0pt}\relax
+}{%
+    \end{minipage}%
+  \end{lrbox}%
+  \setlength{\sdaboxbh}{\dimexpr\ht\sdabodybox+\dp\sdabodybox+\sdaboxth+1.8em\relax}%
+  \noindent\begin{tikzpicture}[inner sep=0pt,outer sep=0pt,baseline=0pt]
+    \begin{scope}
+      \clip[rounded corners=3pt] (0.3pt,0) rectangle (\dimexpr\linewidth-0.3pt\relax,-\sdaboxbh);
+      \fill[sdaboxbody] (0,0) rectangle (\linewidth,-\sdaboxbh);
+      \fill[sdaboxhead] (0,0) rectangle (\linewidth,-\sdaboxth);
+    \end{scope}
+    \draw[rounded corners=3pt,sdaboxrule,line width=0.6pt]
+      (0.3pt,-0.3pt) rectangle (\dimexpr\linewidth-0.3pt\relax,-\dimexpr\sdaboxbh-0.3pt\relax);
+    \node[anchor=west,text=white,font=\small\bfseries] at (1.1em,-0.5\sdaboxth)
+      {\sdaboxtitle};
+    \node[anchor=north west] at (1.2em,-\dimexpr\sdaboxth+0.9em\relax)
+      {\usebox{\sdabodybox}};
+  \end{tikzpicture}%
+  \par\addvspace{0.8\baselineskip}%
+}
 \usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
 
 % Compatibility for the local TeX Live array/colortbl version pair.
@@ -33,29 +75,14 @@
 \@ifundefined{insert@pcolumn}{\let\insert@pcolumn\insert@column}{}
 \makeatother
 
-% Yellow revision markup for the incremental experimental update.
-% Change \showupdatestrue to \showupdatesfalse for a clean copy.
-\newif\ifshowupdates
-\showupdatestrue
-\sethlcolor{yellow}
-\ifshowupdates
-  \newcommand{\updated}[1]{\hl{#1}}
-  \newcommand{\updatednum}[1]{\colorbox{yellow!55}{\strut #1}}
-  \newcommand{\updatedrow}{\rowcolor{yellow!25}}
-  \newcommand{\updatedparagraph}[1]{\par\smallskip\noindent\colorbox{yellow!20}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{#1}}\par\smallskip}
-\else
-  \newcommand{\updated}[1]{#1}
-  \newcommand{\updatednum}[1]{#1}
-  \newcommand{\updatedrow}{}
-  \newcommand{\updatedparagraph}[1]{#1}
-\fi
-
 \newcommand{\Wrr}{\ensuremath{W}}
 \newcommand{\Vrep}{\ensuremath{V}}
-\newcommand{\Ms}{\ensuremath{M_s}}
 
-\title{Remember What You Thought, Not What You Said:\\
-Workspace-Gated Episodic Memory for LLMs}
+
+
+\title{Remember What You Thought,\\
+Not What You Said: Self-Distilled Memory\\
+Admission for LLM Agents}
 \author{Anonymous authors}
 \date{}
 
@@ -64,49 +91,42 @@ Workspace-Gated Episodic Memory for LLMs}
 \begin{document}
 \maketitle
 
-\begin{center}
-\itshape ``We can know more than we can tell.''\\[2pt]
-{\upshape --- Michael Polanyi, \emph{The Tacit Dimension} (1966)}
-\end{center}
-\vspace{4pt}
-
 \begin{abstract}
-Memory-limited LLM agents decide what to store by asking the model what is
-important, the self-rated importance scores introduced by Generative Agents
-and inherited by most agent memory systems. Under experimental control of
-content provenance, we show this practice fails exactly where memory matters
-most: information the model inferred while reading but never wrote down. On
-sparsely cued construct-valid benchmarks, verbal importance ratings fall at
-or below chance as a ranking signal, while the same models demonstrably carry
-the inferred content. A training-free workspace readout of the residual
-stream, derived from the J-lens construction, recovers it on one-hop designs
-and causally patching the corresponding directions flips memory-based answers
-where sham directions do not ($0.70$ vs.\ $0.05$ at 7B,
-$p{=}2.4\times10^{-4}$). \updated{Under a corrected log-space verbal-score
-definition, the Decoupled workspace--report gap is $+0.1526$ to $+0.3135$
-across four capable-scale model families, with every paired confidence
-interval excluding zero.} The model knows more than it tells, so we gate
-memory on what it knows: a training-free write gate scores candidates with
-the workspace readout at zero additional probe passes and reaches the
-selection-oracle accuracy on the primary construct-valid cell.
-\updated{The reporting channel is repairable at scale: workspace-derived
-self-distillation raises Qwen3-8B verbal AUC by $+0.2128$ on average across
-three locked seeds while changing workspace AUC by less than $0.001$. A
-separate, probe-blind RL-QA policy repairs the action interface, improving
-budget-2 recall by $+5.88$ to $+8.82$ percentage points across three Qwen3-8B
-seeds.} Agents should remember what they thought, not what they say they
-thought.
+An agent must choose what to store before a future question arrives,
+and discarding a useful inference can cost it the answer.
+We find that the ordering of an importance report---a model's yes/no
+judgment of what to remember---follows its candidate pool's provenance
+structure: across six models, useful-concept AUC is 0.322--0.427 on the
+standard pool, where the useful concept is usually unstated, and
+0.658--0.736 when the useful concept is equally likely to be stated or
+unstated.
+Self-Distilled Admission (SDA) ranks candidates with a frozen model's
+workspace readout and output likelihood, labels the top two, and trains
+one adapter on those labels through the model's own importance prompt.
+On the primary statedness-balanced pool, SDA improves Qwen3-8B's answer
+recall by 10.7 percentage points over its own report and 5.2 points over
+the 1--10 importance rating at two stored concepts, and exceeds each
+model's own report in 54 of 54 model--seed--budget comparisons.
+All three seeds reach exact McNemar $p<0.05$ in 17 of 18 model--budget cells.
+The served Qwen3-8B adapter achieves 50.1\% recall on the standard
+pool at 242 candidates/s.
+These results make admission a trainable component of agent memory,
+using a model's own computation to preserve useful inferences for
+future questions.
 \end{abstract}
 
 \input{sections/intro}
+\input{figures/fig_sda_teaser}
 \input{sections/related}
+\input{sections/construction}
 \input{sections/setup}
 \input{sections/method}
 \input{sections/results}
-\input{sections/extensions}
-\input{sections/new_experiments}
+\input{sections/implications}
 \input{sections/conclusion}
+\input{sections/limitations}
 
+\FloatBarrier
 \bibliographystyle{iclr2027_conference}
 \bibliography{references}
 

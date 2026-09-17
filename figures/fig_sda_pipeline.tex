@@ -1,0 +1,51 @@
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+  font=\small,
+  box/.style={draw=wsblue,fill=wsblue!9,rounded corners=2pt,
+    align=center,minimum height=11mm,inner sep=4pt},
+  report/.style={box,draw=failorange,fill=failorange!9},
+  arr/.style={-{Stealth[length=2mm]},semithick,draw=wsblue!85!black}
+]
+\node[anchor=west,font=\small\bfseries] at (0,0)
+  {(a) Training: offline, once};
+\node[box,text width=25mm] (inputs) at (1.4,-0.95)
+  {Context $x$\\Candidates $C$};
+\node[box,text width=31mm] (readouts) at (5.0,-0.95)
+  {Frozen teacher\\$W(c;x)$ and LL$(c;x)$};
+\node[box,text width=23mm] (teacher) at (8.6,-0.95)
+  {Rank mean\\$T(c;x)$};
+\node[report,text width=22mm] (labels) at (11.6,-0.95)
+  {Top-2\\yes/no labels};
+\node[report,text width=48mm] (student) at (6.5,-2.35)
+  {Train the SDA adapter\\on the admission prompt};
+\draw[arr] (inputs) -- (readouts);
+\draw[arr] (readouts) -- (teacher);
+\draw[arr] (teacher) -- (labels);
+\draw[arr] (inputs.south) |- (student.west);
+\draw[arr] (labels.south) |- (student.east);
+
+\node[anchor=west,font=\small\bfseries] at (0,-3.5)
+  {(b) Deployment: standard serving};
+\node[box,text width=25mm] (serveinputs) at (1.4,-4.4)
+  {Context $x$\\Candidates $C$};
+\node[report,text width=31mm] (sda) at (5.0,-4.4)
+  {Admission prompt\\+ SDA adapter};
+\node[box,text width=23mm] (memory) at (8.6,-4.4)
+  {Top-$k$\\memory store};
+\node[box,text width=22mm] (reader) at (11.6,-4.4)
+  {Frozen reader\\answers $q$};
+\node[anchor=north,align=center,font=\scriptsize] at (reader.south)
+  {Future question $q$\\arrives at recall};
+\draw[arr] (serveinputs) -- (sda);
+\draw[arr] (sda) -- (memory);
+\draw[arr] (memory) -- (reader);
+\end{tikzpicture}
+\caption{\textbf{SDA training and deployment.} (a) Both the context
+$x$ and the candidate set $C$ enter the frozen teacher. Workspace and
+likelihood ranks produce top-2 labels for training the admission adapter.
+(b) The host supplies context and candidates to the trained importance
+prompt, stores the top-$k$ concepts, and later queries its frozen reader.
+The future question enters only at recall.}
+\label{fig:sda}
+\end{figure}

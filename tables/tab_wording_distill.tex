@@ -1,0 +1,18 @@
+\begin{table}[tbp]
+\centering
+\caption{Implied-content wording and distillation on the standard pool, Qwen3-8B, 363 episodes. Recall is in percent. SDA averages three seeds; the final row gives seed-averaged paired differences and 95\% bootstrap intervals from 4,000 draws. The same wording is used to train and evaluate the adapter.}
+\label{tab:wordingdistill}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lccc}
+\toprule
+Admission policy & $k=1$ & $k=2$ & $k=3$ \\
+\midrule
+Yes/no importance report & 28.1 & 40.8 & 41.6 \\
+Implied-content wording & 29.2 & 41.3 & 44.9 \\
+\textbf{SDA with implied-content wording} & \textbf{37.1} & \textbf{50.7} & \textbf{51.0} \\
+SDA minus implied-content wording & $+7.9$ [$+4.5$, $+11.4$] & $+9.4$ [$+5.8$, $+13.1$] & $+6.1$ [$+3.5$, $+8.9$] \\
+\bottomrule
+\end{tabular}
+
+\end{table}

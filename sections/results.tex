@@ -1,301 +1,286 @@
 \section{Results}
 \label{sec:results}
 
-\begin{figure}[t]
-\centering
-\includegraphics[width=\textwidth]{figures/fig2_regime_map.pdf}
-\caption{AUC of the workspace readout ($\Wrr$), the verbal report ($\Vrep$), and
-embedding relevance across model sizes (Qwen2.5-Instruct) and provenance regimes;
-error bars are 95\% item-bootstrap CIs, the gray line marks chance. The two
-channels trade places as provenance shifts from explicit to inferred; on the
-construct-valid Decoupled benchmark the verbal report stays at or below chance at every
-size. \updated{This original regime-map visualization is retained; corrected
-v3 numerical results appear in the accompanying tables.}}
-\label{fig:regime}
-\end{figure}
+\subsection{Importance reports follow the pool's provenance structure}
+\label{sec:gap}
 
-\input{tables/iclr_v3_grid}
+The report ranks useful concepts above chance on the statedness-balanced
+pool, and the workspace readout ranks them higher still.
+Across six models, their pooled AUCs are 0.658--0.736 and
+0.719--0.812, respectively. A rule that reads only whether the passage
+states a candidate ranks near chance: useful-concept AUC is 0.515
+pooled and 0.516 within episodes, over all 363 episodes. The within-episode value is
+the relevant test: candidates compete for memory inside each episode.
+On the standard pool, report AUC is 0.322--0.427 and provenance AUC
+is 0.582--0.688. The report's ordering follows the provenance structure
+of the pool it is given. Naming the bridge raises mean workspace AUC
+from 0.563 to 0.956 and report AUC from 0.373 to 0.504
+(Table~\ref{tab:statedcontrol}); naming a distractor lowers both on
+Qwen3-8B (App.~\ref{app:naming}). Among unstated candidates alone,
+the report ranks usefulness above the workspace readout across all six
+models (App.~\ref{app:withinprovenance}); the full-pool ordering also
+reflects competition across provenances.
 
-\subsection{A Provenance-Dependent Dissociation}
-\label{sec:dissociation}
+Omission directly identifies the useful concept, the sole unstated
+candidate, in 95\% of standard-pool episodes. At $k=2$, admit what the
+passage omits and omission then report both reach 53.4\% recall; reversed
+yes/no report reaches 46.6\%. Balancing provenance changes these recalls
+to 32.0\%, 39.1\% and 29.8\%: the cue that favored the bridge now also
+favors distractors. All three rank below the report in recall at $k=2,3$;
+omission then report exceeds it at $k=1$
+(Tables~\ref{tab:balancedbaselines}, \ref{tab:baselines}
+and~\ref{tab:paired}). On the standard pool, SDA trails omission then
+report by $9.5$ points at one stored concept ($[-13.7,-5.3]$); the
+difference at two is $-3.4$ points ($[-7.0,+0.4]$). On the
+statedness-balanced pool, SDA exceeds this rule by $14.6$ points at two
+stored concepts ($[+9.4,+19.7]$) (Tables~\ref{tab:paired}
+and~\ref{tab:balancedpaired}). The provenance-cued wording that says the
+passage may never mention the useful concept follows this pattern:
+Qwen3-8B AUC is 0.537 when the concept is inferred, 0.417 when named, and
+0.621 on Explicit (App.~\ref{app:wording}).
 
-\updatedparagraph{Table~\ref{tab:master} gives the corrected v3 grid. Across
-the four capable-scale families, Decoupled $W{-}V$ is $+0.1526$, $+0.2525$,
-$+0.3135$, and $+0.2014$; every paired 95\% confidence interval excludes
-zero. The provenance reversal remains: verbal reporting is strongest for
-surface-explicit content, while the workspace readout is consistently higher
-on silently inferred Decoupled content. The correction changes the magnitude
-of several cells, especially Qwen3-8B verbal AUC ($0.4020$), but not the
-qualitative conclusion.}
+\subsection{SDA retains useful concepts and improves later recall}
+\label{sec:recall}
 
-Table~\ref{tab:master} and Fig.~\ref{fig:regime} give the central result. On
-explicit content, the verbal report is the best available signal
-($\Vrep$ up to $0.6792$ at 7B; it exceeds $\Wrr$ in three of four capable
-families): when importance is written on the surface, asking the model
-works, and cheap heuristics work well too. The asymmetry is mechanically
-natural: by the end of encoding, surface mentions are largely no longer
-decodable at the readout position whether useful or not (median $\Wrr$
-${\approx}0.001$ for both classes on Explicit), so the readout carries
-little utility signal there, while the probe re-reads the full context and
-can evaluate exactly the surface content it sees. On evoked silent bridges the ordering reverses. On the construct-valid benchmarks (Decoupled here, Compositional in
-\S\ref{sec:boundary}) $\Vrep$ is $0.3529$--$0.4897$ on Decoupled and $0.2944$--$0.4119$ on Compositional, at
-or below chance, with confident yes-ratings concentrated on vivid
-distractors, while $\Wrr$ reads $0.6423$--$0.6713$ on Decoupled (at or near
-chance on Compositional for three of four families, \S\ref{sec:boundary}); on the
-answer-coupled Evoked benchmark $\Vrep$ is more variable
-(above chance at 7B) yet still loses to $\Wrr$ where the contrast is significant
-(Table~\ref{tab:master}). The paired Decoupled difference is significant in
-all four capable-scale model families under the corrected whole-episode
-bootstrap (Table~\ref{tab:crossfamily}). Across
-three benchmark generators the two channels differ in kind: the workspace
-readout stays within a narrow band ($0.64$--$0.67$ on the capable-scale
-Decoupled cells)
-while the verbal channel swings from anti-calibrated to well-calibrated with
-generator and scale ($0.26$--$0.88$). The boundary variable is measurable:
-annotated cue density (independently evoking context elements per episode)
-predicts 7B reporter success (Spearman $\rho{=}0.25$, $p{=}4\times10^{-4}$
-within the primary generator) while the workspace readout is flat in it
-($\rho{=}0.10$, $p{=}0.14$; full analysis in App.~\ref{app:replications}). The model knows more than it tells, and the
-telling, not the knowing, is the unstable channel: a gate can bet on the
-readout. We therefore use the paired gap rather than the legacy $\Ms$ values
-for the corrected headline comparison. Embedding
-relevance also fails on inferred bridges
-(chance on Evoked/Decoupled, $0.40$ on Compositional) and the workspace beats it decisively on Decoupled
-($+0.170$ $[+0.072, +0.275]$): neither self-report nor retrieval-style relevance
-sees what the model inferred.
-The signal is not a surface artifact: it localizes to the context token that
-licenses the inference, in mid-to-late layers, rather than uniformly across
-the passage or at the concept's own mention, which never occurs
-(Fig.~\ref{fig:mechanism}, App.~\ref{app:causal}). This is the readout reading
-a context-specific computation, consistent with its above-chance recovery
-where surface and embedding relevance are at chance (Table~\ref{tab:master})
-and with the causal test of \S\ref{sec:causal}.
+SDA exceeds each model's own report in all 54 model--seed--budget
+comparisons on the statedness-balanced pool.
+At $k=2$, Qwen3-8B rises from 43.0\% to 53.7/54.8/52.6\%;
+all six models improve in every seed (Table~\ref{tab:balanced}).
+Across budgets, all three seeds reach exact McNemar $p<0.05$ in
+17 of 18 model--budget cells. The 1--10 importance rating is the
+strongest untrained admission policy on this pool for Qwen3-8B, and it
+is evaluated for all six models at all three budgets. SDA exceeds it in
+52 of 54
+model--seed--budget comparisons; the two exceptions are Qwen3-14B at
+three stored concepts, where two of three seeds reach 44.9\% against
+the rating's 45.1\%.
 
-\updatedparagraph{The corrected dense Qwen3 ladder sharpens the scale result
-without supporting a universal scaling law. On Decoupled, the gap is
-$+0.2433$, $+0.0429$, $+0.2525$, $+0.3196$, and $+0.3553$ at
-1.7B/4B/8B/14B/32B. The 8B--32B endpoint widening is $+0.1027$ with paired
-95\% CI $[+0.0093,+0.1944]$, but the 4B exception and non-monotonic adjacent
-changes rule out a simple monotone claim.}
+\input{tables/tab_statedness_models}
 
-\input{tables/iclr_scale}
+On the statedness-balanced pool, Qwen3-8B SDA reaches 40.5/53.7/51.8\%
+recall at $k=1,2,3$ (Table~\ref{tab:balancedbaselines}). The untrained
+admission policies reach 35.8/48.5/50.7\% for the 1--10 rating,
+31.4/44.6/47.7\% for the implied-content wording, 36.6/39.1/39.9\% for
+the provenance-adjusted report, and 36.9/44.9/46.3\% for the combined
+teacher used directly. Direct output likelihood reaches
+34.7/41.9/41.6\%. The contributions of the teacher's two signals are
+ablated in \S\ref{sec:ablations}.
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.82\textwidth]{figures/fig_v3_scale.pdf}
-\caption{\updated{Corrected Qwen3 Decoupled scale sweep. Yellow shading marks
-the newly added 14B/32B boundary region; the original figures elsewhere in
-the paper are retained.}}
-\label{fig:v3scale}
-\end{figure}
+\input{tables/tab_primary_policies}
 
-\subsection{Limits of Static Readouts}
-\label{sec:boundary}
+At $k=2$, paired SDA gains are $+5.2$ points over the rating
+($[+1.7,+8.8]$), $+9.1$ over implied-content wording ($[+5.7,+12.7]$),
+$+14.6$ over the provenance-adjusted report ($[+9.5,+19.8]$), and
+$+8.8$ over the direct combined teacher ($[+3.9,+13.9]$). These are
+seed-averaged differences with 95\% intervals from 4,000 paired
+episode-bootstrap draws; Table~\ref{tab:balancedpaired} gives all budgets.
 
-The workspace readout does not recover every class of inferred content, and the
-boundary is informative.
-On Compositional, where the bridge is weakly evoked and matters only through a two-hop
-composition, $\Wrr$ sits at chance for Qwen and OLMo (Mistral: $0.60$). This limitation is not an artifact of an untrained readout. Taking recovery
-to mean a paired improvement over the static readout at 7B whose 95\% CI
-excludes zero, a tuned future-token lens initialized at the model's own
-unembedding and trained on disjoint contexts
-\citep{pal2023futurelens,belrose2023tuned} does not recover Compositional
-($+0.049$ $[-0.053, +0.149]$ at 7B; its only paired gain is at 0.5B, where
-the absolute AUC remains near chance) and is significantly worse than the
-plain logit lens on evoked bridges at 7B ($-0.088$;
-App.~\ref{app:futurelens}). Across every static readout we tested, including a conditional-likelihood
-score that is predictively comparable elsewhere (LL$-W$ on Compositional
-$+0.078$ $[-0.040, +0.188]$, not a recovery under the paired criterion;
-App.~\ref{app:vrobust}), the end-of-encoding state holds inferences that the
-narrative actively evokes, rather than everything a future question might
-make relevant. \S\ref{sec:extensions}
-shows a gradient-based readout crosses this boundary in one of the two
-families tested.
+We implemented ConsistencyGate \citep{consistencygate2026}, A-MAC utility
+\citep{amac2026} and Nemori's prediction-error criterion
+\citep{nemori2026} from their papers, admitting top-$k$ candidates under
+the same budget protocol (Table~\ref{tab:balancedbaselines}). On the primary,
+statedness-balanced pool at two stored concepts, recall is 35.0\% for both
+ConsistencyGate forms, 39.7\% for A-MAC utility and 25.9\% for prediction
+error: all three methods fall below the model's own yes/no importance
+report (43.0\%), while SDA reaches 53.7\%. Paired, seed-averaged SDA gains
+are $+18.7$ points ($[+14.1,+23.6]$) over sampled ConsistencyGate, $+18.7$
+($[+14.0,+23.5]$) over single-pass ConsistencyGate, $+14.1$
+($[+9.3,+19.0]$) over A-MAC utility and $+27.8$ ($[+22.5,+33.2]$) over
+prediction error, with 95\% bootstrap intervals over episodes from 4,000
+draws. Every one of the 12 intervals for these methods in
+Table~\ref{tab:balancedpaired} excludes zero; the smallest gain is $+6.9$
+($[+2.6,+11.1]$), over A-MAC utility at three stored concepts. ConsistencyGate and A-MAC utility track whether
+the passage states a candidate: correlations on the statedness-balanced
+pool are $+0.90$ for single-pass ConsistencyGate, $+0.85$ for sampled
+ConsistencyGate and $+0.75$ for A-MAC utility. On the standard pool,
+ConsistencyGate's own 0.7 threshold admits 26.7\% of useful candidates
+against 70.8\% of all candidates; its within-episode useful-concept AUC is
+0.133 for single-pass scoring and 0.190 for sampled scoring. These
+independently proposed admission methods exhibit the same provenance
+ordering identified in importance reports.
 
-\textbf{Post-training analysis.}
-In our stage sweep, none of 11 transitions improves the workspace channel:
-eight Qwen base$\to$instruct pairs are flat to slightly negative, and OLMo-2's actual
-pipeline declines cumulatively (base $0.631 \to$ SFT $0.599 \to$ DPO $0.576
-\to$ RLVR $0.580$; $-0.052$, directional: one-sided $p{=}0.041$, two-sided
-cluster CI $[-0.105, +0.007]$; App.~\ref{app:olmo}). What is unambiguous is
-the absence of improvement in any of the 11 transitions. The
-verbal channel's inferential-regime failure is not created by chat tuning:
-raw-probed base models are erratic on inferred content (e.g., Qwen-7B
-base $V_{raw}{=}0.11$ on Compositional; OLMo-2-1B base $0.445$), and the chat-tuned probe
-settles at a confidently miscalibrated $0.27$--$0.30$. Post-training rewards are computed on emitted text, never on internal
-availability, and the result is a fluent report channel that was never trained
-against the internal one. (Scope: this concerns utility-salience; \citet{latentintrospection2026} show
-that detection of injected concepts can be elicited in models, a different
-construct, attributed there to in-context information rather than a
-post-training mechanism.)
 
-\begin{figure}[t]
-\centering
-\includegraphics[width=\textwidth]{figures/fig3_downstream.pdf}
-\caption{Budget-limited recall QA. Left: 0.5B on the Evoked benchmark, where
-workspace gating beats verbal gating ($k{=}2$: $+20/-4$, $p{=}0.0015$; $k{=}3$: $+24/-2$,
-$p{<}10^{-4}$), which sits at the no-memory floor. Right: 7B on the
-construct-valid Decoupled benchmark (64-token answers), where workspace gating
-matches the label oracle and beats verbal gating ($k{=}3$, $\dagger$: $+26/-7$, $p{=}0.0013$,
-computed on the 120-episode scaled benchmark). The two panels are the two
-regimes' primary cells; the full grid, which also contains null and reversed
-cells at these $n$'s, and all McNemar tests are in
-App.~\ref{app:downstream}.}
-\label{fig:downstream}
-\end{figure}
+A fitted provenance offset reproduces the development pool's omission
+regularity, while SDA improves admission across candidate pools.
+Adding a single offset for stated candidates, fitted on development
+episodes, raises the report's development AUC from 0.304 to 0.978 and
+lowers its statedness-balanced AUC from 0.683 to 0.575. The fitted offset
+orders every unstated candidate ahead of every stated candidate,
+reproducing omission then report. Their recalls match at $k=2,3$;
+at $k=1$, they are 36.6\% and 36.9\%. The offset learns which provenance
+the benchmark rewards; SDA learns a passage-and-candidate admission judgment.
 
-\subsection{Budget-Constrained Memory Selection}
-\label{sec:payoff}
+For Qwen3-8B at two stored concepts, retention separates stated and
+inferred conditions: the yes/no report retains the useful concept in
+46.4\% versus 33.0\% of episodes, the workspace readout in 92.8\% versus
+35.7\%, and SDA in 76.8/81.8/72.4\% of stated episodes versus
+64.8/64.8/64.3\% of inferred episodes across three seeds. SDA improves
+inferred-concept retention over the workspace readout and retains stated
+concepts. The 173 inferred-condition episodes contain no sentence naming
+any candidate. On these episodes, SDA reaches 37.4/50.1/46.6\% recall at
+$k=1,2,3$ against 24.9/40.5/37.0\% for the model's own yes/no report,
+gains of $12.5$ ($[+6.7,+18.7]$), $9.6$ ($[+3.7,+15.6]$) and $9.6$
+($[+4.4,+15.0]$) points. SDA exceeds the 1--10 rating by $5.6$ points at
+two stored concepts ($[+0.8,+10.8]$) on these inferred-condition
+episodes. Differences average three seeds with 95\% bootstrap intervals
+over episodes from 4,000 draws.
 
-Fig.~\ref{fig:downstream} evaluates the two channels as write-admission policies.
-At 0.5B on evoked bridges, gating on the binary importance probe stores
-confidently wrong vivid words and at $k{=}1$ performs at the no-memory
-floor, while workspace gating reaches $0.75$ at $k{=}3$; the paired advantage
-is significant despite only 75 episodes. Budget-$k$ payoff tracks
-within-episode ranking rather than the pooled AUC of Eq.~\ref{eq:auc}
-(top-3 containment $0.707$ here; App.~\ref{app:downstream}). The canonical 1--10 rating variant is a
-stronger verbal baseline on this answer-coupled benchmark (matching workspace
-there) but sits at chance predictively on the construct-valid Decoupled benchmark
-(App.~\ref{app:vrobust}).
-At 7B on the $120$-episode construct-valid benchmark (Decoupled-L),
-workspace gating shows no detectable
-difference from the selection
-oracle ($0.525$ vs.\ $0.525$ at $k{=}3$; paired difference $0.000$, 95\% CI
-$[-0.092, +0.083]$; workspace nominally exceeds
-the oracle in two other cells, indicating the oracle itself is noise-limited
-at this $n$) and beats verbal gating on the same set
-($+26/-7$, $p{=}0.0013$). Recency, random, and
-the surface-feature fusion proxy lose to workspace gating throughout
-(App.~\ref{app:downstream}, \ref{app:fusion}); embedding gating is the strongest
-alternative but never separates from workspace downstream and is predictively
-dispatched on Decoupled. Two boundary conditions: at 3B on Decoupled-class tasks the recall-time
-composition step, not selection, is the binding constraint (oracle
-$0.43$ vs.\ full-context $0.57$), and with a 24-token answer budget even the
-oracle collapses: when the model cannot exploit a stored item at recall time,
-selection quality has no effect.
+Useful-concept retention carries the recall gain. On the standard
+pool, Qwen3-8B within-episode AUC rises from 0.326 to 0.679--0.688
+and retention from 29.8\% to 68.6--69.7\%
+(Table~\ref{tab:episodemetrics}). Replaying SDA's two selections on
+the 249 episodes where it retains the bridge, then replacing that
+bridge with its next-ranked candidate, drops recall from 54.6\% to
+37.8\%: a paired 16.9-point decrease, with 59 answers lost against
+17 gained (exact McNemar $p=1.4\times10^{-6}$). The retained concept
+supplies information the frozen reader uses.
 
-\updatedparagraph{The workspace-only and oracle arms above are invariant to
-the verbal-score migration. Direct comparisons that depend on the historical
-Original verbal selected sets are treated as legacy evidence until their
-selected sets are regenerated under v3; the new RL-QA comparison in
-\S\ref{sec:newexperiments} uses a fully regenerated corrected Original arm.}
+Across six models on the naming-balanced pool, SDA exceeds the model's
+own yes/no report in 17 of 18 model--budget cells, and the remaining cell
+differs by 0.1 points (Table~\ref{tab:namingrecall}). SDA exceeds the
+1--10 rating in all twelve model--budget cells at one and two stored
+concepts; at three stored concepts, SDA and the rating are within 2.6
+points in every model. Qwen3-8B within-episode AUC reaches 0.715--0.725
+across seeds versus 0.566 for the report, and retention at $k=2$ reaches
+53.2--54.0\% versus 24.0\% (Table~\ref{tab:namingbalanced}). The
+admission gain persists when naming carries no utility information.
 
-\input{tables/tab3_causal}
+On the standard pool, all 18 runs exceed their own report, with a mean
+9.6-point gain and exact McNemar $p\leq0.026$
+(Tables~\ref{tab:sdabudget} and~\ref{tab:paired}). Both semantic and
+string-match grading recover all 18 gains (App.~\ref{app:judge}).
 
-\subsection{Causal Analysis}
-\label{sec:causal}
+\paragraph{Reader references and candidate proposal.}
+Question-only and whole-passage readers reach 22.9\% and 63.9\% recall
+on Qwen3-8B, bracketing SDA's 50.0\% on the standard pool.
+With a context-only proposer, SDA reaches 35.5/33.3/33.1\% across
+three seeds at $k=2$ (Table~\ref{tab:readerproposal}; proposal prompt
+in App.~\ref{app:prompts}).
 
-The predictive results alone do not establish that the answer computation uses
-the representations the readout measures; this section shows that it does.
-To test this directly, we steer the residual stream along the stored bridge's
-input-side difference-of-means direction \citep{zou2023repe} toward a
-different bridge while the model answers from memory, versus sham directions
-built from unrelated bridges on held-out episodes (20 disjoint pairs;
-Fig.~\ref{fig:causal}).
-Table~\ref{tab:causal}: at the gentlest scale the real direction flips the
-answer in $0.60$ of pairs versus $0.10$ for sham at 3B (McNemar $+11/-1$,
-$p{=}0.0063$) and in $0.70$ versus $0.05$ at 7B ($+13/-0$,
-$p{=}2.4\times10^{-4}$), directionally consistent at 0.5B (tested at scale $1.0$). A flip means the
-answer log-odds between the stored and the steered-toward bridge change
-sign; sham directions are built from unrelated bridges of held-out episodes
-at matched norm. At stronger steering scales real flips rise further but
-sham flips rise too (App.~\ref{app:causal}), so the gentle-scale contrast
-carries the specificity claim. Output-side (unembedding) steering has no effect, consistent with
-\citet{anthropic2026workspace}. The concept representations the readout scores are therefore causally used
-by memory-based answering; steering the unembedding rows (the output side)
-does nothing, so the readout taps content, not output preparation.
+\input{tables/tab_reader_proposal}
 
-\subsection{Gating Evaluation}
-\label{sec:prgresults}
+\subsection{Recall gains persist with unstated distractors}
+\label{sec:budgets}
 
-\begin{table}[t]
-\centering
-\caption{Write-admission policies on the mixed-provenance pool
-(Explicit $\cup$ Evoked $\cup$ Decoupled-L; 283 episodes; per-benchmark
-generation budgets fixed across policies; all cells from a single run
-generation). Bold: column best among content-scoring policies; the two internal signals
-(likelihood, workspace) are statistically indistinguishable in every cell
-(all $p{\ge}0.10$) and each beats the binary probe. The absence heuristic
-exploits the single-planted-inference construction and collapses on
-multi-absent pools (three-act analysis, App.~\ref{app:prg}); pairwise tests
-and the 1--10 rating analysis are also there.}
-\label{tab:prg}
-\small
-\begin{tabular}{lcccc}
-\toprule
-\multirow{2}{*}{Policy} & \multicolumn{2}{c}{0.5B} & \multicolumn{2}{c}{7B} \\
-\cmidrule(lr){2-3} \cmidrule(lr){4-5}
- & $k{=}2$ & $k{=}3$ & $k{=}2$ & $k{=}3$ \\
-\midrule
-Verbal (binary probe) & 0.290 & 0.329 & 0.463 & 0.555 \\
-Verbal (1--10 rating) & 0.343 & 0.410 & 0.491 & 0.601 \\
-Embedding & 0.350 & 0.442 & 0.477 & 0.583 \\
-Cond.\ likelihood (one pass/cand.) & \textbf{0.375} & \textbf{0.466} & \textbf{0.537} & 0.618 \\
-\wsrow Workspace (zero passes) & 0.332 & 0.431 & 0.502 & \textbf{0.636} \\
-PRG (routed) & 0.336 & 0.417 & \textbf{0.512} & 0.565 \\
-\addlinespace
-\refrow Absence heuristic (diagnostic) & 0.459 & 0.459 & 0.629 & 0.636 \\
-\refrow Oracle & 0.512 & 0.484 & 0.657 & 0.707 \\
-\bottomrule
-\end{tabular}
-\end{table}
+SDA improves recall when the useful inference competes with other
+unstated concepts. All 54 model--seed--budget comparisons exceed their
+model's report on the pool with unstated distractors
+(Table~\ref{tab:stress}). On Qwen3-8B, direct output likelihood reaches
+30.6/39.1/40.5\% recall at $k=1,2,3$, against SDA's
+37.6/50.7/51.6\%; on the enlarged pool, the corresponding recalls
+are 28.1/32.0/33.9\% versus 38.6/51.5/52.4\%
+(Tables~\ref{tab:baselines} and~\ref{tab:bigpool}). At $k=2$, SDA exceeds the
+report by 9.6 points (paired 95\% CI $[5.5,13.8]$), the rating by
+4.1 points ($[0.6,7.6]$), and omission then report by 5.8 points
+($[0.8,10.8]$; Table~\ref{tab:paired}). With 12.41 candidates in the
+enlarged pool, its corresponding gains are 11.0 points ($[6.7,15.2]$),
+4.7 points ($[0.9,8.4]$), and 6.6 points ($[1.6,11.6]$).
+At one stored concept, SDA trails omission then report by $8.4$ points
+on the pool with unstated distractors ($[-12.7,-4.2]$) and by $5.5$
+points on the enlarged pool ($[-9.6,-1.5]$) (Table~\ref{tab:paired}). At
+two and three stored concepts, SDA leads every measured non-oracle
+baseline on both pools (App.~\ref{app:poolresults}).
 
-Table~\ref{tab:prg} evaluates the gate in the deployment-realistic setting: a
-pooled stream mixing all three provenance regimes, where any channel that
-fails on one regime pays for it. Because the contribution is an admission
-score rather than a memory system, the comparison holds the pipeline fixed
-and varies only the score; an end-to-end comparison against full memory
-frameworks would confound retrieval, organization, and prompting with the
-admission signal under study, and every such framework can adopt whichever
-score wins here. Three results follow.
+\subsection{Teacher composition and the admission objective}
+\label{sec:ablations}
+\label{sec:scale}
 
-\myparagraph{The workspace gate beats the binary probe.}
-Replacing the
-binary importance probe with the workspace readout wins at $k{=}3$ at both
-scales ($+47/-18$, $p{=}0.0004$, confirmatory under Holm correction over the
-full test family; $+45/-22$, $p{=}0.0067$ uncorrected, marginal after
-correction; App.~\ref{app:prg}),
-and the workspace channel is never significantly worse than any
-content-scoring policy in any cell.
+We ablate SDA's teacher by removing either the workspace readout or the
+output likelihood and training the same adapter on the resulting labels,
+holding episodes and step budget fixed. On the paired-passage battery
+where only the passage identifies the useful concept, removing either
+signal from SDA's teacher lowers answer recall.
 
-\myparagraph{The failure is specific to the verbal channel, not to internal signals generally.}
-Against the canonical 1--10
-rating, the strongest verbal form, workspace gating is numerically ahead at
-7B ($0.636$ vs.\ $0.601$, $p{=}0.31$) at zero probe cost, where the rating
-spends one forward pass per candidate, and on the construct-valid slice the
-rating is predictively at or below chance (App.~\ref{app:vrobust}). An
-internal conditional-likelihood score at that same one-pass cost gates
-indistinguishably from the workspace readout (all cells $p{\ge}0.10$) and
-itself beats the binary probe ($p{\le}0.035$ in three of four cells,
-$p{=}0.051$ in the fourth; App.~\ref{app:prg}); the readout is the internal
-signal that needs no extra passes and carries the causal grounding of
-\S\ref{sec:causal}.
+Each candidate set appears twice, with two passages and their own
+questions. The useful concept differs within each pair, so both episodes
+include their partner's useful concept and only the passage identifies
+which is useful. The 181 pairs are scored on Qwen3-8B, Qwen3-14B,
+Qwen3-32B, Qwen2.5-7B and OLMo-2-7B, yielding 1,810 observations per
+budget (Table~\ref{tab:crosspairpooled}; per-model results:
+Table~\ref{tab:crosspairmodels}). At one, two and three stored concepts,
+the teacher without the workspace readout incurs recall costs of $+1.9$
+($[+1.0,+2.8]$), $+0.6$ ($[-0.2,+1.4]$) and $+1.1$ ($[+0.4,+1.8]$)
+points; retention costs are $+7.3$ ($[+6.1,+8.5]$), $+4.6$
+($[+3.6,+5.7]$) and $+3.0$ ($[+2.0,+3.9]$) points. The teacher without the output
+likelihood incurs recall costs of $+1.3$ ($[+0.3,+2.3]$), $+1.6$
+($[+0.7,+2.5]$) and $+1.4$ ($[+0.5,+2.3]$) points; retention costs are
+$-1.4$ ($[-2.9,+0.2]$), $+0.1$ ($[-1.3,+1.4]$) and $+1.7$
+($[+0.6,+2.7]$) points. Costs are SDA minus the trained ablation,
+averaged over three seeds and pooled over models. The 95\% intervals use
+4,000 bootstrap draws resampling pairs and carrying each pair's rows
+across all five models together.
 
-\myparagraph{At tight budgets, provenance routing adds a little more.}
-At the tight 7B budget provenance routing is the strongest policy
-that spends no per-candidate forward passes ($0.512$ vs.\ $0.502$
-single-channel) and helps where the channels are complementary; the single-channel
-gate is the recommended default at capable scale. Calibration matters:
-$z$-normalized routing loses admission slots for inferred items
-systematically because the two score distributions differ in shape, and
-underperforms rank calibration throughout (App.~\ref{app:prg}). Finally,
-because each benchmark plants a single inference, bare absence is nearly an
-oracle proxy here; App.~\ref{app:prg} analyzes this diagnostic and the
-multi-absent stress tests, where the degenerate absence heuristic collapses
-and, when the competing absent candidates are semantically confusable, the
-workspace readout is the leading channel: its selection-signal advantage
-over the embedding replicates on a fresh 120-episode set (paired
-$\Delta$AUC $+0.064$, one-sided $p{=}0.026$; pooled estimate $+0.058$
-$[+0.007, +0.108]$) and gated QA shows no
-detectable difference from the true-label oracle (App.~\ref{app:prg}).
-On the two standard naturalistic streams (LoCoMo, LongMemEval), whose
-candidates are surface content by construction, no question-blind channel,
-ours or the verbal importance probe, separates from random under LLM-judge
-grading:
-the construct that separates the channels is structurally absent there, which
-is precisely why the controlled benchmarks of \S\ref{sec:benchmarks} are
-needed. When that construct is planted back, by embedding our Decoupled
-episodes inside real LoCoMo sessions, the dissociation reappears at 7B with
-the workspace readout unattenuated ($W{-}V$ $+0.21$ $[+0.10, +0.31]$): the
-effect is carried by content provenance, not by synthetic style
-(App.~\ref{app:locomo}).
+\input{tables/tab_crosspair_pooled}
+
+The replaced-passage test scores each episode with its own passage and
+another episode's passage, keeping candidates, labels and question
+fixed. Table~\ref{tab:replacedpassage} reports retention for Qwen3-8B on
+363 standard-pool episodes with one stored concept. SDA's retention
+drops from 48.3\% to 27.4\%, a decrease of $20.9$ points
+($[+14.3,+27.4]$). For the student of the teacher without the workspace
+readout, retention drops from 42.8\% to 39.9\%, or $2.9$ points
+($[-3.5,+9.2]$). For the student of the teacher without the output
+likelihood, it drops from 46.6\% to 20.1\%, or $26.5$ points
+($[+20.5,+32.6]$). Without the workspace readout, the student's ordering
+barely changes when the passage changes.
+
+\input{tables/tab_replaced_passage}
+
+The primary pool combines five models and 1,815 observations per budget,
+with each episode moving together across models in the bootstrap. The
+teacher without the output likelihood incurs recall costs of $+1.6$
+($[+0.7,+2.6]$) and $+1.7$ ($[+0.8,+2.7]$) points at one and two stored
+concepts. The teacher without the workspace readout incurs costs of
+$+0.7$ ($[-0.2,+1.6]$), $+0.6$ ($[-0.2,+1.4]$) and $+0.3$
+($[-0.4,+1.1]$) points at one, two and three stored concepts.
+Table~\ref{tab:teachermodels} gives per-model recall;
+Table~\ref{tab:teachermodelpaired} gives paired intervals.
+
+On the standard Fresh-2 pool at $k=2$, SDA reaches 50.0\% recall,
+versus 45.7\% for the combined teacher used directly and 40.2--40.5\%
+for the validation-selected log-odds objectives
+(Tables~\ref{tab:sdaablation} and~\ref{tab:objective}).
+
+Training the importance interface adds recall beyond changing its
+wording. The \emph{implied-content wording} is the strongest measured
+Qwen3-8B prompt baseline that permits inferences while leaving the
+useful concept's provenance unspecified. It raises standard-pool report
+AUC from 0.321 to 0.462 and recall at $k=1,2,3$ from
+28.1/40.8/41.6\% to 29.2/41.3/44.9\%. Holding this wording fixed
+for training and evaluation, SDA reaches 37.1/50.7/51.0\%, exceeding
+the prompt baseline at every budget (exact McNemar
+$p\leq6.9\times10^{-5}$; Table~\ref{tab:wordingdistill}).
+Passage-only wording SDA reaches 37.6/50.0/52.2\%
+(Tables~\ref{tab:baselines} and~\ref{tab:paired}). The matched wording
+comparison isolates the additional gain from learning the admission
+judgment.
+
+With teacher, episodes, adapter and step budget fixed, validation
+within-episode admission AUC starts at 0.657 and reaches 0.824 at
+the final step under SDA's vocabulary-normalized token objective.
+Binary cross-entropy on the yes/no log-odds ends at
+0.250, 0.333 and 0.301 across three seeds at learning rate
+$10^{-5}$; validation selects the untrained checkpoint in every run.
+At a step size five times smaller ($2\times10^{-6}$), selection
+returns a trained checkpoint, whose standard-pool recall at $k=2$
+is 40.2\%, against 50.0\% for SDA's token-level objective
+(Table~\ref{tab:objective}).
+
+
+\subsection{Standard serving preserves recall}
+\label{sec:deployment}
+
+Standard serving preserves SDA recall while scoring 242 candidates per
+second on one A100-80GB (Table~\ref{tab:sdadeploy}).
+The served Qwen3-8B adapter achieves 50.1\% standard-pool recall, within
+0.3 percentage points of the reference selections. Paired disagreements
+are two versus three episodes (exact McNemar $p=1.0$); top-2 memories
+agree on 91.7\% of episodes and admission AUC differs by at most 0.001.
+Batched Qwen3-8B serving on the standard pool with prefix caching
+on one A100-80GB reaches
+242 candidates/s (4.1\,ms per candidate), against 290 candidates/s
+(3.4\,ms) for the report, over 1,607 candidates after warm-up
+(Table~\ref{tab:sdadeploy}). The adapter serves admission requests;
+the frozen model answers from the admitted memory.
+
+\input{tables/tab_admission_serving}

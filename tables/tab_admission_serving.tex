@@ -1,0 +1,16 @@
+\begin{table}[htbp]
+\centering
+\caption{Admission serving on Qwen3-8B, standard pool, one A100-80GB and 1{,}607 candidates after warm-up. Amortized time divides batched wall time by candidate count, with prefix caching. Served top-2 selections agree with the reference on 91.7\% of episodes; admission AUC differs by at most 0.001.}
+\label{tab:sdadeploy}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lccc}
+\toprule
+Admission scoring & Time (ms/candidate) & Candidates/s & Hidden states \\
+\midrule
+Yes/no importance report & 3.4 & 290 & not needed \\
+\textbf{SDA adapter} & \textbf{4.1} & \textbf{242} & \textbf{not needed} \\
+\bottomrule
+\end{tabular}
+
+\end{table}

@@ -1,170 +1,100 @@
-\section{Gating Memory on the Workspace}
+\section{Self-Distilled Admission}
 \label{sec:method}
 
-We now turn the diagnosis into a deployable mechanism: gate memory on the
-workspace readout. The core form is a drop-in replacement, substituting
-$F_W(W(c;x))$ for the verbal importance score in any pipeline that proposes
-and ranks candidates; it requires no training, no additional model, and no
-forward passes beyond the encoding pass the agent already performed, and it
-is the form behind every headline result in \S\ref{sec:results}. For mixed
-streams at tight budgets we extend it to \textbf{PRG} (Provenance-Routed
-Gating), which routes each candidate to the channel that is reliable for its
-provenance. The design follows from three empirical facts established in
-\S\ref{sec:results}, so each component carries an experimental justification
-rather than a heuristic one.
+SDA distills a frozen model's candidate rankings into yes/no admission
+judgments, training the importance interface to retain useful inferences
+(Fig.~\ref{fig:sda}).
 
-\textbf{Design principles.}
-\emph{(P1) Provenance determines channel reliability.} Verbal importance
-ratings and embedding relevance are the strongest signals for surface-present
-content but are unreliable for silently inferred content, at or below chance
-on the construct-valid benchmarks of the primary generator, while the
-workspace readout is the most reliable single channel for that regime
-(Table~\ref{tab:master}; generator boundary in \S\ref{sec:dissociation}).
-The gate therefore scores by the workspace readout by default and may route
-surface content to a relevance channel when budgets are tight.
-\emph{(P2) The routing variable is free.} Provenance $\rho(c,x)$
-(Eq.~\ref{eq:provenance}) is computable exactly, at write time, by a substring
-test; the router adds no model calls and cannot itself be miscalibrated. The
-substring test is the exact instantiation for single-word candidates; for
-paraphrased or multi-word candidates any provenance estimator (lemmatized or
-embedding-based matching) substitutes into Eq.~\ref{eq:prg} unchanged.
-\emph{(P3) Channels are calibrated by rank, not by moments.} Raw channel scores
-live on incomparable scales, and even $z$-normalization fails because the two
-distributions differ in shape (reciprocal ranks are heavy-tailed near zero;
-cosine similarities are approximately Gaussian): under $z$-scoring, silently
-inferred items systematically lose admission slots to surface items, which we
-verify empirically in App.~\ref{app:prg}. Converting each channel to its
-population percentile rank over a calibration stream gives both routes
-identical uniform marginals, making a single threshold meaningful across
-routes.
+\input{figures/fig_sda_pipeline}
 
-\begin{figure}[t]
-\centering
-\IfFileExists{figures/main.png}{%
-\includegraphics[width=\textwidth]{figures/main.png}}{%
-\fbox{\parbox[c][4.2cm][c]{0.88\textwidth}{\centering
-\emph{Architecture figure (figures/main.png).}\\[4pt]
-Panels: context encoding $\rightarrow$ candidate set; provenance test $\rho$;
-workspace route ($\rho{=}0$, Eq.~\ref{eq:wrr}) and relevance route
-($\rho{=}1$); percentile-rank calibration; budget-$k$ admission; memory store
-$\rightarrow$ recall QA.}}}
-\caption{\textbf{The PRG write gate, on the running example.} Reading
-``Elena wandered the Plaza Mayor\ldots'', the model silently infers the bridge
-\emph{Madrid}, a concept that never appears in the text. A J-lens
-``$\mathrm{J}$-space'' readout exposes each candidate's per-layer vocabulary
-logits across the residual stream; the workspace score is the peak reciprocal
-rank of the candidate's token over layers (Eq.~\ref{eq:wrr}). Each candidate
-proposed by the host memory system is then routed by the provenance test
-$\rho$ (here a substring check against the source context): surface-present
-items (\emph{Plaza Mayor}, \emph{Fountain}, \ldots) are scored by embedding
-relevance, while absent, inferred items (\emph{Madrid}) are scored by the
-workspace readout, the channel that tracks their utility most reliably in our
-experiments. Percentile-rank calibration places both routes on a common scale,
-and budget-$k$ admission keeps the top-ranked items (dashed cutoff): the
-inferred \emph{Madrid} is admitted rather than discarded, so the downstream
-recall question ``What language should Elena use?'' is answered correctly
-(\emph{Spanish}). The gate adds no training and no model calls beyond the
-encoding pass.}
-\label{fig:arch}
-\end{figure}
+\subsection{A teacher from the model's own computation}
+\label{sec:teacher}
 
-\textbf{The gate.}
-Given a candidate set $C$ for context $x$ and budget $k$ (Fig.~\ref{fig:arch}),
-PRG computes
+\paragraph{Workspace readout.}
+Let $h_\ell(x)\in\mathbb{R}^d$ be the residual state at the final context
+position after transformer layer $\ell$, with $L$ layers in total.
+Final normalization $\mathrm{LN}$ and unembedding $W_U$ give vocabulary
+logits $z_\ell(x)=W_U\,\mathrm{LN}(h_\ell(x))$.
+Writing $\mathrm{rank}_\ell(t)=1+|\{v:z_{\ell,v}>z_{\ell,t}\}|$, the
+workspace readout is the peak reciprocal rank across layers and
+first-token forms:
 \begin{equation}
-S_{\mathrm{PRG}}(c; x) \;=\;
-\begin{cases}
-F_{W}\!\big(W(c;x)\big) & \text{if } \rho(c,x)=0 \quad\text{(inferred route)},\\[3pt]
-F_{E}\!\big(E(c;x)\big) & \text{if } \rho(c,x)=1 \quad\text{(surface route)},
-\end{cases}
-\label{eq:prg}
+W(c;x)=\max_{1\leq\ell\leq L}\;\max_{t\in T(c)}
+\frac{1}{\mathrm{rank}_\ell(t)}.
+\label{eq:wrr}
 \end{equation}
-where $F_{W}$ is the empirical CDF of workspace scores over the $\rho{=}0$
-candidates of a calibration stream, $F_{E}$ the empirical CDF of embedding
-scores over its $\rho{=}1$ candidates (in deployment, a running window of past
-writes), and the gate admits the top-$k$ candidates by $S_{\mathrm{PRG}}$.
-Calibrating each channel within its own route gives both routes uniform
-marginals on $[0,1]$. The calibration demand is small: selection quality is
-unchanged in expectation with as few as ${\sim}10$ scored candidates per route
-(only the variance shrinks as the window grows), a disjoint calibration split
-performs as well as calibrating on the evaluation pool itself, and CDFs fitted
-on one pair of benchmarks transfer to a third (App.~\ref{app:prg}).
-The pseudocode in Fig.~\ref{alg:prg} summarizes the general routed form; the recommended
-single-channel default sets both routes to the workspace score. The per-candidate cost is one
-substring test plus either a dictionary lookup into the already-computed
-logit-lens decodings (inferred route) or one sentence-encoder call (surface
-route); the workspace decodings themselves reuse the hidden states of the
-encoding pass the agent already ran. Memory is not a bottleneck either: the
-readout needs only the final-position residual at each layer, $O(Ld)$ per
-readout position independent of context length (under $0.2$\,MB at 7B in
-bf16, computable layer-by-layer during the forward pass), orders of
-magnitude below the KV cache the same pass maintains.
-In wall-clock terms the added compute is the $L$ per-layer logit-lens
-projections plus a rank lookup: on one RTX A5000 in bf16 at 7B this is
-${\sim}1.6$\,ms for the projections and only a few milliseconds end-to-end for
-typical candidate sets, negligible against the seconds the agent already spends
-generating, and independent of context length.
+Here $T(c)$ contains the distinct first tokens of the candidate's bare
+and leading-space forms, each in original and capitalized form.
+The readout uses one forward pass over $x$ and final-position states from
+all layers. It measures how readily the model's vocabulary decoder
+recovers a concept during context processing
+\citep{nostalgebraist2020logitlens,anthropic2026workspace}.
+\paragraph{Teacher used in the main evaluation.}
+The teacher averages workspace and output-likelihood ranks. The latter
+scores the complete candidate:
+$\mathrm{LL}(c;x)=\log p_{\mathcal M}(c\mid x)/|c|$, where $|c|$ is the
+candidate's token length. Workspace decodability and output likelihood
+have different scales. We map each to mid-rank percentiles within the
+episode, assigning tied values their mean rank
+(App.~\ref{app:training}), and average them:
+\begin{equation}
+T(c;x)=\tfrac12\bigl(P_W(c;x)+P_{\mathrm{LL}}(c;x)\bigr).
+\label{eq:teacher}
+\end{equation}
+Here $P_S$ denotes the percentile under readout $S$. The two highest-ranked
+candidates receive the binary label $\tilde y=1$, corresponding to
+\emph{yes}; every other candidate receives $\tilde y=0$, corresponding to
+\emph{no}. Candidate order breaks score ties. The frozen model generates
+every teacher label from the passage and candidates.
 
-\begin{figure}[t]
-\caption{\textbf{PRG algorithm:} provenance-routed write admission.}
-\label{alg:prg}
-\begin{algorithmic}[1]
-\Require context $x$, candidates $C$, budget $k$, calibration CDFs $F_W, F_E$
-\State $\{h_\ell(x)\}_{\ell \le L} \gets$ residual states from the encoding pass of $x$
-\For{$c \in C$}
-  \If{$\rho(c, x) = 0$} \Comment{inferred: not a surface form of $x$}
-    \State $S(c) \gets F_W\!\big(\max_{\ell, t \in T(c)} 1/\mathrm{rank}_\ell(t)\big)$ \Comment{workspace route, Eq.~\ref{eq:wrr}}
-  \Else
-    \State $S(c) \gets F_E\!\big(\cos(\phi(c), \phi(x))\big)$ \Comment{surface route}
-  \EndIf
-\EndFor
-\State \Return top-$k$ of $C$ by $S$
-\end{algorithmic}
-\end{figure}
+\subsection{Distilling the admission judgment}
+\label{sec:student}
 
-\myparagraph{Worked example (illustrative).}
-Take the episode of Fig.~\ref{fig:arch} with budget $k{=}3$ and candidate set
-$C{=}\{$\emph{Madrid}, Plaza Mayor, Fountain, Cafe, Weather$\}$. The provenance
-test sends the four surface-present items to embedding relevance and the
-inferred bridge \emph{Madrid} (absent from the text) to the workspace readout.
-The two channels' raw scores are incomparable, but percentile calibration
-against the running window places them on one $[0,1]$ scale:
-\emph{Madrid} $0.93$, Plaza Mayor $0.78$, Fountain $0.62$, Weather $0.33$,
-Cafe $0.20$. Budget-$3$ admission keeps $\{$\emph{Madrid}, Plaza Mayor,
-Fountain$\}$, so the later question ``What language should Elena use?'' is
-answerable (\emph{Spanish}). The verbal importance probe rates \emph{Madrid}
-unimportant ($0.15$) and would drop it, keeping three vivid surface words and
-failing the question. Scores here are illustrative of the pipeline; the
-measured rankings are in \S\ref{sec:results}.
+The importance prompt $u(c,x)$ asks whether $c$ is one of the most
+important concepts to remember for possible future questions, requesting
+a single yes or no (App.~\ref{app:prompts}). Qwen3 uses thinking-disabled
+prompts.
+Let $Y,N$ be the distinct first tokens
+of the yes/no case and leading-space forms. The admission score is
+\begin{equation}
+s_\theta(c;x)=
+\log\!\sum_{t\in Y}p_\theta(t\mid u(c,x))
+-\log\!\sum_{t\in N}p_\theta(t\mid u(c,x)),
+\qquad V_\theta(c;x)=\sigma\!\left(s_\theta(c;x)\right).
+\label{eq:score}
+\end{equation}
+The untrained model supplies the report baseline $V$; SDA ranks
+candidates by the adapter-enabled score $s_\theta$.
 
-\textbf{What is new.}
-To our knowledge this is the first write gate to score memory candidates'
-concept-level utility from a residual-stream decodability readout (prior
-internal-signal gates operate on token- or event-level surprisal and entropy,
-\S\ref{sec:related}), and PRG is the first to route admission decisions by
-content provenance. Both choices are grounded rather than heuristic: the
-routing rule implements the provenance dissociation of \S\ref{sec:dissociation}
-(each channel is used precisely where it is empirically reliable), and the use
-of the workspace channel on the inferred route is supported causally: the
-representations it reads are the ones that memory-based answers consume
-(\S\ref{sec:causal}). The gate composes with, rather than replaces, existing
-memory systems: any pipeline that proposes candidates and ranks them by a
-verbal importance score can substitute $S_{\mathrm{PRG}}$ for that score
-unchanged. The contribution is scoped to the scoring stage; whether the
-host's proposer surfaces the right candidates is a separate problem, and the
-generative use of the readout as a proposer is beyond the plain logit lens
-(App.~\ref{app:prg}).
+Only a LoRA adapter is optimized; base parameters remain frozen.
+The training objective is cross-entropy on the teacher's binary labels,
+implemented as next-token prediction of the target word:
+\begin{equation}
+\mathcal L(\theta)=-\frac{1}{|\mathcal D|}
+\sum_{(x,c)\in\mathcal D}
+\log p_\theta\!\left(\tau(\tilde y(c;x))\mid u(c,x)\right).
+\label{eq:loss}
+\end{equation}
+Here $\tau$ maps a positive label to the word \emph{yes} and a negative
+label to the word \emph{no}. The target probability is normalized over
+the vocabulary, and prompt tokens are masked from the loss (App.~\ref{app:configuration}).
 
-\textbf{Two extensions.}
-First, the single-channel core is the recommended default: it is the
-strongest zero-probe-cost policy on mixed streams at capable scales,
-statistically tied there with the canonical 1--10 rating, which costs one
-probe pass per candidate; routing adds value at tight budgets and small
-scales, where the channels are complementary (\S\ref{sec:prgresults}). Second, for systems
-that must retain a verbal scoring interface, the metacognitive alignment
-procedure of \S\ref{sec:metacog} distills the workspace signal into the
-verbal channel with ${\sim}500$ self-supervised steps, repairing the deployed
-scorer itself rather than bypassing it. We also evaluate a third, generative extension, which harvests candidates the
-writer never proposed directly from the workspace (App.~\ref{app:prg}), and
-find it beyond the reach of the plain logit lens, delineating the boundary
-between discriminative and generative use of the readout.
+\paragraph{Training and selection.}
+We train for two epochs using a rank-16 adapter and select the earliest
+checkpoint maximizing in-distribution validation admission AUC.
+Optimization uses teacher labels; validation uses construction-assigned
+utility labels. Mean recall across development batteries and training
+seeds, scored by the development run's automatic grader, selects the
+combined teacher used by SDA. The configuration is fixed before
+Fresh-2 (App.~\ref{app:freeze}).
+
+\subsection{Admission through standard serving}
+\label{sec:serving}
+
+At deployment, SDA makes one yes/no forward pass per candidate and stores
+the top-$k$ by $s_\theta$. The adapter is attached only to admission requests
+in a standard serving engine such as vLLM \citep{kwon2023pagedattention}; prefix
+caching reuses the shared passage. Serving reads the admission prompt's
+output probabilities. Other requests, including the frozen reader's answer generation,
+use the unmodified model. The host stores the admitted concepts and manages retrieval. Candidate
+order breaks score ties.

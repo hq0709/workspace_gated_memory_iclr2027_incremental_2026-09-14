@@ -1,0 +1,28 @@
+\paragraph{Evaluation scale.}
+\label{sec:breadth}
+\label{sec:models}
+
+The principal diagnostic comparison covers eight models from four
+families: Qwen2.5-7B, OLMo-2-7B, Mistral-7B and Qwen3 at 1.7B, 4B,
+8B, 14B and 32B
+\citep{qwen2025,olmo2,jiang2023mistral,qwen3}. The extended grid contains
+23 checkpoints across those families and GPT-2, including base and
+post-training stages (App.~\ref{app:breadth}). SDA trains three seeds
+for each of six models: Qwen3-8B, 14B and 32B and the other three
+7B families, totaling 18 principal training runs. Each supplies its
+own teacher, adapter and frozen reader.
+
+Training and validation contain 175 and 45 episodes, drawn from
+88 Explicit episodes and 132 implied-answer episodes, including the
+57-episode alternate-author benchmark. In an implied-answer episode,
+the passage cues an unstated useful concept that itself supplies the
+answer; Decoupled instead requires a further inference from that concept. Development uses Decoupled
+(68 episodes), Compositional (52), and two separate 68-episode pools
+that add confusable or unrelated unstated distractors to Decoupled.
+Fresh-1 and Fresh-2 contain 316 and 363 episodes; the entity-bridge
+benchmark contains 42. Fresh-2 passage and pool controls reuse its
+363 episodes. Budgets are $k=1,2,3$; the main comparison uses the
+statedness-balanced pool, with $k=2$ reported across all six models.
+The paired Fresh-2 grading audit totals 13,068 answers across the
+18 SDA--report comparisons; both graders evaluate every answer.
+

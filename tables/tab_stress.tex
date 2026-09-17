@@ -1,0 +1,20 @@
+\begin{table}[tbp]
+\centering
+\caption{Recall on the pool with unstated distractors (Fresh-2 with four extra candidates per episode that the passage also never states, 8.4 candidates per episode). Blind semantic grading, recall in percent, three training seeds per model; $p$ bounds the exact McNemar test against each model's own yes/no report across those seeds.}
+\label{tab:stress}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lcccc}
+\toprule
+Model & Yes/no report & \textbf{SDA (3 seeds)} & $p$ vs.\ report & Oracle labels \\
+\midrule
+Qwen3-8B & 41.0 & \textbf{51.0 / 51.2 / 49.9} & $\leq$ $10^{-3}$ & 54.3 \\
+Qwen3-14B & 32.2 & \textbf{40.8 / 39.4 / 39.9} & $\leq$ $10^{-3}$ & 46.6 \\
+Qwen3-32B & 41.0 & \textbf{51.0 / 50.7 / 50.1} & $\leq$ $10^{-4}$ & 54.8 \\
+Qwen2.5-7B & 23.7 & \textbf{31.4 / 28.4 / 30.6} & $\leq$ .019 & 31.7 \\
+OLMo-2-7B & 38.8 & \textbf{52.3 / 51.0 / 51.2} & $\leq$ $10^{-5}$ & 54.8 \\
+Mistral-7B & 12.9 & \textbf{19.0 / 19.6 / 17.9} & $\leq$ .015 & 16.8 \\
+\bottomrule
+\end{tabular}
+
+\end{table}

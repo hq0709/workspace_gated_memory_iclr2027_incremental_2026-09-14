@@ -1,0 +1,125 @@
+\section{Constructing the Admission Setting}
+\label{sec:construction}
+\label{sec:benchmarks}
+
+The setting makes a useful inference compete with concepts drawn from
+the passage for a fixed number of memory slots. We build each episode
+around a bridge concept: a piece of information that links the passage
+to a future answer. The episode supplies a passage, an ordered candidate
+set, utility labels, and a future question with its answer. Only the
+passage and candidates reach the admission policy.
+
+\subsection{From a passage to a useful memory}
+
+\textbf{Decoupled} requires two inference steps: recover the bridge
+from the passage, then combine it with general knowledge to answer the
+future question. GPT-4.1 authors a passage about a named person together
+with the bridge, question and answer. The answer is excluded from the
+passage and candidate set; the question connects to the passage through
+the person's name. The author supplies vivid surface distractors and
+neutral passage concepts as negative utility labels, with the intended
+bridge as the positive label. Mechanical filters check candidate
+strings, bridge and answer exclusion, and question overlap.
+Deduplication removes repeated concepts, and a blind alias audit checks
+that recovering the bridge still leaves an inference to the answer
+(App.~\ref{app:benchmarks}).
+
+\begin{figure}[htbp]
+\centering
+\begin{sdabox}{Decoupled episode}
+\textbf{Passage.} Jibril had always wanted to gaze up at the world's
+highest outdoor observation deck. Early one morning, he took a swift
+elevator to level 148 of the Burj Khalifa, joining a crowd of eager
+tourists. Below him, the city sparkled with the first rays of the desert
+sun. After snapping several panoramic photos, he browsed the sleek gift
+shop for souvenirs.
+
+\medskip
+\textbf{Candidates, in supplied order.} elevator, desert, gift,
+observation, dubai, tourists.\\
+\textbf{Useful concept.} dubai. \textbf{Surface distractors.} desert,
+tourists. \textbf{Neutral concepts.} elevator, gift, observation.
+
+\medskip
+\textbf{Future question.} What language was Jibril most likely to hear
+from local staff during his visit?\\
+\textbf{Answer.} arabic.
+\end{sdabox}
+\caption{A complete Fresh-2 episode. The passage identifies a landmark
+from which the city can be inferred. Retaining \emph{dubai} preserves
+the city-to-language link needed by the future question. Utility labels,
+question and answer are visible here for explanation; admission sees
+the passage and candidate strings.}
+\label{fig:episode}
+\end{figure}
+
+With two memory slots, the city in Figure~\ref{fig:episode} competes
+with the elevator, gift shop and scenery.
+\textbf{Explicit} instead states the useful content, while
+\textbf{Compositional} requires a multi-hop answer and permits passage
+anchors in the question. \textbf{Fresh-1} and \textbf{Fresh-2} repeat
+the Decoupled construction with new passages and bridges absent from
+the training batteries. Each battery is frozen before measurement.
+
+The author uses the bridge and question to identify the intended memory;
+the policy predicts its value from the passage and candidates alone.
+Changing admission changes the remembered concepts while keeping the
+future question and reader fixed.
+
+\subsection{Controls named for what they change}
+
+\paragraph{Mention and position.}
+The \textbf{stated-bridge control} appends \emph{The passage also mentions
+bridge.} The \textbf{position control} puts that sentence before
+the passage. The \textbf{distractor-named control} substitutes a distractor
+for the bridge in the appended sentence. Candidates, utility labels,
+question and answer stay fixed, isolating the named concept and sentence
+position.
+
+\paragraph{Competition for memory.}
+Our primary \textbf{statedness-balanced pool} starts from the 363
+held-out Fresh-2 episodes in their frozen order. Counting from the first
+episode, odd positions keep the passage unchanged, providing the
+inferred-concept condition; even positions append the naming intervention's
+sentence \emph{The passage also mentions bridge.} Here \emph{bridge}
+is replaced by the useful concept, providing the stated-concept condition.
+Every episode retains its original candidates, including the stated
+distractors, and gains four unstated distractors at odd positions or
+three at even positions. These are the first four or three additional
+candidates, in order, from the pool with unstated distractors described
+below. Both alternations follow position in the frozen order, with no
+sampling. The resulting 363 episodes average 7.93 candidates; 13.3\%
+of stated candidates and 12.0\% of unstated candidates are useful.
+The probe question and answer, original utility labels, frozen reader and blind
+judge remain the same; added candidates receive negative utility labels.
+A statedness-only rule ranks near chance: AUC is 0.515 pooled and
+0.516 within episodes.
+
+The \textbf{naming-balanced pool} names four candidates in every episode,
+using five sentence templates at varying positions. Named candidates
+are useful 12.5\% of the time, against a 12.6\% base rate.
+The pools control different cues: statedness in the statedness-balanced
+pool and intervention naming in the naming-balanced pool. Their residual
+regularities point in opposite directions: intervention naming favors
+the useful concept in the statedness-balanced pool, whereas overall
+statedness favors distractors in the naming-balanced pool.
+
+Two further pools test competition for the same memory budget,
+starting from the standard Fresh-2 pool's 4.43 candidates per episode.
+The \textbf{pool with unstated distractors} adds four confusable concepts
+from the bridge's semantic category, proposed by an author model and
+filtered for absence from the passage and original pool. The
+\textbf{enlarged pool} adds further concepts from other episodes,
+reaching 12.41 candidates on average. Both additions preserve the
+original passage, candidates, utility labels and future question while
+increasing the alternatives that admission must rank.
+
+\paragraph{Context, authorship and bridge category.}
+\textbf{Shuffled context} replaces the passage with another episode's
+passage while retaining its candidates and labels. The
+\textbf{alternate-author benchmark} uses GPT-4o to write episodes with
+an implied useful concept. The \textbf{entity-bridge benchmark} uses
+GPT-5.6 to place a named-entity bridge among scene-object distractors.
+Together these variants test dependence on the paired passage,
+authorship and the kind of concept admitted
+(App.~\ref{app:replications}).

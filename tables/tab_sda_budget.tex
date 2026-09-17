@@ -1,0 +1,21 @@
+\begin{table}[t]
+\centering
+\caption{Memory budget across models. Recall accuracy (\%) on the held-out Fresh-2 battery (363 episodes) with $k$ stored concepts; each model admits memories with its own adapter and answers with its own frozen weights; blind semantic grading; Rating is the 1--10 importance rating \citep{park2023generative}; SDA is the mean over three seeds; $^{*}$every seed exceeds the yes/no report of the same model at that budget (exact McNemar $p<0.05$).}
+\label{tab:sdabudget}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lccccccccc}
+\toprule
+ & \multicolumn{3}{c}{$k{=}1$} & \multicolumn{3}{c}{$k{=}2$} & \multicolumn{3}{c}{$k{=}3$} \\
+\cmidrule(lr){2-4} \cmidrule(lr){5-7} \cmidrule(lr){8-10}
+Model & Report & Rating & \textbf{SDA} & Report & Rating & \textbf{SDA} & Report & Rating & \textbf{SDA} \\
+\midrule
+Qwen3-8B & 28.1 & 34.7 & \textbf{37.6}$^{*}$ & 40.8 & 45.7 & \textbf{50.0}$^{*}$ & 41.6 & 47.9 & \textbf{52.2}$^{*}$ \\
+Qwen3-14B & 23.4 & 31.1 & \textbf{33.5}$^{*}$ & 32.5 & 39.1 & \textbf{40.5}$^{*}$ & 37.5 & 43.5 & \textbf{43.6}$^{*}$ \\
+Qwen3-32B & 32.5 & 32.0 & \textbf{41.4}$^{*}$ & 41.0 & 44.6 & \textbf{50.2}$^{*}$ & 46.0 & 50.7 & \textbf{53.0}$^{*}$ \\
+Qwen2.5-7B-Instruct & 9.6 & 9.6 & \textbf{16.8}$^{*}$ & 23.1 & 22.6 & \textbf{29.8}$^{*}$ & 29.5 & 35.0 & \textbf{35.8}$^{*}$ \\
+OLMo-2-7B-Instruct & 27.5 & 33.1 & \textbf{48.5}$^{*}$ & 38.0 & 44.1 & \textbf{55.4}$^{*}$ & 44.4 & 52.6 & \textbf{56.9}$^{*}$ \\
+Mistral-7B-Instruct & 5.2 & 9.6 & \textbf{12.4}$^{*}$ & 12.7 & 15.7 & \textbf{19.8}$^{*}$ & 19.3 & 22.0 & \textbf{24.2}$^{*}$ \\
+\bottomrule
+\end{tabular}
+\end{table}

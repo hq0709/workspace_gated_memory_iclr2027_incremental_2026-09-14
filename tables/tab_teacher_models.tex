@@ -1,0 +1,32 @@
+\begin{table}[htbp]
+\centering
+\caption{Teacher composition on the statedness-balanced pool for five models. Recall in percent, three training seeds per teacher; every other setting is held fixed. Each reduced column trains the same adapter on labels from SDA's teacher with one signal removed. Table~\ref{tab:teachermodelpaired} gives paired differences with 95\% intervals.}
+\label{tab:teachermodels}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llccc}
+\toprule
+Model & Budget & \textbf{SDA} & \shortstack{Without the\\workspace readout} & \shortstack{Without the\\output likelihood} \\
+\midrule
+Qwen3-8B & $k=1$ & \textbf{40.5} & 42.1 & 36.7 \\
+ & $k=2$ & \textbf{53.7} & 54.8 & 49.8 \\
+ & $k=3$ & \textbf{51.8} & 50.6 & 50.5 \\
+\addlinespace
+Qwen3-14B & $k=1$ & \textbf{35.5} & 36.2 & 34.3 \\
+ & $k=2$ & \textbf{44.1} & 43.4 & 42.4 \\
+ & $k=3$ & \textbf{45.3} & 45.8 & 45.2 \\
+\addlinespace
+Qwen3-32B & $k=1$ & \textbf{44.9} & 43.4 & 45.7 \\
+ & $k=2$ & \textbf{53.3} & 52.2 & 54.7 \\
+ & $k=3$ & \textbf{54.8} & 55.3 & 56.6 \\
+\addlinespace
+Qwen2.5-7B & $k=1$ & \textbf{17.4} & 16.2 & 17.6 \\
+ & $k=2$ & \textbf{33.3} & 32.2 & 32.4 \\
+ & $k=3$ & \textbf{39.1} & 37.6 & 37.3 \\
+\addlinespace
+OLMo-2-7B & $k=1$ & \textbf{49.5} & 46.2 & 45.2 \\
+ & $k=2$ & \textbf{54.7} & 53.4 & 51.1 \\
+ & $k=3$ & \textbf{55.5} & 55.5 & 55.2 \\
+\bottomrule
+\end{tabular}
+\end{table}

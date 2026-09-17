@@ -1,0 +1,18 @@
+\begin{table}[tbp]
+\centering
+\caption{Passage replacement on the standard Fresh-2 pool, Qwen3-8B, 363 episodes. Each episode is scored twice, with its own passage and with another episode's passage, keeping candidates, labels and question fixed. The SDA row and the two rows named by the signal removed from SDA's teacher are trained adapters; the two untrained rows score candidates directly. Retention is the rate at which the single admitted candidate is useful, at a budget of one stored concept. Students average three seeds. Drops are own-passage minus replaced-passage retention, with paired 95\% bootstrap intervals over episodes from 4,000 draws.}
+\label{tab:replacedpassage}
+\small
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{lccc}
+\toprule
+Admission policy & Own passage & Replaced passage & Drop \\
+\midrule
+\textbf{SDA} & 48.3 & 27.4 & $+20.9$ [$+14.3$, $+27.4$] \\
+Without the workspace readout & 42.8 & 39.9 & $+2.9$ [$-3.5$, $+9.2$] \\
+Without the output likelihood & 46.6 & 20.1 & $+26.5$ [$+20.5$, $+32.6$] \\
+Workspace readout, untrained & 26.2 & 14.3 & $+11.8$ [$+7.4$, $+16.2$] \\
+Yes/no report, untrained & 16.0 & 20.4 & $-4.4$ [$-9.9$, $+1.1$] \\
+\bottomrule
+\end{tabular}
+\end{table}

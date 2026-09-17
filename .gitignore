@@ -1,0 +1,16 @@
+# build outputs
+build_*/
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+# internal working notes and tooling
+W*_CHANGELOG.md
+W*_REPRODUCTION_NOTES.md
+STYLE_*.md
+scripts/
+reproducibility/

@@ -1,0 +1,14 @@
+\section{Limitations}
+\label{sec:limitations}
+
+The authored episodes evaluate host-supplied candidate admission for
+one later question; end-to-end long-conversation memory also requires
+proposal, revision, retrieval and deletion. Construction labels identify
+an intended bridge, not the optimal memory for every reader. Stem
+matching approximates provenance, and semantic grading uses a model
+judge. Serving measurements cover batched Qwen3-8B scoring on the
+standard pool on one A100-80GB. Full-candidate readout measurements cover Qwen3-8B on the
+standard pool. The objective ablation evaluates ranking and recall
+rather than probability calibration, with three seeds at learning rate $10^{-5}$
+and one at each smaller learning rate. The 54 model--seed--budget comparisons share episodes and measure
+consistency across settings, not 54 independent replications.

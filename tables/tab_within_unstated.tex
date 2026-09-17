@@ -1,0 +1,19 @@
+\begin{table}[tbp]
+\centering
+\caption{Useful-concept ranking restricted to unstated candidates in the pool with unstated distractors. The 345 qualifying episodes have an unstated useful concept and at least one unstated negative, averaging 5.01 candidates in the restricted set. Entries are pooled AUC; $W-V$ gives the workspace--report difference with a paired 95\% whole-episode bootstrap interval from 4,000 draws.}
+\label{tab:withinunstated}
+\small
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{lccc}
+\toprule
+Model & Yes/no report & Workspace readout & $W-V$ [95\% CI] \\
+\midrule
+Qwen3-8B & 0.881 & 0.639 & $-0.242$ [$-0.274$, $-0.211$] \\
+Qwen3-14B & 0.880 & 0.654 & $-0.226$ [$-0.257$, $-0.196$] \\
+Qwen3-32B & 0.896 & 0.697 & $-0.199$ [$-0.228$, $-0.170$] \\
+Qwen2.5-7B & 0.897 & 0.592 & $-0.305$ [$-0.340$, $-0.270$] \\
+OLMo-2-7B & 0.883 & 0.661 & $-0.221$ [$-0.252$, $-0.191$] \\
+Mistral-7B & 0.880 & 0.672 & $-0.208$ [$-0.238$, $-0.178$] \\
+\bottomrule
+\end{tabular}
+\end{table}

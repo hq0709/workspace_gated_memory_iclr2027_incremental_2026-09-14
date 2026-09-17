@@ -1,0 +1,22 @@
+\section{Implications}
+\label{sec:implications}
+
+\paragraph{For builders of agent memory systems.}
+Treat admission as a trainable decision in the memory pipeline.
+A host can attach SDA to admission requests while keeping its reader
+frozen. Qwen3-8B serves the standard pool at 242 candidates/s, making the learned
+selection available through standard serving (\S\ref{sec:deployment}).
+
+\paragraph{For builders of models.}
+Train the importance interface to use rankings available in the model's
+own computation. SDA improves development admission AUC at every tested
+Qwen3 training scale and seed while workspace AUC changes by at most
+0.0046 (App.~\ref{app:sdascale}), making prospective memory selection
+a target for self-distillation.
+
+\paragraph{For practitioners evaluating memory.}
+Compare admission policies on the same episodes, with the reader and
+budget fixed, useful-concept provenance balanced, and unstated
+distractors present. Report within-episode ranking, retention split by
+provenance, and frozen-reader recall to connect candidate scores to
+stored information and answers.

@@ -1,0 +1,21 @@
+\begin{table}[tbp]
+\centering
+\caption{Reader references and candidate proposal on 363 Fresh-2 episodes, Qwen3-8B. Recall is in percent under blind semantic grading. The reader references answer from the question alone or from the whole passage, without admission. A context-only proposer supplies 8.0 candidates per episode and includes the useful concept in 1.4\% of episodes; admission from these candidates stores two concepts, and SDA shows each seed. Host-supplied standard-pool recall for each policy is in Table~\ref{tab:baselines}.}
+\label{tab:readerproposal}
+\small
+\setlength{\tabcolsep}{8pt}
+\begin{tabular}{lc}
+\toprule
+Condition & Recall \\
+\midrule
+\multicolumn{2}{l}{\emph{Reader references}} \\
+Question only & 22.9 \\
+Whole passage & 63.9 \\
+\addlinespace
+\multicolumn{2}{l}{\emph{Admission from proposed candidates}} \\
+Yes/no importance report & 33.6 \\
+Oracle labels & 34.4 \\
+\textbf{SDA (3 seeds)} & \textbf{35.5 / 33.3 / 33.1} \\
+\bottomrule
+\end{tabular}
+\end{table}

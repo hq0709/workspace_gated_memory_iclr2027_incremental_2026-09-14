@@ -1,0 +1,23 @@
+\begin{table}[htbp]
+\centering
+\caption{SDA minus the student of the teacher with one signal removed on the statedness-balanced pool, for each of five models. Differences in recall are seed-averaged points with 95\% intervals from 4,000 paired whole-episode bootstrap draws; three seeds per teacher and model.}
+\label{tab:teachermodelpaired}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llccc}
+\toprule
+Model & Teacher & $k=1$ & $k=2$ & $k=3$ \\
+\midrule
+Qwen3-8B & Without workspace readout & $-1.6$ [$-4.0$, $+0.5$] & $-1.1$ [$-3.7$, $+1.6$] & $+1.2$ [$-1.2$, $+3.6$] \\
+ & Without output likelihood & $+3.8$ [$+1.6$, $+6.2$] & $+4.0$ [$+1.9$, $+6.1$] & $+1.3$ [$-0.6$, $+3.3$] \\
+Qwen3-14B & Without workspace readout & $-0.7$ [$-2.7$, $+1.2$] & $+0.6$ [$-0.6$, $+2.0$] & $-0.6$ [$-2.0$, $+0.9$] \\
+ & Without output likelihood & $+1.1$ [$-0.2$, $+2.5$] & $+1.6$ [$+0.1$, $+3.4$] & $+0.1$ [$-1.4$, $+1.6$] \\
+Qwen3-32B & Without workspace readout & $+1.5$ [$+0.1$, $+2.9$] & $+1.0$ [$-0.1$, $+2.2$] & $-0.5$ [$-1.8$, $+1.0$] \\
+ & Without output likelihood & $-0.8$ [$-2.9$, $+1.1$] & $-1.5$ [$-3.1$, $+0.2$] & $-1.7$ [$-3.6$, $+0.0$] \\
+Qwen2.5-7B & Without workspace readout & $+1.1$ [$-0.5$, $+2.6$] & $+1.1$ [$-0.6$, $+2.9$] & $+1.5$ [$+0.0$, $+2.9$] \\
+ & Without output likelihood & $-0.3$ [$-1.6$, $+1.1$] & $+0.9$ [$-1.1$, $+2.9$] & $+1.8$ [$+0.3$, $+3.5$] \\
+OLMo-2-7B & Without workspace readout & $+3.3$ [$+1.2$, $+5.5$] & $+1.3$ [$-0.5$, $+3.2$] & $+0.0$ [$-1.9$, $+1.8$] \\
+ & Without output likelihood & $+4.3$ [$+2.0$, $+6.7$] & $+3.6$ [$+1.2$, $+6.1$] & $+0.3$ [$-1.9$, $+2.5$] \\
+\bottomrule
+\end{tabular}
+\end{table}

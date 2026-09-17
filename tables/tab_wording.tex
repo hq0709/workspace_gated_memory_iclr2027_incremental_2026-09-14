@@ -1,0 +1,37 @@
+\begin{table}[tbp]
+\centering
+\caption{Importance wording controls on 363 Fresh-2 episodes per pool. Entries are pooled useful-concept AUC, using the untrained model's yes/no log odds. All wordings and models are shown.}
+\label{tab:wording}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llcc}
+\toprule
+Model & Importance wording & Standard pool & \shortstack{Pool with unstated\\distractors} \\
+\midrule
+Qwen3-8B & Passage only & 0.321 & 0.628 \\
+ & Unrestricted & 0.391 & 0.663 \\
+ & Implied-content wording & 0.462 & 0.692 \\
+ & Provenance-cued wording & 0.537 & 0.726 \\
+ & Two-concept budget & 0.235 & 0.591 \\
+\addlinespace
+Qwen3-32B & Passage only & 0.398 & 0.671 \\
+ & Unrestricted & 0.555 & 0.749 \\
+ & Implied-content wording & 0.656 & 0.802 \\
+ & Provenance-cued wording & 0.876 & 0.892 \\
+ & Two-concept budget & 0.327 & 0.633 \\
+\addlinespace
+OLMo-2-7B & Passage only & 0.327 & 0.630 \\
+ & Unrestricted & 0.358 & 0.643 \\
+ & Implied-content wording & 0.420 & 0.675 \\
+ & Provenance-cued wording & 0.547 & 0.721 \\
+ & Two-concept budget & 0.301 & 0.614 \\
+\addlinespace
+Mistral-7B & Passage only & 0.440 & 0.680 \\
+ & Unrestricted & 0.462 & 0.684 \\
+ & Implied-content wording & 0.518 & 0.716 \\
+ & Provenance-cued wording & 0.394 & 0.639 \\
+ & Two-concept budget & 0.336 & 0.626 \\
+\bottomrule
+\end{tabular}
+
+\end{table}

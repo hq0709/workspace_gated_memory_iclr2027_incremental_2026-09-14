@@ -1,0 +1,37 @@
+\begin{table}[tbp]
+\centering
+\caption{Admission policies on the statedness-balanced pool, Qwen3-8B, 363 episodes. Recall is in percent under blind semantic grading; trained policies average three seeds. A statedness-only rule ranks near chance (AUC 0.515 pooled, 0.516 within episodes). ConsistencyGate uses its paper's sampled form (verbatim Appendix C prompt, $K=5$, mean parsed decimals) and single-pass form (softmax over yes/no token log-probabilities). A-MAC uses its temperature-zero utility factor; novelty and recency are constant within an episode, and a five-fold cross-validated combination of utility, confidence and type-prior factors gives no gain over utility alone. Nemori's prediction-error criterion is implemented as candidate surprisal under the passage. Oracle labels prioritize the intended bridge. Table~\ref{tab:balancedpaired} gives paired differences for every row.}
+\label{tab:balancedbaselines}
+\small
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{lccc}
+\toprule
+Admission policy & $k=1$ & $k=2$ & $k=3$ \\
+\midrule
+\multicolumn{4}{l}{\emph{Importance judgments of the untrained model}} \\
+Yes/no importance report & 30.6 & 43.0 & 45.5 \\
+1--10 importance rating \citep{park2023generative} & 35.8 & 48.5 & 50.7 \\
+Implied-content wording & 31.4 & 44.6 & 47.7 \\
+\addlinespace
+\multicolumn{4}{l}{\emph{Admission criteria from published methods}} \\
+ConsistencyGate, sampled \citep{consistencygate2026} & 24.0 & 35.0 & 40.8 \\
+ConsistencyGate, single pass \citep{consistencygate2026} & 24.5 & 35.0 & 42.4 \\
+A-MAC utility \citep{amac2026} & 30.0 & 39.7 & 44.9 \\
+Prediction error \citep{nemori2026} & 16.5 & 25.9 & 30.3 \\
+\addlinespace
+\multicolumn{4}{l}{\emph{Provenance rules}} \\
+Provenance-adjusted report & 36.6 & 39.1 & 39.9 \\
+Reversed yes/no report & 23.7 & 29.8 & 33.1 \\
+Admit what the passage omits & 28.6 & 32.0 & 36.4 \\
+Omission then report & 36.9 & 39.1 & 39.9 \\
+\addlinespace
+\multicolumn{4}{l}{\emph{Internal signals used directly}} \\
+Output likelihood used directly & 34.7 & 41.9 & 41.6 \\
+Combined teacher used directly & 36.9 & 44.9 & 46.3 \\
+\midrule
+\textbf{SDA (mean of 3 seeds)} & \textbf{40.5} & \textbf{53.7} & \textbf{51.8} \\
+\addlinespace
+\refrow Oracle labels & 47.4 & 54.3 & 51.5 \\
+\bottomrule
+\end{tabular}
+\end{table}

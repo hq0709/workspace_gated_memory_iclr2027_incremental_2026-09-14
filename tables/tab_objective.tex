@@ -1,0 +1,17 @@
+\begin{table}[tbp]
+\centering
+\caption{Objective ablation on the standard pool, Qwen3-8B, $k=2$, blind semantic recall in percent. The main objective rows average three seeds at learning rate $10^{-5}$; each smaller-rate row uses one seed. Validation selects the checkpoint in every run.}
+\label{tab:objective}
+\small
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{lc}
+\toprule
+Training objective & Recall \\
+\midrule
+\textbf{SDA: token-level cross-entropy} & \textbf{50.0} \\
+Yes/no log-odds cross-entropy & 40.5 \\
+Yes/no log-odds, learning rate $2\times10^{-6}$ & 40.2 \\
+Yes/no log-odds, learning rate $5\times10^{-6}$ & 40.5 \\
+\bottomrule
+\end{tabular}
+\end{table}

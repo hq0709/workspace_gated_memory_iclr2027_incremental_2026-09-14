@@ -1,0 +1,22 @@
+\begin{table}[h]
+\centering
+\caption{Replications on two further benchmarks, measured with the same thinking-disabled yes/no report and workspace readout as the main tables. $W$ and $V$ are pooled AUCs; $W-V$ carries a paired 95\% whole-episode bootstrap interval (4,000 draws), and $^{*}$ marks intervals excluding zero. The alternate-author benchmark repeats the primary construction with episodes written by a different author model; the entity-bridge benchmark makes the useful concept a named entity among scene-object distractors.}
+\label{tab:replications}
+\small
+\begin{tabular}{llccc}
+\toprule
+Benchmark & Model & $W$ & $V$ & $W-V$ [95\% CI] \\
+\midrule
+Alternate-author & Qwen2.5-7B & 0.490 & 0.384 & +0.106 [-0.009, +0.215] \\
+ & Qwen3-8B & 0.515 & 0.220 & \textcolor{gain}{+0.295} [+0.197, +0.386]$^{*}$ \\
+ & Qwen3-14B & 0.521 & 0.267 & \textcolor{gain}{+0.254} [+0.166, +0.340]$^{*}$ \\
+ & Qwen3-32B & 0.522 & 0.275 & \textcolor{gain}{+0.247} [+0.134, +0.356]$^{*}$ \\
+ & OLMo-2-7B & 0.547 & 0.353 & \textcolor{gain}{+0.194} [+0.093, +0.297]$^{*}$ \\
+ & Mistral-7B & 0.507 & 0.294 & \textcolor{gain}{+0.213} [+0.128, +0.300]$^{*}$ \\
+\addlinespace
+Entity-bridge & Qwen2.5-0.5B & 0.569 & 0.270 & \textcolor{gain}{+0.299} [+0.211, +0.396]$^{*}$ \\
+ & Qwen2.5-7B & 0.664 & 0.881 & \textcolor{loss}{-0.217} [-0.303, -0.133]$^{*}$ \\
+ & Qwen3-8B & 0.642 & 0.719 & -0.076 [-0.189, +0.032] \\
+\bottomrule
+\end{tabular}
+\end{table}

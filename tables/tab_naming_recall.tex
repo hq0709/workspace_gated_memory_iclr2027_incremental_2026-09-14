@@ -1,0 +1,21 @@
+\begin{table}[htbp]
+\centering
+\caption{Naming-balanced pool recall across 363 episodes. Every episode names four candidates using five sentence templates; a named candidate is useful at the base rate. Recall is reported in percent under blind semantic grading at one, two and three stored concepts for six models. Report is the model's own yes/no importance report; Rating is the 1--10 importance rating \citep{park2023generative}; SDA is the mean of three seeds.}
+\label{tab:namingrecall}
+\small
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{lccccccccc}
+\toprule
+& \multicolumn{3}{c}{$k=1$} & \multicolumn{3}{c}{$k=2$} & \multicolumn{3}{c}{$k=3$} \\
+\cmidrule(lr){2-4} \cmidrule(lr){5-7} \cmidrule(lr){8-10}
+Model & Report & Rating & \textbf{SDA} & Report & Rating & \textbf{SDA} & Report & Rating & \textbf{SDA} \\
+\midrule
+Qwen3-8B & 27.6 & 35.3 & \textbf{36.4} & 42.7 & 45.2 & \textbf{46.2} & 46.3 & 47.1 & \textbf{47.0} \\
+Qwen3-14B & 21.8 & 30.3 & \textbf{33.7} & 33.3 & 36.4 & \textbf{40.8} & 41.3 & 43.2 & \textbf{41.2} \\
+Qwen3-32B & 31.7 & 30.0 & \textbf{41.1} & 43.2 & 43.0 & \textbf{48.9} & 50.7 & 51.8 & \textbf{53.4} \\
+Qwen2.5-7B & 9.4 & 11.6 & \textbf{13.3} & 21.2 & 25.6 & \textbf{28.3} & 28.6 & 33.3 & \textbf{33.0} \\
+OLMo-2-7B & 24.8 & 30.6 & \textbf{37.0} & 39.4 & 43.0 & \textbf{46.7} & 44.6 & 52.1 & \textbf{49.5} \\
+Mistral-7B & 4.7 & 5.8 & \textbf{9.9} & 9.6 & 13.2 & \textbf{16.0} & 19.8 & 21.5 & \textbf{23.7} \\
+\bottomrule
+\end{tabular}
+\end{table}

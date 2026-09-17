@@ -1,0 +1,33 @@
+\begin{table}[htbp]
+\centering
+\caption{Paired SDA minus baseline recall differences on the statedness-balanced pool, Qwen3-8B, for every row of Table~\ref{tab:balancedbaselines}, which cites each published method (1--10 importance rating \citep{park2023generative}; ConsistencyGate \citep{consistencygate2026}; A-MAC \citep{amac2026}; prediction error \citep{nemori2026}). Entries average three seeds and give 95\% intervals from 4,000 paired bootstrap draws over 363 episodes. Differences are in percentage points.}
+\label{tab:balancedpaired}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{lccc}
+\toprule
+Baseline & $k=1$ & $k=2$ & $k=3$ \\
+\midrule
+\multicolumn{4}{l}{\emph{Importance judgments of the untrained model}} \\
+Yes/no importance report & $+9.9$ [$+6.1$, $+13.8$] & $+10.7$ [$+7.0$, $+14.6$] & $+6.3$ [$+2.9$, $+9.7$] \\
+1--10 importance rating & $+4.7$ [$+1.0$, $+8.3$] & $+5.2$ [$+1.7$, $+8.8$] & $+1.1$ [$-2.4$, $+4.6$] \\
+Implied-content wording & $+9.1$ [$+5.4$, $+12.9$] & $+9.1$ [$+5.7$, $+12.7$] & $+4.1$ [$+1.0$, $+7.3$] \\
+\addlinespace
+\multicolumn{4}{l}{\emph{Admission criteria from published methods}} \\
+ConsistencyGate, sampled & $+16.5$ [$+11.6$, $+21.5$] & $+18.7$ [$+14.1$, $+23.6$] & $+11.0$ [$+6.3$, $+15.5$] \\
+ConsistencyGate, single pass & $+16.0$ [$+10.8$, $+21.1$] & $+18.7$ [$+14.0$, $+23.5$] & $+9.4$ [$+4.8$, $+14.1$] \\
+A-MAC utility & $+10.5$ [$+5.6$, $+15.3$] & $+14.1$ [$+9.3$, $+19.0$] & $+6.9$ [$+2.6$, $+11.1$] \\
+Prediction error & $+24.0$ [$+18.9$, $+29.1$] & $+27.8$ [$+22.5$, $+33.2$] & $+21.5$ [$+16.4$, $+26.6$] \\
+\addlinespace
+\multicolumn{4}{l}{\emph{Provenance rules}} \\
+Provenance-adjusted report & $+3.9$ [$-0.9$, $+8.5$] & $+14.6$ [$+9.5$, $+19.8$] & $+11.8$ [$+6.4$, $+17.0$] \\
+Reversed yes/no report & $+16.8$ [$+11.5$, $+22.2$] & $+24.0$ [$+18.5$, $+29.5$] & $+18.7$ [$+13.2$, $+24.3$] \\
+Admit what the passage omits & $+11.8$ [$+6.4$, $+17.3$] & $+21.8$ [$+16.3$, $+27.2$] & $+15.4$ [$+10.0$, $+21.1$] \\
+Omission then report & $+3.6$ [$-1.0$, $+8.6$] & $+14.6$ [$+9.4$, $+19.7$] & $+11.8$ [$+6.5$, $+17.2$] \\
+\addlinespace
+\multicolumn{4}{l}{\emph{Internal signals used directly}} \\
+Output likelihood used directly & $+5.8$ [$+0.6$, $+10.7$] & $+11.8$ [$+6.7$, $+16.9$] & $+10.2$ [$+5.3$, $+15.1$] \\
+Combined teacher used directly & $+3.6$ [$-1.2$, $+8.2$] & $+8.8$ [$+3.9$, $+13.9$] & $+5.5$ [$+0.9$, $+10.0$] \\
+\bottomrule
+\end{tabular}
+\end{table}

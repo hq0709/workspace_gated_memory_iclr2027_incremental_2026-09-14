@@ -1,0 +1,19 @@
+\begin{table}[tbp]
+\centering
+\caption{Recall on the statedness-balanced pool: 363 episodes, 7.93 candidates per episode, with alternating inferred- and stated-concept conditions. Recall in percent at $k=2$, blind semantic grading; all three training seeds are shown. The 1--10 importance rating \citep{park2023generative} is the strongest untrained policy on this pool for Qwen3-8B. Bold identifies SDA. $p$ bounds the exact McNemar test against each model's own yes/no report.}
+\label{tab:balanced}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lcccccc}
+\toprule
+Model & \shortstack{Yes/no\\report} & \shortstack{1--10\\rating} & \shortstack{Workspace\\readout} & \textbf{SDA (3 seeds)} & $p$ vs.\ report & \shortstack{Oracle\\labels} \\
+\midrule
+Qwen3-8B & 43.0 & 48.5 & 43.0 & \textbf{53.7 / 54.8 / 52.6} & $\leq$ $10^{-5}$ & 54.3 \\
+Qwen3-14B & 35.3 & 40.0 & 36.6 & \textbf{44.9 / 44.1 / 43.2} & $\leq$ $10^{-4}$ & 46.6 \\
+Qwen3-32B & 45.7 & 43.5 & 46.0 & \textbf{52.1 / 54.3 / 53.4} & $\leq$ $10^{-3}$ & 54.8 \\
+Qwen2.5-7B & 23.4 & 26.4 & 24.2 & \textbf{35.3 / 30.6 / 34.2} & $\leq$ $10^{-3}$ & 31.7 \\
+OLMo-2-7B & 40.5 & 47.7 & 45.2 & \textbf{54.8 / 54.5 / 54.8} & $\leq$ $10^{-7}$ & 54.8 \\
+Mistral-7B & 12.7 & 16.5 & 16.2 & \textbf{19.3 / 20.4 / 20.1} & $\leq$ $10^{-3}$ & 16.8 \\
+\bottomrule
+\end{tabular}
+\end{table}
