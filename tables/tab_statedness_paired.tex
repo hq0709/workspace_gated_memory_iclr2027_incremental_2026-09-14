@@ -1,6 +1,12 @@
-\begin{table}[htbp]
+\begin{table*}[t]
 \centering
-\caption{Paired SDA minus baseline recall differences on the statedness-balanced pool, Qwen3-8B, for every row of Table~\ref{tab:balancedbaselines}, which cites each published method (1--10 importance rating \citep{park2023generative}; ConsistencyGate \citep{consistencygate2026}; A-MAC \citep{amac2026}; prediction error \citep{nemori2026}). Entries average three seeds and give 95\% intervals from 4,000 paired bootstrap draws over 363 episodes. Differences are in percentage points.}
+\caption{Paired SDA minus baseline recall differences for every row of
+Table~\ref{tab:balancedbaselines}, statedness-balanced pool, Qwen3-8B.
+Three-seed means in percentage points; 95\% intervals from 4,000
+paired bootstrap draws over 363 episodes. Published methods:
+1--10 importance rating \citep{park2023generative}; ConsistencyGate
+\citep{consistencygate2026}; A-MAC \citep{amac2026}; prediction error
+\citep{nemori2026}.}
 \label{tab:balancedpaired}
 \footnotesize
 \setlength{\tabcolsep}{3pt}
@@ -30,4 +36,4 @@ Output likelihood used directly & $+5.8$ [$+0.6$, $+10.7$] & $+11.8$ [$+6.7$, $+
 Combined teacher used directly & $+3.6$ [$-1.2$, $+8.2$] & $+8.8$ [$+3.9$, $+13.9$] & $+5.5$ [$+0.9$, $+10.0$] \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{table*}

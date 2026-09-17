@@ -1,23 +1,24 @@
-\begin{table}[H]
+\begin{table}[tbp]
 \centering
-\caption{Selected corrected-v3 measurement grid. Each cell is $W/V$ AUC.
-These rows cover the four capable-scale cross-family models and the dense
-Qwen3 ladder used in the main text.}
+\caption{Workspace and verbal ranking by provenance regime for the checkpoints discussed in the main text. Each entry is the pooled item-level AUC of the workspace readout $W$ or the verbal report $V$ (log-space yes-versus-no score through the chat template) for recovering load-bearing candidates. The first block holds three capable-scale instruct checkpoints from other families; the second is the dense Qwen3 ladder, whose 8B row is the fourth cross-family model. All 23 checkpoints appear in Table~\ref{tab:appA1}.}
 \label{tab:master}
-\scriptsize
-\setlength{\tabcolsep}{4pt}
-\begin{tabular}{lcccc}
+\footnotesize
+\setlength{\tabcolsep}{3.8pt}
+\begin{tabular}{l*{8}{c}}
 \toprule
-Model & Explicit & Evoked & Decoupled & Compositional \\
+ & \multicolumn{2}{c}{Explicit} & \multicolumn{2}{c}{Evoked} & \multicolumn{2}{c}{Decoupled} & \multicolumn{2}{c}{Compositional} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}\cmidrule(lr){8-9}
+Model & $W$ & $V$ & $W$ & $V$ & $W$ & $V$ & $W$ & $V$ \\
 \midrule
-\updatedrow Qwen2.5-7B-I & .5376/.6792 & .6341/.5856 & .6423/.4897 & .5156/.3472 \\
-\updatedrow Qwen3-1.7B & .4818/.5951 & .5409/.4391 & .5607/.3174 & .4162/.2811 \\
-\updatedrow Qwen3-4B & .5090/.4812 & .5744/.4966 & .5291/.4862 & .5050/.4272 \\
-\updatedrow Qwen3-8B & .5090/.5358 & .6204/.4521 & .6545/.4020 & .5466/.4119 \\
-\updatedrow Qwen3-14B & .5083/.4454 & .6390/.3993 & .6677/.3480 & .5086/.3216 \\
-\updatedrow Qwen3-32B & .5084/.5362 & .6139/.4258 & .6919/.3366 & .5532/.3315 \\
-\updatedrow OLMo-2-7B-I & .4938/.6231 & .6688/.5398 & .6664/.3529 & .5341/.2944 \\
-\updatedrow Mistral-7B-I & .5324/.6191 & .6687/.5777 & .6713/.4700 & .5962/.3242 \\
+Qwen2.5-7B-Instruct & .5376 & .6792 & .6341 & .5856 & .6423 & .4897 & .5156 & .3472 \\
+OLMo-2-7B-Instruct & .4938 & .6231 & .6688 & .5398 & .6664 & .3529 & .5341 & .2944 \\
+Mistral-7B-Instruct-v0.3 & .5324 & .6191 & .6687 & .5777 & .6713 & .4700 & .5962 & .3242 \\
+\midrule
+Qwen3-1.7B & .4818 & .5917 & .5409 & .3895 & .5607 & .1961 & .4162 & .1812 \\
+Qwen3-4B & .5090 & .6496 & .5744 & .4798 & .5291 & .3967 & .5050 & .2600 \\
+Qwen3-8B & .5090 & .7100 & .6204 & .4534 & .6545 & .3872 & .5466 & .2079 \\
+Qwen3-14B & .5083 & .7400 & .6390 & .5219 & .6677 & .4271 & .5086 & .2163 \\
+Qwen3-32B & .5084 & .7480 & .6139 & .5511 & .6919 & .4782 & .5532 & .2774 \\
 \bottomrule
 \end{tabular}
 \end{table}

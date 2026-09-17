@@ -1,24 +1,44 @@
 \begin{table}[h]
 \centering
-\caption{OLMo-2-0425-1B post-training stages. The workspace channel never improves
-(base is highest on Evoked); the verbal channel is miscalibrated already in the raw-probed
-base model and becomes more confidently wrong through the chat template.}
+\caption{OLMo-2 released post-training stages. $W$ with 95\% whole-episode bootstrap CI (4,000 draws). $V$: yes/no importance report, the same definition used throughout the paper, defined only for post-trained stages (the base tokenizers ship no chat template). The grid has no DPO checkpoint for OLMo-2-7B; Instruct is the RLVR stage.}
 \label{tab:appA5}
-\small
-\begin{tabular}{llccc}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lllcc}
 \toprule
-Benchmark & Stage & $W$ [95\% CI] & $V$ (chat) & $V_{raw}$ \\
+Benchmark & Model & Stage & $W$ [95\% CI] & $V$ \\
 \midrule
-\refrow Evoked & BASE & 0.631 [0.565, 0.696] & --- & 0.524 \\
- & SFT & 0.599 [0.528, 0.665] & 0.508 & 0.484 \\
- & DPO & 0.576 [0.502, 0.644] & 0.492 & 0.498 \\
- & RLVR & 0.580 [0.506, 0.648] & 0.487 & 0.510 \\
+Explicit & OLMo-2-1B & Base & 0.501 [0.441, 0.559] & --- \\
+ &  & SFT & 0.541 [0.478, 0.599] & 0.525 \\
+ &  & DPO & 0.537 [0.477, 0.595] & 0.556 \\
+ &  & RLVR & 0.535 [0.475, 0.592] & 0.555 \\
+ & OLMo-2-7B & Base & 0.481 [0.420, 0.541] & --- \\
+ &  & SFT & 0.496 [0.437, 0.557] & 0.583 \\
+ &  & RLVR & 0.494 [0.434, 0.558] & 0.623 \\
 \addlinespace
-\refrow Compositional & BASE & 0.513 [0.421, 0.611] & --- & 0.445 \\
- & SFT & 0.477 [0.384, 0.573] & 0.302 & 0.313 \\
- & DPO & 0.475 [0.380, 0.577] & 0.277 & 0.314 \\
- & RLVR & 0.477 [0.381, 0.576] & 0.267 & 0.331 \\
+Evoked & OLMo-2-1B & Base & 0.631 [0.563, 0.695] & --- \\
+ &  & SFT & 0.597 [0.530, 0.666] & 0.502 \\
+ &  & DPO & 0.576 [0.508, 0.643] & 0.497 \\
+ &  & RLVR & 0.579 [0.513, 0.646] & 0.490 \\
+ & OLMo-2-7B & Base & 0.674 [0.610, 0.732] & --- \\
+ &  & SFT & 0.683 [0.617, 0.746] & 0.537 \\
+ &  & RLVR & 0.669 [0.601, 0.732] & 0.540 \\
 \addlinespace
+Decoupled & OLMo-2-1B & Base & 0.600 [0.533, 0.666] & --- \\
+ &  & SFT & 0.572 [0.506, 0.638] & 0.372 \\
+ &  & DPO & 0.580 [0.515, 0.647] & 0.380 \\
+ &  & RLVR & 0.580 [0.514, 0.646] & 0.328 \\
+ & OLMo-2-7B & Base & 0.683 [0.619, 0.746] & --- \\
+ &  & SFT & 0.664 [0.596, 0.731] & 0.332 \\
+ &  & RLVR & 0.666 [0.597, 0.733] & 0.353 \\
+\addlinespace
+Compositional & OLMo-2-1B & Base & 0.511 [0.428, 0.594] & --- \\
+ &  & SFT & 0.476 [0.393, 0.561] & 0.306 \\
+ &  & DPO & 0.476 [0.394, 0.561] & 0.279 \\
+ &  & RLVR & 0.478 [0.396, 0.564] & 0.255 \\
+ & OLMo-2-7B & Base & 0.545 [0.462, 0.631] & --- \\
+ &  & SFT & 0.531 [0.436, 0.627] & 0.292 \\
+ &  & RLVR & 0.534 [0.440, 0.627] & 0.294 \\
 \bottomrule
 \end{tabular}
 \end{table}

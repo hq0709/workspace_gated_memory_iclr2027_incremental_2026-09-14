@@ -357,9 +357,10 @@ references. Bold entries identify SDA throughout the comparison tables.
 The boxes below reproduce the natural-language instructions. Italic
 phrases stand for the supplied passage, candidate, memory list or
 question. Each is a user message rendered with the model's chat template
-and assistant generation prefix; Qwen3 thinking is disabled.
+and assistant generation prefix; Qwen3 thinking is disabled. SDA and the
+report baseline share the admission prompt.
 
-\begin{sdabox}{Admission prompt, shared by SDA and the report baseline}
+\begin{sdabox}{Admission prompt}
 \emph{Passage}
 
 Based only on the passage above, is the concept ``\emph{candidate
@@ -397,10 +398,11 @@ Let $a_r$ be the complete answer string for rating $r$, and let $u_R(c,x)$
 be this prompt. Each answer receives its full sequence probability,
 multiplying the conditional probabilities of its tokens. The score is
 \begin{equation}
-R(c;x)=\sum_{r=1}^{10}r\,\pi_r(c;x),
-\qquad
-\pi_r(c;x)=\frac{p_{\mathcal M}(a_r\mid u_R(c,x))}
+\begin{split}
+R(c;x)&=\sum_{r=1}^{10}r\,\pi_r(c;x),\\
+\pi_r(c;x)&=\frac{p_{\mathcal M}(a_r\mid u_R(c,x))}
 {\sum_{j=1}^{10}p_{\mathcal M}(a_j\mid u_R(c,x))}.
+\end{split}
 \label{eq:rating}
 \end{equation}
 A rating represented by multiple tokens is scored as a complete answer.
@@ -503,7 +505,6 @@ Base and adapter scores are
 subset \citep{cobbe2021gsm8k}. The deployed interface attaches the
 adapter to admission requests.
 
-\input{tables/tab_adapter_capability}
 
 \section{Recall across Evaluation Batteries and Pools}
 \label{app:recall}
@@ -655,10 +656,12 @@ the same 363 positives. Useful-concept AUC against the added negatives
 is 0.889, compared with 0.322 against the original negatives.
 The pooled AUC is therefore the weighted average
 \begin{equation}
+\begin{split}
 \mathrm{AUC}_{\mathrm{expanded}}
-=\frac{1244}{2694}\,\mathrm{AUC}_{\mathrm{original}}
-+\frac{1450}{2694}\,\mathrm{AUC}_{\mathrm{added}}
-=0.627.
+&=\frac{1244}{2694}\,\mathrm{AUC}_{\mathrm{original}}\\
+&\quad+\frac{1450}{2694}\,\mathrm{AUC}_{\mathrm{added}}\\
+&=0.627.
+\end{split}
 \label{eq:pooldecomposition}
 \end{equation}
 The added comparisons account for 53.8\% of all positive--negative
@@ -705,8 +708,10 @@ implied-content wording adds recall beyond the wording change alone.
 
 For wording $j$ with prompt $u_j(c,x)$, the scorer is
 \begin{equation}
-s_j(c;x)=\log\!\sum_{t\in Y_{\mathrm{word}}}p_{\mathcal M}(t\mid u_j(c,x))
--\log\!\sum_{t\in N_{\mathrm{word}}}p_{\mathcal M}(t\mid u_j(c,x)).
+\begin{split}
+s_j(c;x)={}&\log\!\sum_{t\in Y_{\mathrm{word}}}p_{\mathcal M}(t\mid u_j(c,x))\\
+&-\log\!\sum_{t\in N_{\mathrm{word}}}p_{\mathcal M}(t\mid u_j(c,x)).
+\end{split}
 \label{eq:wordingscore}
 \end{equation}
 The affirmative set contains the distinct token identities of
@@ -927,15 +932,14 @@ On the standard Fresh-2 pool with Qwen3-8B, 56\% of candidates span
 multiple tokens. Averaging over all candidate tokens improves ranking
 over the matched first-token readout (Table~\ref{tab:candidatereadout}).
 
-\begin{table}[htbp]
+\begin{table*}[t]
 \centering\small
 \caption{Candidate readout comparison on the standard pool, Qwen3-8B,
-363 episodes and 1,607 candidates. Each readout takes its own maximum
-over surface forms. The first-token readout is recomputed in the same
-measurement call as the two full-candidate aggregations.}
+363 episodes and 1,607 candidates. Entries are pooled and
+within-episode AUCs.}
 \label{tab:candidatereadout}
 \input{tables/tab_candidate_readout}
-\end{table}
+\end{table*}
 
 \paragraph{Teacher composition on the standard pool.}
 On the standard Fresh-2 pool (Table~\ref{tab:sdaablation}), the teacher without the workspace readout reaches 50.3\%, a paired

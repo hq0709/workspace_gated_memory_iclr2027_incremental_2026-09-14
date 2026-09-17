@@ -1,15 +1,6 @@
 \begin{table}[h]
 \centering
-\caption{Generator- and family-independence replications. The $W{-}V$ dissociation
-survives an independent benchmark generator (gpt-4o; note the absolute $W$ level
-is generator-dependent: gpt-4o's bridges are weakly evoked) and a third model
-family (Mistral-7B). The Explicit rows complete the regime map across
-families: on stated content the sign flips and the verbal report beats the
-workspace readout in every family tested. The Decoupled-G3 rows (a third
-generator, gpt-5.6, whose episodes carry several convergent cues per bridge)
-show the two channels' stability profiles: the workspace readout stays in a
-narrow band across all three generators while the verbal report swings from
-anti-calibrated to well-calibrated with generator and scale.}
+\caption{Generator and family replications. Primary-generator rows use the measurements in Table~\ref{tab:appA1}; G2 and G3 use their respective generator benchmarks. $W$ and verbal scores are pooled AUCs: verbal columns use log-space $V$ for primary-generator rows and $V_\epsilon$ for G2/G3. Intervals are paired whole-episode bootstrap contrasts; $^{*}$ marks 95\% intervals excluding zero. The Explicit contrast favors verbal ranking, significantly for OLMo-2-7B; the Mistral interval includes zero. On Decoupled-G3, the 7B verbal reporter succeeds on episodes with several convergent cues.}
 \label{tab:appA10}
 \small
 \begin{tabular}{lccc}
@@ -20,10 +11,10 @@ Evoked-G2 (gpt-4o), Qwen-0.5B-I & 0.486 & 0.282 & \textcolor{gain}{+0.204} [+0.0
 Evoked-G2 (gpt-4o), Qwen-3B-I & 0.488 & 0.223 & \textcolor{gain}{+0.265} [+0.160, +0.365]$^{*}$ \\
 Evoked-G2 (gpt-4o), Qwen-7B-I & 0.490 & 0.381 & +0.109 [-0.004, +0.215] \\
 Evoked-G2 (gpt-4o), OLMo-1B (RLVR) & 0.512 & 0.382 & \textcolor{gain}{+0.130} [+0.026, +0.238]$^{*}$ \\
-Decoupled, Mistral-7B-I & 0.672 & 0.481 & \textcolor{gain}{+0.191} [+0.089, +0.299]$^{*}$ \\
-Compositional, Mistral-7B-I & 0.596 & 0.322 & \textcolor{gain}{+0.274} [+0.172, +0.372]$^{*}$ \\
-Explicit, Mistral-7B-I & 0.532 & 0.622 & \textcolor{loss}{-0.089} [-0.175, -0.009]$^{*}$ \\
-Explicit, OLMo-2-7B-I & 0.492 & 0.622 & \textcolor{loss}{-0.129} [-0.209, -0.052]$^{*}$ \\
+Decoupled, Mistral-7B-I & 0.671 & 0.470 & \textcolor{gain}{+0.201} [+0.100, +0.301]$^{*}$ \\
+Compositional, Mistral-7B-I & 0.596 & 0.324 & \textcolor{gain}{+0.272} [+0.184, +0.362]$^{*}$ \\
+Explicit, Mistral-7B-I & 0.532 & 0.619 & -0.087 [-0.178, +0.002] \\
+Explicit, OLMo-2-7B-I & 0.494 & 0.623 & \textcolor{loss}{-0.129} [-0.211, -0.046]$^{*}$ \\
 Decoupled-G3 (gpt-5.6), Qwen-0.5B-I & 0.570 & 0.261 & \textcolor{gain}{+0.309} [+0.198, +0.419]$^{*}$ \\
 Decoupled-G3 (gpt-5.6), Qwen-7B-I & 0.664 & 0.878 & \textcolor{loss}{-0.213} [-0.311, -0.116]$^{*}$ \\
 \bottomrule

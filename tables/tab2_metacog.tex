@@ -1,21 +1,21 @@
 \begin{table}[t]
 \centering
-\caption{\textbf{Metacognitive alignment}, two model families: ${\sim}$500
-fine-tuning steps on yes/no labels derived from each model's own workspace
-ranking, using disjoint benchmarks (Evoked, Explicit, Evoked-G2). The verbal
-channel is repaired on fully held-out benchmarks (+0.28--0.39 AUC) while the
-workspace channel is untouched, full-context QA is statistically unchanged,
-and general capability (MMLU, GSM8K, ARC) is unaffected (Table~\ref{tab:geneval})
-(App.~\ref{app:metacog}). For the Qwen-0.5B Compositional row the repaired
-reporter converges to its teacher's (chance) level; where generation-time
-computation adds signal (OLMo Compositional) the student can exceed the
-static teacher (\S\ref{sec:metacog}).}
+\caption{\textbf{Reporter distillation} (metacognitive alignment), two model families:
+${\sim}$500 fine-tuning steps on yes/no labels from each model's workspace
+ranking, using Explicit, Evoked, and Evoked-G2. Held-out verbal
+$V_\epsilon$ AUC gains are $+0.28$--$0.39$, with small measured workspace
+changes and no significant paired full-context QA change detected.
+General-task changes are within $\pm0.012$ on MMLU and GSM8K in both
+families; ARC gains at Qwen-0.5B are $+0.01$ to $+0.03$
+(Table~\ref{tab:geneval}). The Qwen-0.5B Compositional teacher and reporter
+remain near chance; the OLMo Compositional reporter exceeds its static
+teacher (App.~\ref{app:metacog}).}
 \label{tab:metacog}
 \small
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{llcccc}
 \toprule
-\multirow{2}{*}{Model} & \multirow{2}{*}{Held-out benchmark} & \multicolumn{2}{c}{Verbal report $V$ (AUC)} & \multicolumn{2}{c}{Workspace $W$} \\
+\multirow{2}{*}{Model} & \multirow{2}{*}{Held-out benchmark} & \multicolumn{2}{c}{Verbal report $V_\epsilon$ (AUC)} & \multicolumn{2}{c}{Workspace $W$} \\
 \cmidrule(lr){3-4} \cmidrule(lr){5-6}
  & & before & after & before & after \\
 \midrule

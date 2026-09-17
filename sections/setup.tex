@@ -15,11 +15,11 @@ Within-episode area under the receiver operating characteristic curve
 with half credit for ties, averaged across episodes. For useful concept
 $b_i$ in episode $i$, score $s$ and $n$ episodes,
 \begin{equation}
-A_{\mathrm{episode}}
-=\frac{1}{n}\sum_{i=1}^{n}\frac{1}{|C_i|-1}
-\sum_{c\in C_i\setminus\{b_i\}}
-\left[\mathbf{1}\{s(b_i)>s(c)\}
-+\tfrac12\mathbf{1}\{s(b_i)=s(c)\}\right].
+\begin{split}
+A_{\mathrm{episode}}={}&\frac{1}{n}\sum_{i=1}^{n}\frac{1}{|C_i|-1}\\
+&\times\sum_{c\in C_i\setminus\{b_i\}}\Big[\mathbf{1}\{s(b_i)>s(c)\}\\
+&\qquad\quad+\tfrac12\,\mathbf{1}\{s(b_i)=s(c)\}\Big].
+\end{split}
 \label{eq:episodeauc}
 \end{equation}
 It measures the ordering among concepts that actually compete for memory. Pooled AUC
@@ -43,9 +43,9 @@ reader and the other stored concepts. An oracle-label policy prioritizes
 the intended bridge and provides a reference for this construction.
 
 \paragraph{Downstream recall.}
-Recall is the fraction of future questions answered correctly from
-stored concepts by the frozen reader. It measures the downstream effect
-of admission for a fixed reader. A policy can rank the bridge
+Recall measures the downstream effect of admission for a fixed reader:
+it is the fraction of future questions answered correctly from stored
+concepts by the frozen reader. A policy can rank the bridge
 above most distractors yet drop it at a small budget; a retained bridge
 can still lead to an incorrect answer. Reporting all three outcomes
 locates these distinct transitions from score to memory to answer.

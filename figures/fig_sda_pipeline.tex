@@ -1,4 +1,4 @@
-\begin{figure}[htbp]
+\begin{figure*}[t]
 \centering
 \begin{tikzpicture}[
   font=\small,
@@ -41,11 +41,9 @@
 \draw[arr] (sda) -- (memory);
 \draw[arr] (memory) -- (reader);
 \end{tikzpicture}
-\caption{\textbf{SDA training and deployment.} (a) Both the context
-$x$ and the candidate set $C$ enter the frozen teacher. Workspace and
-likelihood ranks produce top-2 labels for training the admission adapter.
-(b) The host supplies context and candidates to the trained importance
-prompt, stores the top-$k$ concepts, and later queries its frozen reader.
-The future question enters only at recall.}
+\caption{\textbf{SDA training and deployment.} (a) The frozen teacher labels
+the top-2 candidates from context $x$ and candidate set $C$.
+(b) The trained adapter selects the top-$k$ concepts for the frozen
+reader; the future question enters at recall.}
 \label{fig:sda}
-\end{figure}
+\end{figure*}

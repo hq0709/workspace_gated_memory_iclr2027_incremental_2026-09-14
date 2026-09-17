@@ -1,6 +1,10 @@
-\begin{table}[htbp]
+\begin{table*}[t]
 \centering
-\caption{Naming-balanced pool recall across 363 episodes. Every episode names four candidates using five sentence templates; a named candidate is useful at the base rate. Recall is reported in percent under blind semantic grading at one, two and three stored concepts for six models. Report is the model's own yes/no importance report; Rating is the 1--10 importance rating \citep{park2023generative}; SDA is the mean of three seeds.}
+\caption{Recall on the naming-balanced pool, 363 episodes and six models,
+at one, two and three stored concepts; blind semantic grading,
+percent. Report: each model's own yes/no importance report; Rating:
+1--10 importance rating \citep{park2023generative}; SDA: mean of
+three seeds.}
 \label{tab:namingrecall}
 \small
 \setlength{\tabcolsep}{3.5pt}
@@ -18,4 +22,4 @@ OLMo-2-7B & 24.8 & 30.6 & \textbf{37.0} & 39.4 & 43.0 & \textbf{46.7} & 44.6 & 5
 Mistral-7B & 4.7 & 5.8 & \textbf{9.9} & 9.6 & 13.2 & \textbf{16.0} & 19.8 & 21.5 & \textbf{23.7} \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{table*}

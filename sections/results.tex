@@ -125,15 +125,14 @@ two stored concepts ($[+0.8,+10.8]$) on these inferred-condition
 episodes. Differences average three seeds with 95\% bootstrap intervals
 over episodes from 4,000 draws.
 
-Useful-concept retention carries the recall gain. On the standard
-pool, Qwen3-8B within-episode AUC rises from 0.326 to 0.679--0.688
-and retention from 29.8\% to 68.6--69.7\%
-(Table~\ref{tab:episodemetrics}). Replaying SDA's two selections on
-the 249 episodes where it retains the bridge, then replacing that
-bridge with its next-ranked candidate, drops recall from 54.6\% to
-37.8\%: a paired 16.9-point decrease, with 59 answers lost against
-17 gained (exact McNemar $p=1.4\times10^{-6}$). The retained concept
-supplies information the frozen reader uses.
+Useful-concept retention carries the recall gain by supplying
+information the frozen reader uses. On the standard pool, Qwen3-8B
+within-episode AUC rises from 0.326 to 0.679--0.688 and retention from
+29.8\% to 68.6--69.7\% (Table~\ref{tab:episodemetrics}). Replaying SDA's
+two selections on the 249 episodes where it retains the bridge, then
+replacing that bridge with its next-ranked candidate, drops recall from
+54.6\% to 37.8\%: a paired 16.9-point decrease, with 59 answers lost
+against 17 gained (exact McNemar $p=1.4\times10^{-6}$).
 
 Across six models on the naming-balanced pool, SDA exceeds the model's
 own yes/no report in 17 of 18 model--budget cells, and the remaining cell
@@ -162,9 +161,9 @@ in App.~\ref{app:prompts}).
 \subsection{Recall gains persist with unstated distractors}
 \label{sec:budgets}
 
-SDA improves recall when the useful inference competes with other
-unstated concepts. All 54 model--seed--budget comparisons exceed their
-model's report on the pool with unstated distractors
+SDA improves recall over each model's report in all 54
+model--seed--budget comparisons on the pool with unstated distractors,
+where the useful inference competes with other unstated concepts
 (Table~\ref{tab:stress}). On Qwen3-8B, direct output likelihood reaches
 30.6/39.1/40.5\% recall at $k=1,2,3$, against SDA's
 37.6/50.7/51.6\%; on the enlarged pool, the corresponding recalls
@@ -241,19 +240,17 @@ versus 45.7\% for the combined teacher used directly and 40.2--40.5\%
 for the validation-selected log-odds objectives
 (Tables~\ref{tab:sdaablation} and~\ref{tab:objective}).
 
-Training the importance interface adds recall beyond changing its
-wording. The \emph{implied-content wording} is the strongest measured
-Qwen3-8B prompt baseline that permits inferences while leaving the
-useful concept's provenance unspecified. It raises standard-pool report
-AUC from 0.321 to 0.462 and recall at $k=1,2,3$ from
-28.1/40.8/41.6\% to 29.2/41.3/44.9\%. Holding this wording fixed
-for training and evaluation, SDA reaches 37.1/50.7/51.0\%, exceeding
-the prompt baseline at every budget (exact McNemar
-$p\leq6.9\times10^{-5}$; Table~\ref{tab:wordingdistill}).
+A matched wording comparison isolates the recall gain that training the
+importance interface adds beyond changing its wording. The
+\emph{implied-content wording} is the strongest measured Qwen3-8B prompt
+baseline that permits inferences while leaving the useful concept's
+provenance unspecified. It raises standard-pool report AUC from 0.321 to
+0.462 and recall at $k=1,2,3$ from 28.1/40.8/41.6\% to 29.2/41.3/44.9\%.
+Holding this wording fixed for training and evaluation, SDA reaches
+37.1/50.7/51.0\%, exceeding the prompt baseline at every budget (exact
+McNemar $p\leq6.9\times10^{-5}$; Table~\ref{tab:wordingdistill}).
 Passage-only wording SDA reaches 37.6/50.0/52.2\%
-(Tables~\ref{tab:baselines} and~\ref{tab:paired}). The matched wording
-comparison isolates the additional gain from learning the admission
-judgment.
+(Tables~\ref{tab:baselines} and~\ref{tab:paired}).
 
 With teacher, episodes, adapter and step budget fixed, validation
 within-episode admission AUC starts at 0.657 and reaches 0.824 at

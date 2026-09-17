@@ -1,6 +1,10 @@
-\begin{table}[t]
+\begin{table*}[t]
 \centering
-\caption{Recall accuracy (\%) of budgeted memory ($k{=}2$) on Qwen3-8B. The admission policy sees only the context and the candidate; a frozen reader answers the future question from the stored concepts. Development batteries (left) and two frozen fresh Decoupled batteries (right); Fresh-2 follows configuration selection and a documented prospective freeze on 15 September 2026. SDA: mean\,$\pm$\,SD over three seeds. Answers graded by a blind semantic judge. $^{*}$every seed exceeds the yes/no report with exact McNemar $p<0.05$. Rating: the 1--10 importance rating \citep{park2023generative}.}
+\caption{Recall accuracy (\%) at $k{=}2$ on Qwen3-8B, blind semantic grading.
+Development batteries (left); two frozen fresh Decoupled batteries
+(right). SDA: mean\,$\pm$\,SD over three seeds. $^{*}$every seed
+exceeds the yes/no report with exact McNemar $p<0.05$. Rating: 1--10
+importance rating \citep{park2023generative}.}
 \label{tab:sdamain}
 \small
 \setlength{\tabcolsep}{3pt}
@@ -18,4 +22,4 @@ Yes/no importance report & 35.3 & 46.2 & 35.3 & 36.8 & 34.8 & 40.8 \\
 \refrow Oracle labels & 51.5 & 65.4 & 51.5 & 51.5 & 50.0 & 54.3 \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{table*}

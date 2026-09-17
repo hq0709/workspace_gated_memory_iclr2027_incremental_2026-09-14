@@ -1,6 +1,12 @@
-\begin{table}[tbp]
+\begin{table*}[t]
 \centering
-\caption{Passage replacement on the standard Fresh-2 pool, Qwen3-8B, 363 episodes. Each episode is scored twice, with its own passage and with another episode's passage, keeping candidates, labels and question fixed. The SDA row and the two rows named by the signal removed from SDA's teacher are trained adapters; the two untrained rows score candidates directly. Retention is the rate at which the single admitted candidate is useful, at a budget of one stored concept. Students average three seeds. Drops are own-passage minus replaced-passage retention, with paired 95\% bootstrap intervals over episodes from 4,000 draws.}
+\caption{Passage replacement on the standard Fresh-2 pool, Qwen3-8B,
+363 episodes. Retention is the percentage of episodes whose single
+stored concept is useful, with the episode's own or another episode's
+passage. SDA and students of teachers with one signal removed
+average three seeds. Drops are own-passage minus replaced-passage
+retention, with paired 95\% intervals from 4,000 episode-bootstrap
+draws.}
 \label{tab:replacedpassage}
 \small
 \setlength{\tabcolsep}{5pt}
@@ -15,4 +21,4 @@ Workspace readout, untrained & 26.2 & 14.3 & $+11.8$ [$+7.4$, $+16.2$] \\
 Yes/no report, untrained & 16.0 & 20.4 & $-4.4$ [$-9.9$, $+1.1$] \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{table*}

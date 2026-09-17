@@ -1,14 +1,12 @@
 \begin{table}[h]
 \centering
-\caption{\textbf{The workspace readout is robust to the layer-aggregation choice}
-(Qwen2.5-7B, AUC at recovering load-bearing items; per-layer end-position
-reciprocal ranks recomputed from a single forward pass). Replacing the
-peak-over-layers of Eq.~\ref{eq:wrr} with a smooth mean over all layers changes
-AUC by ${\le}0.01$; restricting to the last-quarter layer band alone, or a
-mean over the mid-to-late band, recovers the score; and a leave-one-layer-out
-sweep moves AUC by ${\le}0.03$, so no single layer is load-bearing and the
-advantage is not a lucky-band artifact. $W$ is a stable late-layer property,
-consistent with the localization in Fig.~\ref{fig:mechanism}.}
+\caption{\textbf{Workspace readout across layer aggregations}
+(Qwen2.5-7B, load-bearing-item AUC; end-position reciprocal ranks from
+one forward pass). Replacing peak-over-layers aggregation with a mean over
+all layers changes AUC by ${\le}0.01$. The tested last-quarter and
+mid-to-late bands yield similar discrimination. A leave-one-layer-out sweep
+moves AUC by ${\le}0.03$: no single layer's readout is essential to the
+reported aggregate discrimination.}
 \label{tab:aggrobust}
 \small
 \begin{tabular}{lcc}

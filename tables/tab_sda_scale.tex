@@ -1,6 +1,9 @@
-\begin{table}[tbp]
+\begin{table*}[t]
 \centering
-\caption{Admission ranking on the Decoupled and Compositional development batteries across Qwen3 scales. These batteries informed configuration choice and were excluded from gradient training. $V$: pooled admission AUC; $\Delta V$: paired change with a 95\% whole-episode bootstrap interval; $|\Delta W|$: largest absolute workspace change across seeds.}
+\caption{Admission ranking on the Decoupled and Compositional development
+batteries across Qwen3 scales. $V$: pooled admission AUC; $\Delta V$:
+paired change with a 95\% whole-episode bootstrap interval;
+$|\Delta W|$: largest absolute workspace change across seeds.}
 \label{tab:sdascale}
 \small
 \setlength{\tabcolsep}{4pt}
@@ -34,4 +37,4 @@ Model & Benchmark & $V$ before & Seed & $V$ after & $\Delta V$ [95\% CI] & $|\De
 \bottomrule
 \end{tabular}
 
-\end{table}
+\end{table*}

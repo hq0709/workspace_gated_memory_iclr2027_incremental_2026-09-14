@@ -1,6 +1,13 @@
-\begin{table}[tbp]
+\begin{table*}[t]
 \centering
-\caption{Admission policies on the statedness-balanced pool, Qwen3-8B, 363 episodes. Recall is in percent under blind semantic grading; trained policies average three seeds. A statedness-only rule ranks near chance (AUC 0.515 pooled, 0.516 within episodes). ConsistencyGate uses its paper's sampled form (verbatim Appendix C prompt, $K=5$, mean parsed decimals) and single-pass form (softmax over yes/no token log-probabilities). A-MAC uses its temperature-zero utility factor; novelty and recency are constant within an episode, and a five-fold cross-validated combination of utility, confidence and type-prior factors gives no gain over utility alone. Nemori's prediction-error criterion is implemented as candidate surprisal under the passage. Oracle labels prioritize the intended bridge. Table~\ref{tab:balancedpaired} gives paired differences for every row.}
+\caption{Admission policies on the statedness-balanced pool, Qwen3-8B,
+363 episodes. Recall in percent under blind semantic grading;
+trained policies average three seeds. ConsistencyGate is measured in
+its sampled form ($K=5$) and its single-pass form (softmax over
+yes/no token log-probabilities). A-MAC uses temperature-zero utility;
+its five-fold cross-validated combination of utility, confidence and
+type-prior factors gives no gain over utility alone. Prediction error
+is candidate surprisal under the passage.}
 \label{tab:balancedbaselines}
 \small
 \setlength{\tabcolsep}{6pt}
@@ -34,4 +41,4 @@ Combined teacher used directly & 36.9 & 44.9 & 46.3 \\
 \refrow Oracle labels & 47.4 & 54.3 & 51.5 \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{table*}

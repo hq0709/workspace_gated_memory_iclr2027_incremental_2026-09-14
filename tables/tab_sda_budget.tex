@@ -1,6 +1,10 @@
-\begin{table}[t]
+\begin{table*}[t]
 \centering
-\caption{Memory budget across models. Recall accuracy (\%) on the held-out Fresh-2 battery (363 episodes) with $k$ stored concepts; each model admits memories with its own adapter and answers with its own frozen weights; blind semantic grading; Rating is the 1--10 importance rating \citep{park2023generative}; SDA is the mean over three seeds; $^{*}$every seed exceeds the yes/no report of the same model at that budget (exact McNemar $p<0.05$).}
+\caption{Recall accuracy (\%) across models on the held-out Fresh-2 battery
+(363 episodes) with $k$ stored concepts, blind semantic grading.
+Rating: 1--10 importance rating \citep{park2023generative}; SDA:
+mean of three seeds. $^{*}$every seed exceeds the same model's yes/no
+report at that budget (exact McNemar $p<0.05$).}
 \label{tab:sdabudget}
 \small
 \setlength{\tabcolsep}{4pt}
@@ -18,4 +22,4 @@ OLMo-2-7B-Instruct & 27.5 & 33.1 & \textbf{48.5}$^{*}$ & 38.0 & 44.1 & \textbf{5
 Mistral-7B-Instruct & 5.2 & 9.6 & \textbf{12.4}$^{*}$ & 12.7 & 15.7 & \textbf{19.8}$^{*}$ & 19.3 & 22.0 & \textbf{24.2}$^{*}$ \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{table*}

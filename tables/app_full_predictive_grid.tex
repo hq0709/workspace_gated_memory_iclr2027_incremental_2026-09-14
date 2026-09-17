@@ -1,6 +1,10 @@
-\begin{table}[h]
+\begin{table*}[t]
 \centering
-\caption{Full predictive grid: all 23 unique checkpoints $\times$ four benchmarks (Qwen3-14B was measured in both the grid and the ladder run with identical rows and is listed once). $W$: workspace readout; $V$: yes/no importance report, the same definition used throughout the paper. All entries are pooled item-level AUCs. ``---'': the tokenizer ships no chat template, so $V$ is undefined. Gray rows: base (pre-trained) checkpoints; OLMo-2 Instruct checkpoints are the RLVR stage.}
+\caption{Full predictive grid: 23 unique checkpoints $\times$ four benchmarks.
+Entries are pooled item-level AUCs: $W$, workspace readout; $V$,
+yes/no importance report. Dashes: $V$ undefined because the tokenizer
+ships no chat template. Gray rows: base (pre-trained) checkpoints;
+OLMo-2 Instruct checkpoints are the RLVR stage.}
 \label{tab:appA1}
 \scriptsize
 \setlength{\tabcolsep}{4pt}
@@ -73,4 +77,4 @@ Mistral-7B-Instruct-v0.3 & .6713 & .4700 & .5962 & .3242 \\
 \refrow GPT-2 & .5331 & --- & .5170 & --- \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{table*}

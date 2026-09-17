@@ -14,3 +14,7 @@ W*_REPRODUCTION_NOTES.md
 STYLE_*.md
 scripts/
 reproducibility/
+# local TeX support tree and ARIS working files
+tex_support/
+.aris/
+.latexmkrc

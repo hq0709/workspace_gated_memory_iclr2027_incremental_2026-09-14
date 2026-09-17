@@ -19,7 +19,7 @@ Writing $\mathrm{rank}_\ell(t)=1+|\{v:z_{\ell,v}>z_{\ell,t}\}|$, the
 workspace readout is the peak reciprocal rank across layers and
 first-token forms:
 \begin{equation}
-W(c;x)=\max_{1\leq\ell\leq L}\;\max_{t\in T(c)}
+W(c;x)=\max_{\substack{1\leq\ell\leq L\\ t\in T(c)}}
 \frac{1}{\mathrm{rank}_\ell(t)}.
 \label{eq:wrr}
 \end{equation}
@@ -57,10 +57,11 @@ prompts.
 Let $Y,N$ be the distinct first tokens
 of the yes/no case and leading-space forms. The admission score is
 \begin{equation}
-s_\theta(c;x)=
-\log\!\sum_{t\in Y}p_\theta(t\mid u(c,x))
--\log\!\sum_{t\in N}p_\theta(t\mid u(c,x)),
-\qquad V_\theta(c;x)=\sigma\!\left(s_\theta(c;x)\right).
+\begin{split}
+s_\theta(c;x)={}&\log\!\sum_{t\in Y}p_\theta(t\mid u(c,x))\\
+&-\log\!\sum_{t\in N}p_\theta(t\mid u(c,x)),\\
+V_\theta(c;x)={}&\sigma\!\left(s_\theta(c;x)\right).
+\end{split}
 \label{eq:score}
 \end{equation}
 The untrained model supplies the report baseline $V$; SDA ranks

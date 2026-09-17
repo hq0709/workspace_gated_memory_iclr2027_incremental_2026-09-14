@@ -1,10 +1,12 @@
 \begin{table}[h]
 \centering
-\caption{Trained tuned-future-lens negative control: initialized at the model's own
-unembedding, trained on disjoint Explicit-benchmark contexts to place mass on a 12-token future
-window. It never rescues Compositional-benchmark bridges and is significantly \emph{worse}
-than the logit lens on evoked bridges at 7B; the static-state boundary is not a
-readout artifact.}
+\caption{Static future-token decoder adapted from Future Lens:
+initialized at the model's unembedding and trained on disjoint Explicit
+contexts to predict a 12-token future window. At 0.5B, Compositional AUC
+improves by $+0.107$ $[+0.029,+0.189]$ to $0.523$ $[0.432,0.611]$;
+the endpoint interval includes chance. At 7B, the Compositional difference
+is unresolved ($+0.049$ $[-0.053,+0.149]$), while Evoked AUC decreases
+by $-0.088$ $[-0.157,-0.022]$.}
 \label{tab:appA6}
 \small
 \begin{tabular}{llccc}

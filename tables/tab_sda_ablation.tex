@@ -1,6 +1,9 @@
-\begin{table}[tbp]
+\begin{table*}[t]
 \centering
-\caption{SDA ablations on the standard Fresh-2 pool (Qwen3-8B, $k=2$, blind semantic recall in percent). Trained variants average three seeds. $\Delta$: recall difference from SDA with a paired, seed-averaged 4,000-draw episode bootstrap 95\% interval. The untrained report and the workspace readout and output likelihood used directly are in Table~\ref{tab:baselines}.}
+\caption{SDA ablations on the standard Fresh-2 pool (Qwen3-8B, $k=2$,
+blind semantic recall in percent). Trained variants average three
+seeds. $\Delta$: recall difference from SDA with a paired,
+seed-averaged 4,000-draw episode bootstrap 95\% interval.}
 \label{tab:sdaablation}
 \small
 \setlength{\tabcolsep}{5pt}
@@ -22,4 +25,4 @@ Recall reward instead of distillation & 46.4 & $-3.7$ [$-6.2$, $-1.3$] \\
 SDA followed by recall-reward refinement & 52.9 & $+2.8$ [$+0.6$, $+5.1$] \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{table*}

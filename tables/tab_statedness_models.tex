@@ -1,6 +1,10 @@
-\begin{table}[tbp]
+\begin{table*}[t]
 \centering
-\caption{Recall on the statedness-balanced pool: 363 episodes, 7.93 candidates per episode, with alternating inferred- and stated-concept conditions. Recall in percent at $k=2$, blind semantic grading; all three training seeds are shown. The 1--10 importance rating \citep{park2023generative} is the strongest untrained policy on this pool for Qwen3-8B. Bold identifies SDA. $p$ bounds the exact McNemar test against each model's own yes/no report.}
+\caption{Recall on the statedness-balanced pool: 363 episodes, 7.93 candidates
+per episode. Recall in percent at $k=2$, blind semantic grading;
+all three training seeds are shown. Rating: 1--10 importance rating
+\citep{park2023generative}. Bold identifies SDA. $p$ bounds the exact
+McNemar test against each model's own yes/no report.}
 \label{tab:balanced}
 \small
 \setlength{\tabcolsep}{4pt}
@@ -16,4 +20,4 @@ OLMo-2-7B & 40.5 & 47.7 & 45.2 & \textbf{54.8 / 54.5 / 54.8} & $\leq$ $10^{-7}$ 
 Mistral-7B & 12.7 & 16.5 & 16.2 & \textbf{19.3 / 20.4 / 20.1} & $\leq$ $10^{-3}$ & 16.8 \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{table*}

@@ -1,6 +1,9 @@
-\begin{table}[tbp]
+\begin{table*}[t]
 \centering
-\caption{Qwen3 dense ladder on Decoupled. Upper block: the workspace--report gap $W{-}V$ with a paired 95\% whole-episode bootstrap interval; $W$ and $V$ for each checkpoint are in Table~\ref{tab:appA1}. Lower block: the paired change in $W{-}V$ between sizes, with both sizes resampled on shared episodes. $^{*}$95\% interval excludes zero.}
+\caption{Qwen3 dense ladder on Decoupled. Upper block: workspace--report gap
+$W{-}V$ with a paired 95\% whole-episode bootstrap interval.
+Lower block: paired change in $W{-}V$ between sizes, resampled on
+shared episodes. $^{*}$95\% interval excludes zero.}
 \label{tab:scale}
 \small
 \setlength{\tabcolsep}{8pt}
@@ -23,4 +26,4 @@ Size change & $\Delta(W{-}V)$ [95\% CI] \\
 8B $\rightarrow$ 32B & $-0.0536$ [$-0.1352$, $+0.0279$] \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{table*}

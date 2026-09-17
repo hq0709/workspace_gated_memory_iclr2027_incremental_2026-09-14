@@ -1,31 +1,76 @@
 \begin{table}[h]
 \centering
-\caption{Full $W$ / $V$ AUC grid, all measured checkpoints $\times$ final
-batteries. Parenthesized $V$ values are the template-free probe $V_{raw}$ (base
-models). ``---'': not measured (see App.~\ref{app:repro} for the run manifest).}
+\caption{Full predictive grid: all 23 unique checkpoints $\times$ four benchmarks (Qwen3-14B was measured in both the grid and the ladder run with identical rows and is listed once). $W$: workspace readout; $V$: yes/no importance report, the same definition used throughout the paper. All entries are pooled item-level AUCs. ``---'': the tokenizer ships no chat template, so $V$ is undefined. Gray rows: base (pre-trained) checkpoints; OLMo-2 Instruct checkpoints are the RLVR stage.}
 \label{tab:appA1}
 \scriptsize
-\begin{tabular}{lcccc}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{l*{4}{c}}
 \toprule
-Checkpoint & Explicit & Evoked & Decoupled & Compositional \\
+ & \multicolumn{2}{c}{Explicit} & \multicolumn{2}{c}{Evoked} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+Checkpoint & $W$ & $V$ & $W$ & $V$ \\
 \midrule
-\refrow Qwen2.5-0.5B & 0.522 / (0.508) & 0.538 / (0.259) & --- & 0.430 / (0.126) \\
-Qwen2.5-0.5B-I & 0.521 / 0.551 & 0.516 / 0.295 & 0.526 / 0.281 & 0.416 / 0.172 \\
-\refrow Qwen2.5-1.5B & 0.509 / (0.589) & 0.582 / (0.588) & --- & 0.544 / (0.381) \\
-Qwen2.5-1.5B-I & 0.513 / 0.615 & 0.579 / 0.522 & 0.577 / 0.462 & 0.549 / 0.290 \\
-\refrow Qwen2.5-3B & 0.538 / (0.608) & 0.616 / (0.574) & --- & 0.521 / (0.329) \\
-Qwen2.5-3B-I & 0.533 / 0.641 & 0.579 / 0.461 & 0.594 / 0.254 & 0.498 / 0.197 \\
-\refrow Qwen2.5-7B & 0.543 / (0.592) & 0.621 / (0.348) & --- & 0.516 / (0.110) \\
-Qwen2.5-7B-I & 0.538 / 0.681 & 0.633 / 0.579 & 0.641 / 0.486 & 0.514 / 0.344 \\
-Qwen3-0.6B & 0.493 / 0.514 & 0.548 / 0.442 & 0.535 / 0.500 & 0.464 / 0.467 \\
-Qwen3-1.7B & 0.481 / 0.618 & 0.541 / 0.465 & 0.560 / 0.325 & 0.414 / 0.283 \\
-Qwen3-4B & 0.509 / 0.458 & 0.574 / 0.367 & 0.529 / 0.416 & 0.502 / 0.307 \\
-Qwen3-8B & 0.509 / 0.504 & 0.620 / 0.383 & 0.654 / 0.337 & 0.545 / 0.325 \\
-\refrow GPT-2 & 0.493 / (0.536) & 0.540 / (0.539) & --- & 0.551 / (0.592) \\
-OLMo-2-1B (RLVR) & 0.536 / 0.557 & 0.580 / 0.487 & 0.580 / 0.326 & 0.477 / 0.267 \\
-\refrow OLMo-2-7B & --- & 0.673 / (0.493) & 0.684 / (0.317) & --- \\
-OLMo-2-7B-I & 0.492 / 0.622 & 0.669 / 0.539 & 0.665 / 0.352 & 0.534 / 0.296 \\
-Mistral-7B-I & 0.532 / 0.622 & 0.670 / 0.589 & 0.672 / 0.481 & 0.596 / 0.322 \\
+\refrow Qwen2.5-0.5B & .5235 & .4465 & .5367 & .4341 \\
+Qwen2.5-0.5B-Instruct & .5211 & .5496 & .5158 & .2916 \\
+\refrow Qwen2.5-1.5B & .5100 & .5006 & .5816 & .4160 \\
+Qwen2.5-1.5B-Instruct & .5139 & .6136 & .5769 & .5234 \\
+\refrow Qwen2.5-3B & .5369 & .5621 & .6147 & .4560 \\
+Qwen2.5-3B-Instruct & .5331 & .6446 & .5781 & .4615 \\
+\refrow Qwen2.5-7B & .5419 & .5973 & .6208 & .4652 \\
+Qwen2.5-7B-Instruct & .5376 & .6792 & .6341 & .5856 \\
+\addlinespace
+Qwen3-0.6B & .4932 & .5306 & .5472 & .3264 \\
+Qwen3-1.7B & .4818 & .5917 & .5409 & .3895 \\
+Qwen3-4B & .5090 & .6496 & .5744 & .4798 \\
+Qwen3-8B & .5090 & .7100 & .6204 & .4534 \\
+Qwen3-14B & .5083 & .7400 & .6390 & .5219 \\
+Qwen3-32B & .5084 & .7480 & .6139 & .5511 \\
+\addlinespace
+\refrow OLMo-2-1B & .5006 & --- & .6308 & --- \\
+OLMo-2-1B-SFT & .5409 & .5252 & .5969 & .5016 \\
+OLMo-2-1B-DPO & .5374 & .5563 & .5759 & .4973 \\
+OLMo-2-1B-Instruct & .5354 & .5551 & .5795 & .4899 \\
+\refrow OLMo-2-7B & .4806 & --- & .6735 & --- \\
+OLMo-2-7B-SFT & .4959 & .5827 & .6827 & .5369 \\
+OLMo-2-7B-Instruct & .4938 & .6231 & .6688 & .5398 \\
+\addlinespace
+Mistral-7B-Instruct-v0.3 & .5324 & .6191 & .6687 & .5777 \\
+\refrow GPT-2 & .5070 & --- & .5388 & --- \\
+\bottomrule
+\end{tabular}
+\vspace{4pt}
+\begin{tabular}{l*{4}{c}}
+\toprule
+ & \multicolumn{2}{c}{Decoupled} & \multicolumn{2}{c}{Compositional} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+Checkpoint & $W$ & $V$ & $W$ & $V$ \\
+\midrule
+\refrow Qwen2.5-0.5B & .5019 & .4798 & .4293 & .3715 \\
+Qwen2.5-0.5B-Instruct & .5261 & .2841 & .4190 & .1776 \\
+\refrow Qwen2.5-1.5B & .5903 & .4052 & .5451 & .3879 \\
+Qwen2.5-1.5B-Instruct & .5768 & .4637 & .5489 & .2936 \\
+\refrow Qwen2.5-3B & .6062 & .3784 & .5208 & .2444 \\
+Qwen2.5-3B-Instruct & .5951 & .2586 & .4971 & .1951 \\
+\refrow Qwen2.5-7B & .6121 & .3730 & .5152 & .2771 \\
+Qwen2.5-7B-Instruct & .6423 & .4897 & .5156 & .3472 \\
+\addlinespace
+Qwen3-0.6B & .5364 & .2248 & .4693 & .1123 \\
+Qwen3-1.7B & .5607 & .1961 & .4162 & .1812 \\
+Qwen3-4B & .5291 & .3967 & .5050 & .2600 \\
+Qwen3-8B & .6545 & .3872 & .5466 & .2079 \\
+Qwen3-14B & .6677 & .4271 & .5086 & .2163 \\
+Qwen3-32B & .6919 & .4782 & .5532 & .2774 \\
+\addlinespace
+\refrow OLMo-2-1B & .6001 & --- & .5114 & --- \\
+OLMo-2-1B-SFT & .5725 & .3716 & .4760 & .3064 \\
+OLMo-2-1B-DPO & .5802 & .3799 & .4764 & .2786 \\
+OLMo-2-1B-Instruct & .5801 & .3284 & .4783 & .2548 \\
+\refrow OLMo-2-7B & .6835 & --- & .5453 & --- \\
+OLMo-2-7B-SFT & .6637 & .3317 & .5312 & .2924 \\
+OLMo-2-7B-Instruct & .6664 & .3529 & .5341 & .2944 \\
+\addlinespace
+Mistral-7B-Instruct-v0.3 & .6713 & .4700 & .5962 & .3242 \\
+\refrow GPT-2 & .5331 & --- & .5170 & --- \\
 \bottomrule
 \end{tabular}
 \end{table}

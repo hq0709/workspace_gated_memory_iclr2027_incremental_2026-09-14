@@ -24,7 +24,7 @@ Deduplication removes repeated concepts, and a blind alias audit checks
 that recovering the bridge still leaves an inference to the answer
 (App.~\ref{app:benchmarks}).
 
-\begin{figure}[htbp]
+\begin{figure*}[t]
 \centering
 \begin{sdabox}{Decoupled episode}
 \textbf{Passage.} Jibril had always wanted to gaze up at the world's
@@ -45,13 +45,11 @@ tourists. \textbf{Neutral concepts.} elevator, gift, observation.
 from local staff during his visit?\\
 \textbf{Answer.} arabic.
 \end{sdabox}
-\caption{A complete Fresh-2 episode. The passage identifies a landmark
-from which the city can be inferred. Retaining \emph{dubai} preserves
-the city-to-language link needed by the future question. Utility labels,
-question and answer are visible here for explanation; admission sees
-the passage and candidate strings.}
+\caption{A complete Fresh-2 episode, with \emph{dubai} as the useful concept.
+Admission sees the passage and candidate strings; utility labels,
+question and answer are shown for explanation.}
 \label{fig:episode}
-\end{figure}
+\end{figure*}
 
 With two memory slots, the city in Figure~\ref{fig:episode} competes
 with the elevator, gift shop and scenery.

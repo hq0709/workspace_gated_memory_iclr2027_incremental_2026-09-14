@@ -1,6 +1,9 @@
-\begin{table}[htbp]
+\begin{table*}[t]
 \centering
-\caption{Teacher composition on the statedness-balanced pool for five models. Recall in percent, three training seeds per teacher; every other setting is held fixed. Each reduced column trains the same adapter on labels from SDA's teacher with one signal removed. Table~\ref{tab:teachermodelpaired} gives paired differences with 95\% intervals.}
+\caption{Teacher composition on the statedness-balanced pool for five models.
+Recall in percent, averaged over three training seeds per teacher.
+Reduced columns: students of SDA's teacher with one signal removed.
+Table~\ref{tab:teachermodelpaired} gives paired differences.}
 \label{tab:teachermodels}
 \small
 \setlength{\tabcolsep}{4pt}
@@ -29,4 +32,4 @@ OLMo-2-7B & $k=1$ & \textbf{49.5} & 46.2 & 45.2 \\
  & $k=3$ & \textbf{55.5} & 55.5 & 55.2 \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{table*}

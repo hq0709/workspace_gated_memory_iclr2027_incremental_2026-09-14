@@ -2,13 +2,13 @@
 \centering
 \caption{Budget-limited recall QA, all runs. Each cell shows accuracy at
 $k{=}1/2/3$ (leading zeros omitted); generation budget
-as marked per row; random = 3-seed mean.}
+as marked per row; random = 3-seed mean. Verbal selection uses $V_\epsilon$.}
 \label{tab:appA2}
 \scriptsize
 \setlength{\tabcolsep}{3.5pt}
 \begin{tabular}{ll>{\columncolor{wsRow}}cccccccc}
 \toprule
-Benchmark & Size & workspace & verbal & embedding & recency & random & oracle & no-mem & full-ctx \\
+Benchmark & Size & workspace & $V_\epsilon$ & embedding & recency & random & oracle & no-mem & full-ctx \\
 \midrule
 Evoked (24t) & 0.5B & .32/.60/.75 & .17/.39/.45 & .36/.56/.68 & .19/.17/.25 & .21/.37/.53 & .93/.88/.83 & .19 & .51 \\
 Evoked (24t) & 1.5B & .28/.56/.65 & .29/.44/.57 & .35/.55/.64 & .07/.16/.27 & .12/.32/.51 & .79/.80/.81 & .20 & .69 \\

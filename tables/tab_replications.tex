@@ -1,6 +1,9 @@
-\begin{table}[h]
+\begin{table*}[t]
 \centering
-\caption{Replications on two further benchmarks, measured with the same thinking-disabled yes/no report and workspace readout as the main tables. $W$ and $V$ are pooled AUCs; $W-V$ carries a paired 95\% whole-episode bootstrap interval (4,000 draws), and $^{*}$ marks intervals excluding zero. The alternate-author benchmark repeats the primary construction with episodes written by a different author model; the entity-bridge benchmark makes the useful concept a named entity among scene-object distractors.}
+\caption{Replications on the alternate-author benchmark and entity-bridge
+benchmark. Pooled AUCs: $W$, workspace readout; $V$, thinking-disabled
+yes/no importance report. $W-V$: paired 95\% whole-episode bootstrap
+interval (4,000 draws); $^{*}$ marks intervals excluding zero.}
 \label{tab:replications}
 \small
 \begin{tabular}{llccc}
@@ -19,4 +22,4 @@ Entity-bridge & Qwen2.5-0.5B & 0.569 & 0.270 & \textcolor{gain}{+0.299} [+0.211,
  & Qwen3-8B & 0.642 & 0.719 & -0.076 [-0.189, +0.032] \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{table*}

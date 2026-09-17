@@ -1,6 +1,13 @@
-\begin{table}[tbp]
+\begin{table*}[t]
 \centering
-\caption{Paired passages share candidates but have different useful concepts and questions; only the passage identifies the useful concept. Qwen3-8B, Qwen3-14B, Qwen3-32B, Qwen2.5-7B and OLMo-2-7B provide 1,810 observations per budget. Entries are SDA minus the student of the teacher with one signal removed, averaged over three seeds and pooled over models, in points. Recall is blind semantic answer grading; retention indicates admission of the episode's useful concept. The 95\% intervals use 4,000 bootstrap draws resampling pairs, carrying each pair's rows across all five models together.}
+\caption{Results on the paired-passage battery: Qwen3-8B, Qwen3-14B,
+Qwen3-32B, Qwen2.5-7B and OLMo-2-7B, 1,810 observations per budget.
+Entries are SDA minus students trained with one teacher signal
+removed, averaged over three seeds and pooled over models, in points.
+Recall: blind semantic answer grading; retention: admission of the
+episode's useful concept. The 95\% intervals use 4,000 bootstrap
+draws resampling pairs, keeping each pair's rows across all five
+models together.}
 \label{tab:crosspairpooled}
 \small
 \setlength{\tabcolsep}{4pt}
@@ -15,4 +22,4 @@ $k=2$ & $+4.6$ [$+3.6$, $+5.7$] & $+0.6$ [$-0.2$, $+1.4$] & $+0.1$ [$-1.3$, $+1.
 $k=3$ & $+3.0$ [$+2.0$, $+3.9$] & $+1.1$ [$+0.4$, $+1.8$] & $+1.7$ [$+0.6$, $+2.7$] & $+1.4$ [$+0.5$, $+2.3$] \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{table*}

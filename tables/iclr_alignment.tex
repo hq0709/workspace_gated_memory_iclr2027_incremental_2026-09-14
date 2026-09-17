@@ -1,22 +1,20 @@
-\begin{table}[H]
+\begin{table}[tbp]
 \centering
-\caption{Binary Metacognitive Alignment under the corrected verbal score.
-Qwen3-8B is the three-seed primary result; 14B/32B are single-seed exploratory
-boundary measurements. Yellow marks newly added or re-measured rows.}
+\caption{Reporter distillation on Qwen3 (log-space verbal score $V$), on held-out benchmarks. $V_{\rm before}$, $V_{\rm after}$: pooled verbal AUC on Decoupled before and after reporter training; $\Delta V$ with paired 95\% whole-episode bootstrap CI (4,000 draws); $\Delta W$: change in workspace AUC on Decoupled; Comp.\ $\Delta V$: verbal change on Compositional. Qwen3-8B seeds share one untrained baseline; $^{\dagger}$single-seed runs.}
 \label{tab:alignment}
-\scriptsize
-\setlength{\tabcolsep}{3.2pt}
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{llrrrrrl}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llrrlrr}
 \toprule
-Model & Seed & $V_{\rm before}$ & $V_{\rm after}$ & $\Delta V$ & $\Delta W$ & Comp. $\Delta V$ & Verdict \\
+Model & Seed & $V_{\rm before}$ & $V_{\rm after}$ & $\Delta V$ [95\% CI] & $\Delta W$ & Comp.\ $\Delta V$ \\
 \midrule
-\updatedrow Qwen3-8B & 0 & 0.4020 & 0.5662 & \textbf{+0.1642} & +0.00017 & +0.0145 & GREEN \\
-\updatedrow Qwen3-8B & 1 & 0.4020 & 0.6889 & \textbf{+0.2868} & +0.00091 & +0.1873 & Strong GREEN \\
-\updatedrow Qwen3-8B & 2 & 0.4020 & 0.5893 & \textbf{+0.1873} & -0.00028 & +0.0564 & GREEN \\
+Qwen3-8B & 0 & 0.4020 & 0.5662 & \textbf{+0.1642} [+0.0828, +0.2493] & +0.00017 & +0.0145 \\
+Qwen3-8B & 1 & 0.4020 & 0.6889 & \textbf{+0.2868} [+0.2141, +0.3685] & +0.00091 & +0.1873 \\
+Qwen3-8B & 2 & 0.4020 & 0.5893 & \textbf{+0.1873} [+0.1293, +0.2524] & -0.00028 & +0.0564 \\
+Qwen3-8B & mean (SD) & & & +0.2128 (0.0652) & & +0.0861 \\
 \addlinespace
-\updatedrow Qwen3-14B & 0 & 0.3480 & 0.7306 & \textbf{+0.3826} & -0.00017 & +0.3261 & Strong GREEN \\
-\updatedrow Qwen3-32B & 0 & 0.3366 & 0.4320 & \textbf{+0.0954} & +0.00116 & -0.0176 & AMBER \\
+Qwen3-14B$^{\dagger}$ & 0 & 0.3480 & 0.7306 & \textbf{+0.3826} [+0.3029, +0.4701] & -0.00017 & +0.3261 \\
+Qwen3-32B$^{\dagger}$ & 0 & 0.3366 & 0.4320 & \textbf{+0.0954} [+0.0241, +0.1764] & +0.00116 & -0.0176 \\
 \bottomrule
-\end{tabular}}
+\end{tabular}
 \end{table}

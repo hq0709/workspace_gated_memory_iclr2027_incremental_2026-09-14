@@ -1,13 +1,25 @@
-\documentclass{article}
-\usepackage{iclr2027_conference,times}
+\documentclass[11pt]{article}
+
+% ARR / NAACL submission: "review" gives line numbers and the anonymous byline.
+% Switch to "final" for a camera-ready version.
+\usepackage[review]{acl}
+
+\usepackage{times}
+\usepackage{latexsym}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
+\usepackage{microtype}
+\usepackage{graphicx}
 \usepackage{amsmath,amssymb,amsfonts}
 \usepackage{booktabs}
 \usepackage{multirow}
-\usepackage{graphicx}
-\usepackage{microtype}
 \usepackage[table]{xcolor}
+\usepackage{xparse}
+\usepackage{float}
+\usepackage{placeins}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning}
+
 \definecolor{failorange}{HTML}{C16E71}
 \definecolor{wsblue}{HTML}{6E8FB2}
 % --- exemplar-style table/writing toolkit, rendered in the paper's muted palette ---
@@ -22,18 +34,11 @@
 \newcommand{\wsrow}{\rowcolor{wsRow}}
 \newcommand{\refrow}{\rowcolor{refRow}}
 \newcommand{\myparagraph}[1]{\vspace{2pt}\noindent\textbf{#1}\ }
-\usepackage{longtable}
-\usepackage{xparse}
-\usepackage{float}
-\usepackage{placeins}
-\raggedbottom
+
 % Keep short paragraphs intact; a split leaves at least five lines on each page.
 \clubpenalties 5 10000 10000 10000 10000 0
 \widowpenalties 5 10000 10000 10000 10000 0
-% Reserve float-only pages for substantial groups of figures or tables.
 \renewcommand{\floatpagefraction}{0.8}
-\usepackage{tikz}
-\usetikzlibrary{arrows.meta,positioning}
 
 % Titled box for verbatim-style material: episode examples and the prompts.
 \definecolor{sdaboxrule}{HTML}{D6D6D6}
@@ -47,7 +52,7 @@
   \par\addvspace{0.8\baselineskip}%
   \def\sdaboxtitle{#1}%
   \begin{lrbox}{\sdabodybox}%
-    \begin{minipage}{\dimexpr\linewidth-2.4em\relax}\small
+    \begin{minipage}{\dimexpr\linewidth-2.4em\relax}\small\raggedright
     \setlength{\parskip}{0.45em}\setlength{\parindent}{0pt}\relax
 }{%
     \end{minipage}%
@@ -61,14 +66,16 @@
     \end{scope}
     \draw[rounded corners=3pt,sdaboxrule,line width=0.6pt]
       (0.3pt,-0.3pt) rectangle (\dimexpr\linewidth-0.3pt\relax,-\dimexpr\sdaboxbh-0.3pt\relax);
-    \node[anchor=west,text=white,font=\small\bfseries] at (1.1em,-0.5\sdaboxth)
-      {\sdaboxtitle};
+    \begin{scope}
+      \clip (0,0) rectangle (\dimexpr\linewidth-0.9em\relax,-\sdaboxth);
+      \node[anchor=west,text=white,font=\small\bfseries] at (1.1em,-0.5\sdaboxth)
+        {\sdaboxtitle};
+    \end{scope}
     \node[anchor=north west] at (1.2em,-\dimexpr\sdaboxth+0.9em\relax)
       {\usebox{\sdabodybox}};
   \end{tikzpicture}%
   \par\addvspace{0.8\baselineskip}%
 }
-\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
 
 % Compatibility for the local TeX Live array/colortbl version pair.
 \makeatletter
@@ -78,24 +85,19 @@
 \newcommand{\Wrr}{\ensuremath{W}}
 \newcommand{\Vrep}{\ensuremath{V}}
 
+\title{Remember What You Thought, Not What You Said:\\
+Self-Distilled Memory Admission for LLM Agents}
 
+\author{}
 
-\title{Remember What You Thought,\\
-Not What You Said: Self-Distilled Memory\\
-Admission for LLM Agents}
-\author{Anonymous authors}
-\date{}
-
-% Uncomment only for the camera-ready version.
-% \iclrfinalcopy
 \begin{document}
 \maketitle
 
 \begin{abstract}
 An agent must choose what to store before a future question arrives,
 and discarding a useful inference can cost it the answer.
-We find that the ordering of an importance report---a model's yes/no
-judgment of what to remember---follows its candidate pool's provenance
+We find that the ordering of an importance report, a model's yes/no
+judgment of what to remember, follows its candidate pool's provenance
 structure: across six models, useful-concept AUC is 0.322--0.427 on the
 standard pool, where the useful concept is usually unstated, and
 0.658--0.736 when the useful concept is equally likely to be stated or
@@ -115,8 +117,8 @@ using a model's own computation to preserve useful inferences for
 future questions.
 \end{abstract}
 
-\input{sections/intro}
 \input{figures/fig_sda_teaser}
+\input{sections/intro}
 \input{sections/related}
 \input{sections/construction}
 \input{sections/setup}
@@ -125,9 +127,7 @@ future questions.
 \input{sections/implications}
 \input{sections/conclusion}
 \input{sections/limitations}
-
 \FloatBarrier
-\bibliographystyle{iclr2027_conference}
 \bibliography{references}
 
 \clearpage
