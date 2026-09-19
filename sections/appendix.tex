@@ -351,6 +351,94 @@ with the future question hidden. \textbf{Oracle labels} prioritize the
 intended bridge; question-only and whole-passage readers provide recall
 references. Bold entries identify SDA throughout the comparison tables.
 
+\subsection{Published admission criteria as implemented}
+\label{app:publishedbaselines}
+
+\paragraph{ConsistencyGate.}
+ConsistencyGate \citep{consistencygate2026} is a write-time gate that
+scores how strongly the source context supports a candidate fact. We
+measure two forms. The sampled form follows their Equations~2 and~3,
+using their Appendix~C prompt verbatim with five samples at temperature
+one and at most eight new tokens per sample. Its score is the mean of
+the parsed decimals. The single-pass form follows their Equation~4
+variant: the same question is posed as a yes/no question, and the score
+is the probability of yes from a softmax over the yes and no token
+log-probabilities. Their threshold of 0.7 is used only for the gate-rate
+diagnostic. Threshold-based admission is not used for ranking; ranking
+uses the score itself, giving the method the same budget as every other
+policy.
+
+\paragraph{A-MAC.}
+A-MAC \citep{amac2026} is a multi-factor value model. Utility is obtained
+from one temperature-zero call asking whether the candidate is
+actionable, supports likely follow-up questions, or captures a
+persistent constraint or preference. Confidence is the maximum ROUGE-L
+between the candidate and a supporting passage sentence. The type prior
+is their rule-based entity cue. Their novelty term compares against
+memory already held, and their recency term decays with elapsed time.
+Within an episode, memory is empty at the first admission and all
+candidates share one timestamp, so neither term orders candidates.
+These two terms are therefore omitted from the ranking score. The
+three remaining factors are combined as a weighted sum, with the
+utility weight fixed at one. Confidence and type-prior weights are
+searched on a grid from 0.0 to 2.0 in steps of 0.1, selected by
+within-episode AUC inside five-fold cross-validation over the 363
+episodes, and evaluated out of fold. Every fold selects zero weight
+for both confidence and type prior, so the fitted combination coincides
+with utility alone. Out-of-fold within-episode AUC is 0.6795 for both.
+
+\paragraph{Nemori.}
+Nemori's prediction-error retention criterion \citep{nemori2026} keeps
+what the model fails to predict. Applied to a candidate concept and its
+passage, the score is the candidate's surprisal under the passage, the
+negative of the output likelihood. The criterion is used to rank
+candidates for admission; retention of already-held memories is not
+exercised in this candidate-admission setting.
+
+All three score the same unit as every other policy, a candidate concept
+and its episode passage with the future question hidden, and admit the
+top-$k$ under the same budget protocol. The three scoring instructions
+follow, in the same rendering as the prompts in
+App.~\ref{app:prompts}.
+
+\begin{sdabox}{ConsistencyGate scoring prompt, sampled form}
+You are a fact-checking assistant. Given a source context and a
+candidate fact, rate how strongly the fact is supported by the context.
+
+Source context: \emph{passage}\\
+Candidate fact: \emph{candidate concept}\\
+Question: How strongly is this candidate fact supported by the source
+context above? Do not use outside knowledge.
+
+0.0 = completely unsupported or directly contradicted by the context\\
+0.5 = partially supported or ambiguous\\
+1.0 = fully and directly supported by the context
+
+Output only a single decimal number between 0.0 and 1.0.
+\end{sdabox}
+
+\begin{sdabox}{ConsistencyGate scoring prompt, single-pass form}
+You are a fact-checking assistant. Given a source context and a
+candidate fact, decide whether the fact is supported by the context.
+
+Source context: \emph{passage}\\
+Candidate fact: \emph{candidate concept}\\
+Question: Is this candidate fact supported by the source context above?
+Do not use outside knowledge.
+
+Answer with a single word: yes or no.
+\end{sdabox}
+
+\begin{sdabox}{A-MAC utility prompt}
+\emph{passage}
+
+Consider storing the concept ``\emph{candidate concept}'' in long-term
+memory. Is it actionable, does it support likely follow-up questions, or
+does it capture a persistent constraint or preference?
+
+Answer with a single word: yes or no.
+\end{sdabox}
+
 \subsection{Exact admission, reader, rating and proposal instructions}
 \label{app:prompts}
 

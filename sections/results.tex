@@ -16,10 +16,13 @@ is 0.582--0.688. The report's ordering follows the provenance structure
 of the pool it is given. Naming the bridge raises mean workspace AUC
 from 0.563 to 0.956 and report AUC from 0.373 to 0.504
 (Table~\ref{tab:statedcontrol}); naming a distractor lowers both on
-Qwen3-8B (App.~\ref{app:naming}). Among unstated candidates alone,
-the report ranks usefulness above the workspace readout across all six
-models (App.~\ref{app:withinprovenance}); the full-pool ordering also
-reflects competition across provenances.
+Qwen3-8B (App.~\ref{app:naming}). Restricted to unstated candidates
+alone, the report's pooled AUC is 0.880--0.897 across six models and the
+workspace readout's is 0.592--0.697
+(Table~\ref{tab:withinunstated}). The importance report discriminates
+usefulness well within a single provenance class. It loses that ordering
+when both provenance classes compete, as they do in a host's candidate
+pool.
 
 Omission directly identifies the useful concept, the sole unstated
 candidate, in 95\% of standard-pool episodes. At $k=2$, admit what the
@@ -184,6 +187,7 @@ baseline on both pools (App.~\ref{app:poolresults}).
 \label{sec:ablations}
 \label{sec:scale}
 
+\paragraph{Contribution of the workspace readout.}
 We ablate SDA's teacher by removing either the workspace readout or the
 output likelihood and training the same adapter on the resulting labels,
 holding episodes and step budget fixed. On the paired-passage battery
@@ -235,10 +239,12 @@ $+0.7$ ($[-0.2,+1.6]$), $+0.6$ ($[-0.2,+1.4]$) and $+0.3$
 Table~\ref{tab:teachermodels} gives per-model recall;
 Table~\ref{tab:teachermodelpaired} gives paired intervals.
 
+\paragraph{Training the importance interface beyond scoring.}
 On the standard Fresh-2 pool at $k=2$, SDA reaches 50.0\% recall,
 versus 45.7\% for the combined teacher used directly and 40.2--40.5\%
 for the validation-selected log-odds objectives
-(Tables~\ref{tab:sdaablation} and~\ref{tab:objective}).
+(Tables~\ref{tab:sdaablation} and~\ref{tab:objective};
+App.~\ref{app:objective}).
 
 A matched wording comparison isolates the recall gain that training the
 importance interface adds beyond changing its wording. The
@@ -251,17 +257,6 @@ Holding this wording fixed for training and evaluation, SDA reaches
 McNemar $p\leq6.9\times10^{-5}$; Table~\ref{tab:wordingdistill}).
 Passage-only wording SDA reaches 37.6/50.0/52.2\%
 (Tables~\ref{tab:baselines} and~\ref{tab:paired}).
-
-With teacher, episodes, adapter and step budget fixed, validation
-within-episode admission AUC starts at 0.657 and reaches 0.824 at
-the final step under SDA's vocabulary-normalized token objective.
-Binary cross-entropy on the yes/no log-odds ends at
-0.250, 0.333 and 0.301 across three seeds at learning rate
-$10^{-5}$; validation selects the untrained checkpoint in every run.
-At a step size five times smaller ($2\times10^{-6}$), selection
-returns a trained checkpoint, whose standard-pool recall at $k=2$
-is 40.2\%, against 50.0\% for SDA's token-level objective
-(Table~\ref{tab:objective}).
 
 
 \subsection{Standard serving preserves recall}
