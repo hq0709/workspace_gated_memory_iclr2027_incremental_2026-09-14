@@ -33,36 +33,8 @@ the verdict and exclusion reason for each episode.
 \label{app:authorprompt}
 GPT-4.1 receives the system instruction, ``You are a careful dataset
 designer for a cognitive-science experiment on LLM memory.'' The
-following prose transcription preserves the generation constraints;
+following prose transcription preserves the generation constraints (Prompt~\ref{prompt:author});
 the output-format instruction requests one structured record per episode.
-\begin{sdabox}{Episode-authoring prompt}
-Design a batch of diverse test episodes about silent bridge reasoning
-for a memory experiment. Each episode has a passage of four to eight
-sentences about a named person; invent a distinctive first name,
-different in every episode, and vary the domain widely. A question
-asked later, out of context, refers to the episode only through the
-person's name and requires an unstated bridge fact inferable from the
-passage, followed by common general knowledge. Supply a short correct
-answer of one to three words and five to seven candidate concepts,
-each a common lowercase word with a utility category and a short reason.
-
-Exactly one candidate is the useful bridge concept, and its word must
-be absent from the passage. The question must share no passage content
-word except the person's name: someone who never read the passage
-must be unable to answer it. For a passage about Elena wandering the
-Plaza Mayor, ask what language Elena should have brushed up on for her
-trip, without naming the plaza in the question. The answer must differ
-from every candidate and be absent from the passage; combining the
-bridge with general knowledge yields the answer. For example, the
-Plaza Mayor cues \emph{madrid}, which supports \emph{spanish}. A reader
-remembering only the bridge plus the question must be able to answer.
-
-Include two or three vivid, emotional or surprising distractors that
-occur literally in the passage but are useless for the question, and
-one or two neutral concepts that occur in the passage. Every candidate
-must be a single common English lowercase word. Do not reuse concepts
-or person names across episodes.
-\end{sdabox}
 Generation uses temperature 1.0 and batches of up to five episodes.
 Mechanical filters and the alias audit apply after generation.
 
@@ -94,17 +66,58 @@ these recorded draws. The standard pool contains 1,607 candidates,
 4.43 per episode. Statedness uses the case-insensitive stem match
 specified in \S\ref{sec:setup}.
 
-\paragraph{A worked source episode.}
-The first episode reads: ``Yara compared renewal quotes from different
-insurers online and reviewed her accident history. She called the hotline
-to ask clarifying questions about premium increases. After considering
-the coverage limits and deductibles, Yara finally entered her payment
-details to confirm the policy.'' Its candidates, in order, are
-\emph{insurer, deductible, history, policy, insurance}; \emph{insurance}
-is useful. The question is ``Which professional would be most relevant
-for Yara to contact regarding her recent purchase?'' and the answer is
-\emph{agent}. The second episode is Jibril's visit in
-Figure~\ref{fig:episode}.
+\paragraph{Worked source episodes.}
+Figure~\ref{fig:examples} gives the first two Fresh-2 episodes in full;
+the second is the episode drawn in Figure~\ref{fig:episode}.
+
+\begin{figure*}[t]
+\centering
+\begin{minipage}[t]{0.485\textwidth}
+\begin{sdabox}[example]{First Fresh-2 episode}[ex:yara]
+\textbf{Passage.} Yara compared renewal quotes from different insurers
+online and reviewed her accident history. She called the hotline to ask
+clarifying questions about premium increases. After considering the
+coverage limits and deductibles, Yara finally entered her payment
+details to confirm the policy.
+
+\medskip
+\textbf{Candidates, in supplied order.} insurer, deductible, history,
+policy, insurance.\\
+\textbf{Useful concept.} insurance. \textbf{Surface distractors.}
+deductible, history. \textbf{Neutral concepts.} insurer, policy.
+
+\medskip
+\textbf{Future question.} Which professional would be most relevant for
+Yara to contact regarding her recent purchase?\\
+\textbf{Answer.} agent.
+\end{sdabox}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.485\textwidth}
+\begin{sdabox}[example]{Second Fresh-2 episode}[ex:jibril]
+\textbf{Passage.} Jibril had always wanted to gaze up at the world's
+highest outdoor observation deck. Early one morning, he took a swift
+elevator to level 148 of the Burj Khalifa, joining a crowd of eager
+tourists. Below him, the city sparkled with the first rays of the desert
+sun. After snapping several panoramic photos, he browsed the sleek gift
+shop for souvenirs.
+
+\medskip
+\textbf{Candidates, in supplied order.} elevator, desert, gift,
+observation, dubai, tourists.\\
+\textbf{Useful concept.} dubai. \textbf{Surface distractors.} desert,
+tourists. \textbf{Neutral concepts.} elevator, gift, observation.
+
+\medskip
+\textbf{Future question.} What language was Jibril most likely to hear
+from local staff during his visit?\\
+\textbf{Answer.} arabic.
+\end{sdabox}
+\end{minipage}
+\caption{The first two Fresh-2 episodes in full. Utility labels, question and answer are shown for
+explanation; admission sees the passage and candidate strings.}
+\label{fig:examples}
+\end{figure*}
+
 
 \paragraph{Stated-bridge, position and distractor-named controls.}
 The exact sentence form is ``The passage also mentions \emph{concept}.''
@@ -143,7 +156,7 @@ distractors, preserving their order. This yields 2,877 candidates,
 7.93 per episode. Yara occupies position one, so her passage is unchanged
 and her pool is the five original candidates followed by \emph{warranty,
 mortgage, pension, annuity}. Jibril occupies position two: append
-``The passage also mentions dubai.'' to Figure~\ref{fig:episode}'s
+``The passage also mentions dubai.'' to Example~\ref{ex:jibril}'s
 passage and append \emph{doha, riyadh, muscat} to its six candidates.
 The original question and answer remain fixed in each case.
 
@@ -347,7 +360,7 @@ passage may never mention the useful concept (App.~\ref{app:wording}).
 \textbf{Random selection} samples candidates uniformly; \textbf{output
 likelihood} and the \textbf{workspace readout} rank candidates directly
 by their respective scores. Each baseline sees the passage and candidates
-with the future question hidden. \textbf{Oracle labels} prioritize the
+with the future question hidden. \textbf{intended-bridge reference} prioritizes the
 intended bridge; question-only and whole-passage readers provide recall
 references. Bold entries identify SDA throughout the comparison tables.
 
@@ -397,93 +410,35 @@ exercised in this candidate-admission setting.
 
 All three score the same unit as every other policy, a candidate concept
 and its episode passage with the future question hidden, and admit the
-top-$k$ under the same budget protocol. The three scoring instructions
-follow, in the same rendering as the prompts in
-App.~\ref{app:prompts}.
+top-$k$ under the same budget protocol. Prompts~\ref{prompt:cgsample}
+to~\ref{prompt:amac} give the three scoring instructions.
 
-\begin{sdabox}{ConsistencyGate scoring prompt, sampled form}
-You are a fact-checking assistant. Given a source context and a
-candidate fact, rate how strongly the fact is supported by the context.
 
-Source context: \emph{passage}\\
-Candidate fact: \emph{candidate concept}\\
-Question: How strongly is this candidate fact supported by the source
-context above? Do not use outside knowledge.
 
-0.0 = completely unsupported or directly contradicted by the context\\
-0.5 = partially supported or ambiguous\\
-1.0 = fully and directly supported by the context
 
-Output only a single decimal number between 0.0 and 1.0.
-\end{sdabox}
-
-\begin{sdabox}{ConsistencyGate scoring prompt, single-pass form}
-You are a fact-checking assistant. Given a source context and a
-candidate fact, decide whether the fact is supported by the context.
-
-Source context: \emph{passage}\\
-Candidate fact: \emph{candidate concept}\\
-Question: Is this candidate fact supported by the source context above?
-Do not use outside knowledge.
-
-Answer with a single word: yes or no.
-\end{sdabox}
-
-\begin{sdabox}{A-MAC utility prompt}
-\emph{passage}
-
-Consider storing the concept ``\emph{candidate concept}'' in long-term
-memory. Is it actionable, does it support likely follow-up questions, or
-does it capture a persistent constraint or preference?
-
-Answer with a single word: yes or no.
-\end{sdabox}
-
-\subsection{Exact admission, reader, rating and proposal instructions}
+\subsection{Admission, reader, rating and proposal scoring}
 \label{app:prompts}
 
-The boxes below reproduce the natural-language instructions. Italic
-phrases stand for the supplied passage, candidate, memory list or
-question. Each is a user message rendered with the model's chat template
+Appendix~\ref{app:promptlist} reproduces every natural-language
+instruction. Each is a user message rendered with the model's chat template
 and assistant generation prefix; Qwen3 thinking is disabled. SDA and the
-report baseline share the admission prompt.
+report baseline share the admission prompt (Prompt~\ref{prompt:admission}).
 
-\begin{sdabox}{Admission prompt}
-\emph{Passage}
-
-Based only on the passage above, is the concept ``\emph{candidate
-concept}'' one of the most important things to remember in order to
-answer possible future questions? Answer with a single word: yes or no.
-\end{sdabox}
 The affirmative token set contains the distinct first tokens of
 \emph{yes} in lowercase, initial-capital and uppercase forms, with
 and without a leading space. The negative set is constructed analogously
 from \emph{no}. Equation~\eqref{eq:score} gives the common report
 score; SDA applies the same scoring rule with its adapter enabled.
 
-\begin{sdabox}{Reader prompt}
-Earlier you read a passage. The only things you remember from it are:
-\emph{stored concepts separated by commas}.\\
-Using only what you remember, answer concisely.\\
-Question: \emph{future question}\\
-Answer:
-\end{sdabox}
-The reader uses the frozen model with its admission adapter disabled.
+The reader (Prompt~\ref{prompt:reader}) uses the frozen model with its
+admission adapter disabled.
 The question-only reference asks ``Answer this question concisely.''
 followed by the question and answer prefix. The whole-passage reference
 supplies the passage, then ``Answer concisely.'' and the same question
 and answer prefix. Greedy decoding is used throughout.
 
-\begin{sdabox}{Rating baseline prompt}
-\emph{Passage}
-
-On a scale of 1 to 10, where 1 is purely mundane and 10 is extremely
-important, rate how important it is to remember the concept
-``\emph{candidate concept}'' in order to answer possible future questions
-about this passage. Answer with a single number.
-\end{sdabox}
 Let $a_r$ be the complete answer string for rating $r$, and let $u_R(c,x)$
-be this prompt. Each answer receives its full sequence probability,
+be the rating prompt (Prompt~\ref{prompt:rating}). Each answer receives its full sequence probability,
 multiplying the conditional probabilities of its tokens. The score is
 \begin{equation}
 \begin{split}
@@ -495,16 +450,8 @@ R(c;x)&=\sum_{r=1}^{10}r\,\pi_r(c;x),\\
 \end{equation}
 A rating represented by multiple tokens is scored as a complete answer.
 
-\begin{sdabox}{Candidate-proposal prompt}
-\emph{Passage}
-
-A memory system can store only a few single-word concepts about the
-passage above. List up to 8 concepts that could be worth remembering
-for possible future questions, including things the passage clearly
-implies but does not state. Answer with lowercase single words separated
-by commas, and nothing else.
-\end{sdabox}
-The context-only proposer uses Qwen3-8B with greedy decoding. Distinct
+The context-only proposer (Prompt~\ref{prompt:proposal}) uses Qwen3-8B
+with greedy decoding. Distinct
 parsed concepts form the candidate pool. The bridge, future question
 and answer are withheld from proposal and carried forward for evaluation.
 Bridge coverage accepts case differences and a trailing plural ending.
@@ -546,19 +493,9 @@ judge in App.~\ref{app:judge}.
 \label{app:judge}
 
 The judge, GPT-6-Astra, receives the question, gold answer and reader
-response with no admission-policy identity. The substantive grading
-instruction is quoted verbatim; its output-format instruction requests
+response with no admission-policy identity. Prompt~\ref{prompt:grading} quotes the substantive grading
+instruction verbatim; its output-format instruction requests
 a label for every supplied answer.
-\begin{sdabox}{Grading instruction}
-Grade short answers to memory questions. For each item decide whether
-ANSWER gives GOLD as its answer.\\
-Labels:\\
-``correct'': the answer commits to GOLD or an exact equivalent (synonym,
-inflection, fuller name) as its single answer. Extra explanation is fine.\\
-``hedged'': it offers two or more alternative answers (e.g.\ ``X or Y''),
-or states the answer cannot be determined, even if GOLD is mentioned.\\
-``incorrect'': anything else, including a different answer.
-\end{sdabox}
 Only correct responses contribute to recall; hedged and incorrect
 responses count as errors. Judgments are reused for identical question,
 gold answer and response triples. The harness additionally grades each
@@ -646,7 +583,7 @@ the exception is Mistral-7B at $k=3$. At $k=2$, the largest $p$ across
 models and seeds is 0.019 (Table~\ref{tab:stress}).
 On Qwen3-8B, direct output likelihood reaches 30.6/39.1/40.5\%
 recall at $k=1,2,3$, against SDA's 37.6/50.7/51.6\% means.
-SDA leads the measured non-oracle baselines at $k=2,3$;
+SDA leads the measured baselines at $k=2,3$;
 omission then report leads at $k=1$
 (Tables~\ref{tab:baselines} and~\ref{tab:paired}). At $k=2$, the omission baseline falls from
 53.4\% to 35.3\% and the reversed report from 46.6\% to 28.9\%, both
@@ -676,7 +613,7 @@ every SDA seed leads it at every budget. The paired mean differences
 are $+2.2$ points ($[-1.3,+5.6]$), $+4.7$ ($[+0.9,+8.4]$), and
 $+4.1$ ($[+0.9,+7.6]$), respectively (Table~\ref{tab:paired}).
 Omission then report has the highest recall at $k=1$; SDA leads the
-measured non-oracle baselines at $k=2,3$. Direct output likelihood reaches
+measured baselines at $k=2,3$. Direct output likelihood reaches
 28.1/32.0/33.9\%, against SDA's 38.6/51.5/52.4\% means.
 Random selection reaches 21.5\%, 27.0\% and
 29.8\%, the report 29.5\%, 40.5\% and 41.9\%, and the workspace
@@ -706,11 +643,11 @@ used by the reader.
 
 \paragraph{Bridge labels and reader success measure different outcomes.}
 Qwen3-8B recall is 22.9\% with the question alone, 63.9\% with the
-whole passage, 54.3\% with oracle labels and 50.0\% with SDA.
-Oracle labels prioritize the intended bridge; the reader answers from
+whole passage, 54.3\% with the intended-bridge reference and 50.0\% with SDA.
+The intended-bridge reference prioritizes the intended bridge; the reader answers from
 the complete stored set and its own knowledge. On OLMo-2-7B and
 Mistral-7B, SDA reaches 55.4\% and 19.8\%, versus 54.8\% and 16.8\%
-for oracle labels.
+for the intended-bridge reference.
 
 
 
@@ -813,39 +750,16 @@ case-and-space forms, as defined in App.~\ref{app:prompts}. The two
 aggregations account for the Mistral measurement difference in
 App.~\ref{app:conventions}.
 
-The exact question for each wording follows the passage. In the quoted
-instructions, \emph{candidate} is replaced by the candidate concept.
+Table~\ref{tab:wordingtext} gives the exact question for each wording;
+it follows the passage, and \emph{candidate} is replaced by the
+candidate concept.
 
-\begin{sdabox}{Passage only}
-Based only on the passage above, is the concept \emph{candidate} one
-of the most important things to remember in order to answer possible
-future questions? Answer with a single word: yes or no.
-\end{sdabox}
+\input{tables/tab_wording_text}
 
-\begin{sdabox}{Unrestricted}
-Is the concept \emph{candidate} one of the most important things to
-remember in order to answer possible future questions about the passage
-above? Answer with a single word: yes or no.
-\end{sdabox}
 
-\begin{sdabox}{Implied-content wording}
-Considering both what the passage above states and what it implies
-without stating, is the concept \emph{candidate} one of the most
-important things to remember in order to answer possible future
-questions? Answer with a single word: yes or no.
-\end{sdabox}
 
-\begin{sdabox}{Provenance-cued wording}
-Would storing the concept \emph{candidate} help answer a likely future
-question about the passage above, even if the passage never mentions
-it? Answer with a single word: yes or no.
-\end{sdabox}
 
-\begin{sdabox}{Two-concept budget}
-A memory system can keep only two concepts from the passage above.
-Should the concept \emph{candidate} be one of them, so that a later
-question can be answered? Answer with a single word: yes or no.
-\end{sdabox}
+
 
 \subsection{Matched naming and position measurements}
 \label{app:naming}
@@ -956,6 +870,7 @@ admission interface.
 
 \input{tables/tab_sda_scale}
 
+\FloatBarrier
 \section{Teacher and Optimization Measurements}
 \label{app:ablations}
 
@@ -971,14 +886,64 @@ complete paired intervals.
 
 \input{tables/tab_teacher_models_paired}
 
+\FloatBarrier
+We construct the paired-passage battery after the Fresh-2 freeze from
+the 363 frozen Fresh-2 episodes. We match these episodes into 181
+disjoint pairs, yielding 362 episodes. Each source episode appears in
+at most one pair, and one episode remains unpaired. Each member retains
+its own passage, future question, and answer. Its own bridge is its
+only useful candidate, and its partner's bridge is a negative
+candidate. Each member's candidate set is the union of the two members'
+original candidate lists. The resulting sets contain 8.86 candidates
+per episode on average, with between 8 and 12 candidates. Each member
+presents the union in its own shuffled order. No member retains its
+source order, and the two members of a pair never share an order.
+Both bridges are absent from the passage in all 362 episodes.
+Statedness cannot separate the useful candidate from the partner's
+bridge; only the content of the passage can. SDA's configuration is
+fixed before Fresh-2 (App.~\ref{app:freeze}), so no configuration choice
+uses this battery. Figure~\ref{fig:pairexample} shows one complete pair.
+We evaluate Qwen3-8B on all 362 episodes. The per-model and pooled
+analyses use the same pairs.
+
+\begin{figure*}[t]
+\centering
+\begin{minipage}[t]{0.485\textwidth}
+\begin{sdabox}[example]{Paired passage, first member}[ex:pairA]
+\textbf{Passage.} Soraya carefully arranged the menorah on the windowsill, lighting the first candle at sunset. Her family gathered, singing traditional songs and spinning dreidels. Plates of latkes and sufganiyot were passed around. The evening was filled with laughter and storytelling, each tale passed down for generations.
+
+\medskip
+\textbf{Candidates, in supplied order.} clients, bouquets, lilies, florist, hanukkah, song, latke, candle, holiday, vases.\\
+\textbf{Useful concept.} hanukkah.
+
+\medskip
+\textbf{Future question.} What religion does Soraya traditionally observe during this holiday?\\
+\textbf{Answer.} judaism.
+\end{sdabox}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.485\textwidth}
+\begin{sdabox}[example]{Paired passage, second member}[ex:pairB]
+\textbf{Passage.} Minh spent the afternoon arranging yellow and white lilies in tall crystal vases. She snipped stems and removed wilted leaves to ensure the displays would last. After consulting her chart, she delivered the finished bouquets to waiting clients preparing for a special event downtown.
+
+\medskip
+\textbf{Candidates, in supplied order.} florist, latke, song, holiday, clients, vases, candle, bouquets, hanukkah, lilies.\\
+\textbf{Useful concept.} florist.
+
+\medskip
+\textbf{Future question.} What might Minh worry about if her workplace got too cold overnight?\\
+\textbf{Answer.} freezing.
+\end{sdabox}
+\end{minipage}
+\caption{One pair from the paired-passage battery. Both members carry the same ten candidates in
+different orders. Each passage leaves both bridges, \emph{hanukkah} and \emph{florist}, unstated, so only
+the passage tells which of the two is useful.}
+\label{fig:pairexample}
+\end{figure*}
+
 Table~\ref{tab:crosspairmodels} gives the paired-passage results for each model.
 
 \input{tables/tab_crosspair_models}
 
-We evaluate 362 Qwen3-8B episodes in 181 pairs, each sharing an
-identical candidate set across two passages and their own questions.
-Each episode includes the other member's useful concept as a candidate,
-so only the passage distinguishes which candidate is useful.
 Table~\ref{tab:crosspair} reports SDA recall of 38.1/49.1/52.3\% at
 one, two and three stored concepts, with 48.2\% retention at one.
 Removing the workspace readout from SDA's teacher costs $5.3$ retention
@@ -998,6 +963,12 @@ yes/no importance report ($[+6.7,+14.3]$) and by $2.5$ points over the
 1--10 importance rating ($[-1.0,+6.0]$).
 
 \input{tables/tab_crosspair}
+
+Table~\ref{tab:replacedpassage} gives the replaced-passage measurements
+of Figure~\ref{fig:replaced} together with the untrained workspace
+readout and yes/no report.
+
+\input{tables/tab_replaced_passage}
 
 Over the 220 teacher-labeled episodes, each containing a useful
 candidate, SDA's teacher's two positive labels differ from those of the
@@ -1075,3 +1046,141 @@ SDA exceeds recall-reward training by 3.7 points on Fresh-2
 ($[+0.6,+5.1]$). These ablations use the same
 training episodes and adapter shape with a matched step budget
 (App.~\ref{app:ablationprotocol}).
+
+\section{Prompts}
+\label{app:promptlist}
+
+Every natural-language instruction used in the paper is reproduced below.
+Italic phrases stand for the supplied passage, candidate, memory list or
+question.
+
+\begin{figure*}[tp]
+\begin{sdabox}[prompt]{Episode authoring}[prompt:author]
+Design a batch of diverse test episodes about silent bridge reasoning
+for a memory experiment. Each episode has a passage of four to eight
+sentences about a named person; invent a distinctive first name,
+different in every episode, and vary the domain widely. A question
+asked later, out of context, refers to the episode only through the
+person's name and requires an unstated bridge fact inferable from the
+passage, followed by common general knowledge. Supply a short correct
+answer of one to three words and five to seven candidate concepts,
+each a common lowercase word with a utility category and a short reason.
+
+Exactly one candidate is the useful bridge concept, and its word must
+be absent from the passage. The question must share no passage content
+word except the person's name: someone who never read the passage
+must be unable to answer it. For a passage about Elena wandering the
+Plaza Mayor, ask what language Elena should have brushed up on for her
+trip, without naming the plaza in the question. The answer must differ
+from every candidate and be absent from the passage; combining the
+bridge with general knowledge yields the answer. For example, the
+Plaza Mayor cues \emph{madrid}, which supports \emph{spanish}. A reader
+remembering only the bridge plus the question must be able to answer.
+
+Include two or three vivid, emotional or surprising distractors that
+occur literally in the passage but are useless for the question, and
+one or two neutral concepts that occur in the passage. Every candidate
+must be a single common English lowercase word. Do not reuse concepts
+or person names across episodes.
+\end{sdabox}
+\end{figure*}
+
+\begin{figure*}[tp]
+\begin{sdabox}[prompt]{Admission, shared by SDA and the report}[prompt:admission]
+\emph{Passage}
+
+Based only on the passage above, is the concept ``\emph{candidate
+concept}'' one of the most important things to remember in order to
+answer possible future questions? Answer with a single word: yes or no.
+\end{sdabox}
+\end{figure*}
+
+\begin{figure*}[tp]
+\begin{sdabox}[prompt]{1--10 importance rating}[prompt:rating]
+\emph{Passage}
+
+On a scale of 1 to 10, where 1 is purely mundane and 10 is extremely
+important, rate how important it is to remember the concept
+``\emph{candidate concept}'' in order to answer possible future questions
+about this passage. Answer with a single number.
+\end{sdabox}
+\end{figure*}
+
+\begin{figure*}[tp]
+\begin{sdabox}[prompt]{ConsistencyGate, sampled form}[prompt:cgsample]
+You are a fact-checking assistant. Given a source context and a
+candidate fact, rate how strongly the fact is supported by the context.
+
+Source context: \emph{passage}\\
+Candidate fact: \emph{candidate concept}\\
+Question: How strongly is this candidate fact supported by the source
+context above? Do not use outside knowledge.
+
+0.0 = completely unsupported or directly contradicted by the context\\
+0.5 = partially supported or ambiguous\\
+1.0 = fully and directly supported by the context
+
+Output only a single decimal number between 0.0 and 1.0.
+\end{sdabox}
+\end{figure*}
+
+\begin{figure*}[tp]
+\begin{sdabox}[prompt]{ConsistencyGate, single-pass form}[prompt:cgyesno]
+You are a fact-checking assistant. Given a source context and a
+candidate fact, decide whether the fact is supported by the context.
+
+Source context: \emph{passage}\\
+Candidate fact: \emph{candidate concept}\\
+Question: Is this candidate fact supported by the source context above?
+Do not use outside knowledge.
+
+Answer with a single word: yes or no.
+\end{sdabox}
+\end{figure*}
+
+\begin{figure*}[tp]
+\begin{sdabox}[prompt]{A-MAC utility}[prompt:amac]
+\emph{passage}
+
+Consider storing the concept ``\emph{candidate concept}'' in long-term
+memory. Is it actionable, does it support likely follow-up questions, or
+does it capture a persistent constraint or preference?
+
+Answer with a single word: yes or no.
+\end{sdabox}
+\end{figure*}
+
+\begin{figure*}[tp]
+\begin{sdabox}[prompt]{Context-only candidate proposal}[prompt:proposal]
+\emph{Passage}
+
+A memory system can store only a few single-word concepts about the
+passage above. List up to 8 concepts that could be worth remembering
+for possible future questions, including things the passage clearly
+implies but does not state. Answer with lowercase single words separated
+by commas, and nothing else.
+\end{sdabox}
+\end{figure*}
+
+\begin{figure*}[tp]
+\begin{sdabox}[prompt]{Frozen reader}[prompt:reader]
+Earlier you read a passage. The only things you remember from it are:
+\emph{stored concepts separated by commas}.\\
+Using only what you remember, answer concisely.\\
+Question: \emph{future question}\\
+Answer:
+\end{sdabox}
+\end{figure*}
+
+\begin{figure*}[tp]
+\begin{sdabox}[prompt]{Blind semantic judge}[prompt:grading]
+Grade short answers to memory questions. For each item decide whether
+ANSWER gives GOLD as its answer.\\
+Labels:\\
+``correct'': the answer commits to GOLD or an exact equivalent (synonym,
+inflection, fuller name) as its single answer. Extra explanation is fine.\\
+``hedged'': it offers two or more alternative answers (e.g.\ ``X or Y''),
+or states the answer cannot be determined, even if GOLD is mentioned.\\
+``incorrect'': anything else, including a different answer.
+\end{sdabox}
+\end{figure*}

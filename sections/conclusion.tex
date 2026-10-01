@@ -1,9 +1,13 @@
 \section{Conclusion}
 \label{sec:conclusion}
 
-An importance report's ordering follows its candidate pool's provenance
-structure. SDA turns internal rankings into admission supervision and
-exceeds each model's own report in all 54 comparisons on the
-statedness-balanced pool. Standard serving preserves recall.
-Memory systems can train admission before the future question
-arrives and retain the inferred links that answering will need.
+The importance report orders memory candidates by provenance,
+favoring stated content even when the useful concept is unstated.
+Self-Distilled Admission (SDA) uses a frozen model's workspace readout
+and output likelihood to train a LoRA adapter through the model's own
+importance prompt. Training requires no future questions, rewards, or
+external teacher. SDA improves recall over each model's importance
+report on the statedness-balanced pool. The adapter attaches only to
+admission requests and preserves recall under standard serving.
+This enables agents to decide what to retain before a question
+arrives and to store inferred links that later answers need.
