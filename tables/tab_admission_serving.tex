@@ -1,6 +1,8 @@
 \begin{table*}[t]
 \centering
-\caption{Admission serving on Qwen3-8B, standard pool, one A100-80GB and 1{,}607 candidates after warm-up. Amortized time divides batched wall time by candidate count, with prefix caching. Served top-2 selections agree with the reference on 91.7\% of episodes; admission AUC differs by at most 0.001.}
+\caption{Admission serving on Qwen3-8B, standard pool, one A100-80GB with prefix caching. Amortized time is
+per candidate; top-2 selections match the reference on 91.7\% of episodes, with admission AUC
+differing by at most 0.001.}
 \label{tab:sdadeploy}
 \small
 \setlength{\tabcolsep}{4pt}

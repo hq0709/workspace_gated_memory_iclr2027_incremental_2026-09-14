@@ -1,18 +1,10 @@
-\begin{figure*}[t]
+\begin{figure}[!t]
 \centering
-\includegraphics[width=\textwidth]{figures/fig_teaser.pdf}
-\caption{\textbf{Naming moves computation far more than importance reports
-express; Self-Distilled Admission (SDA) turns it into admission
-decisions.} (a) Matched episodes differing by one sentence that names
-the otherwise inferable concept, on the standard Fresh-2 pool:
-six-model mean pooled ranking AUC (0--1; dashed chance line, 0.5).
-Solid: named; pale: inferable. Workspace readout: 0.563 to 0.956
-($+0.39$); output likelihood: 0.628 to 0.876 ($+0.25$); yes/no report:
-0.373 to 0.504 ($+0.13$); 1--10 rating: 0.548 to 0.558 ($+0.01$);
-changes at right. (b) Percent recall at two stored concepts on the
-statedness-balanced pool for Qwen3-8B, Qwen3-14B, Qwen3-32B,
-Qwen2.5-7B, OLMo-2-7B and Mistral-7B. The solid SDA polygon (three-seed
-mean) exceeds each model's own importance report, dashed, on every
-axis, averaging a 9.8-point gain.}
+\includegraphics[width=\columnwidth]{figures/fig_teaser_col.pdf}
+\caption{\textbf{Naming moves computation far more than importance reports express; Self-Distilled Admission
+(SDA) turns it into admission decisions.} (a) Six-model mean pooled AUC on the standard Fresh-2
+pool, with the useful concept inferable (pale) or named by one added sentence (solid); dashed line:
+chance. (b) Recall (\%) at two stored concepts on the statedness-balanced pool: SDA (solid,
+three-seed mean) against each model's own importance report (dashed); mean gain 9.8 points.}
 \label{fig:hero}
-\end{figure*}
+\end{figure}

@@ -235,14 +235,9 @@ student's ordering barely changes when the passage changes.
 \begin{figure}[t]
 \centering
 \includegraphics[width=\columnwidth]{figures/fig_replaced.pdf}
-\caption{Replaced-passage test on the standard Fresh-2 pool, Qwen3-8B,
-363 episodes. Retention is the percentage of episodes whose single
-stored concept is useful, with the episode's own passage (solid) or
-another episode's passage (pale); candidates, labels and question stay
-fixed. SDA and the students of teachers with one signal removed average
-three seeds. Drops give paired 95\% intervals from 4,000
-episode-bootstrap draws; Table~\ref{tab:replacedpassage} adds the
-untrained readouts.}
+\caption{Passage replacement on the standard Fresh-2 pool, Qwen3-8B. Retention is the percentage of episodes
+whose single stored concept is useful: own passage (solid), another episode's passage (pale). Drops
+are own minus replaced retention; Table~\ref{tab:replacedpassage} includes untrained readouts.}
 \label{fig:replaced}
 \end{figure}
 
