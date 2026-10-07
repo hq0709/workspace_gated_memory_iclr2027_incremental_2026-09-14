@@ -1,24 +1,23 @@
 \begin{table*}[t]
 \centering
 \caption{Replications on the alternate-author benchmark and entity-bridge benchmark. Pooled AUCs: $W$,
-workspace readout; $V$, thinking-disabled yes/no importance report; $W-V$, their difference. $^{*}$:
-95\% interval excludes zero.}
+workspace readout; $V$, thinking-disabled yes/no importance report; $W-V$, their difference. }
 \label{tab:replications}
 \small
 \begin{tabular}{llccc}
 \toprule
-Benchmark & Model & $W$ & $V$ & $W-V$ [95\% CI] \\
+Benchmark & Model & $W$ & $V$ & $W-V$ \\
 \midrule
-Alternate-author & Qwen2.5-7B & 0.490 & 0.384 & +0.106 [-0.009, +0.215] \\
- & Qwen3-8B & 0.515 & 0.220 & \textcolor{gain}{+0.295} [+0.197, +0.386]$^{*}$ \\
- & Qwen3-14B & 0.521 & 0.267 & \textcolor{gain}{+0.254} [+0.166, +0.340]$^{*}$ \\
- & Qwen3-32B & 0.522 & 0.275 & \textcolor{gain}{+0.247} [+0.134, +0.356]$^{*}$ \\
- & OLMo-2-7B & 0.547 & 0.353 & \textcolor{gain}{+0.194} [+0.093, +0.297]$^{*}$ \\
- & Mistral-7B & 0.507 & 0.294 & \textcolor{gain}{+0.213} [+0.128, +0.300]$^{*}$ \\
+Alternate-author & Qwen2.5-7B & 0.490 & 0.384 & +0.106 \\
+ & Qwen3-8B & 0.515 & 0.220 & +0.295 \\
+ & Qwen3-14B & 0.521 & 0.267 & +0.254 \\
+ & Qwen3-32B & 0.522 & 0.275 & +0.247 \\
+ & OLMo-2-7B & 0.547 & 0.353 & +0.194 \\
+ & Mistral-7B & 0.507 & 0.294 & +0.213 \\
 \addlinespace
-Entity-bridge & Qwen2.5-0.5B & 0.569 & 0.270 & \textcolor{gain}{+0.299} [+0.211, +0.396]$^{*}$ \\
- & Qwen2.5-7B & 0.664 & 0.881 & \textcolor{loss}{-0.217} [-0.303, -0.133]$^{*}$ \\
- & Qwen3-8B & 0.642 & 0.719 & -0.076 [-0.189, +0.032] \\
+Entity-bridge & Qwen2.5-0.5B & 0.569 & 0.270 & +0.299 \\
+ & Qwen2.5-7B & 0.664 & 0.881 & \textcolor{loss}{-0.217} \\
+ & Qwen3-8B & 0.642 & 0.719 & -0.076 \\
 \bottomrule
 \end{tabular}
 \end{table*}

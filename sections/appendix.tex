@@ -493,15 +493,15 @@ judge in App.~\ref{app:judge}.
 \label{app:judge}
 
 The judge, GPT-6-Astra, receives the question, gold answer and reader
-response with no admission-policy identity. Prompt~\ref{prompt:grading} quotes the substantive grading
-instruction verbatim; its output-format instruction requests
-a label for every supplied answer.
+response with no admission-policy identity. Prompt~\ref{prompt:grading}
+quotes the substantive grading instruction verbatim; its output-format
+instruction requests a label for every supplied answer.
 Only correct responses contribute to recall; hedged and incorrect
 responses count as errors. Judgments are reused for identical question,
 gold answer and response triples. The harness additionally grades each
 answer by string matching after normalization. Agreement is 85.1\%
 across 13,068 answers; every training run exceeds its own report under
-both graders, with maximum exact McNemar $p=0.026$.
+both graders.
 
 \subsection{Amortized scoring time and throughput}
 \label{app:timing}
@@ -535,10 +535,8 @@ adapter to admission requests.
 \label{app:recall}
 
 SDA exceeds the report in all 54 comparisons across six
-models, three seeds and three budgets. All seeds reach exact McNemar
-$p<0.05$ in 17 of 18 model--budget cells; Qwen3-32B at $k=3$ has
-maximum $p=0.073$. Across the six models, pooled report AUC is
-0.658--0.736 and workspace AUC is 0.719--0.812.
+models, three seeds and three budgets. Across the six models, pooled
+report AUC is 0.658--0.736 and workspace AUC is 0.719--0.812.
 
 
 \input{tables/tab_statedness_paired}
@@ -574,24 +572,19 @@ are 37.6\%, 50.0\% and 52.2\%. The omission cue identifies the useful
 concept directly in these episodes.
 
 \paragraph{Unstated distractors separate useful admission from omission.}
-The pool with unstated distractors adds four unstated distractors per episode.
-Under blind semantic grading, SDA exceeds each model's own yes/no
-report in 54 of 54 comparisons across six models, three seeds and
-budgets $k=1,2,3$. All three
-seeds reach exact McNemar $p<0.05$ in 17 of 18 model--budget cells;
-the exception is Mistral-7B at $k=3$. At $k=2$, the largest $p$ across
-models and seeds is 0.019 (Table~\ref{tab:stress}).
+The pool with unstated distractors adds four unstated distractors per
+episode. Under blind semantic grading, SDA exceeds each model's own
+yes/no report in 54 of 54 comparisons across six models, three seeds
+and budgets $k=1,2,3$ (Table~\ref{tab:stress}).
 On Qwen3-8B, direct output likelihood reaches 30.6/39.1/40.5\%
 recall at $k=1,2,3$, against SDA's 37.6/50.7/51.6\% means.
 SDA leads the measured baselines at $k=2,3$;
 omission then report leads at $k=1$
-(Tables~\ref{tab:baselines} and~\ref{tab:paired}). At $k=2$, the omission baseline falls from
-53.4\% to 35.3\% and the reversed report from 46.6\% to 28.9\%, both
-below the report's 41.0\%; SDA reaches 51.0\%, 51.2\% and
-49.9\%. Every SDA seed exceeds the omission baseline
-at every budget, with exact McNemar $p\leq0.097$ at $k=1$ and
-$p\leq6.5\times10^{-7}$ at $k=2,3$; every seed exceeds the reversed
-report with $p\leq4.3\times10^{-7}$ across budgets. SDA recalls are
+(Tables~\ref{tab:baselines} and~\ref{tab:paired}). At $k=2$, the omission
+baseline falls from 53.4\% to 35.3\% and the reversed report from 46.6\%
+to 28.9\%, both below the report's 41.0\%; SDA reaches 51.0\%, 51.2\% and
+49.9\%. Every SDA seed exceeds the omission baseline at every budget;
+every seed exceeds the reversed report across budgets. SDA recalls are
 37.7\% / 36.4\% / 38.6\% at $k=1$ and 51.8\% / 51.5\% / 51.5\%
 at $k=3$; the rating baseline reaches 35.8\% and 48.8\%.
 
@@ -610,11 +603,10 @@ at $k=1$, 50.7\% / 52.6\% / 51.2\% at $k=2$, and
 52.9\% / 52.1\% / 52.1\% at $k=3$ (Table~\ref{tab:bigpool}).
 The rating baseline reaches 36.4\%, 46.8\% and 48.2\%, respectively;
 every SDA seed leads it at every budget. The paired mean differences
-are $+2.2$ points ($[-1.3,+5.6]$), $+4.7$ ($[+0.9,+8.4]$), and
-$+4.1$ ($[+0.9,+7.6]$), respectively (Table~\ref{tab:paired}).
-Omission then report has the highest recall at $k=1$; SDA leads the
-measured baselines at $k=2,3$. Direct output likelihood reaches
-28.1/32.0/33.9\%, against SDA's 38.6/51.5/52.4\% means.
+are $+2.2$ points, $+4.7$, and $+4.1$, respectively
+(Table~\ref{tab:paired}). Omission then report has the highest recall at
+$k=1$; SDA leads the measured baselines at $k=2,3$. Direct output
+likelihood reaches 28.1/32.0/33.9\%, against SDA's 38.6/51.5/52.4\% means.
 Random selection reaches 21.5\%, 27.0\% and
 29.8\%, the report 29.5\%, 40.5\% and 41.9\%, and the workspace
 readout 24.0\%, 34.7\% and 38.6\%.
@@ -624,8 +616,7 @@ readout 24.0\%, 34.7\% and 38.6\%.
 \label{app:episodemetrics}
 
 SDA improves both within-episode ranking and retention of the intended
-bridge at $k=2$ (Table~\ref{tab:episodemetrics}). Paired whole-episode
-bootstrap intervals compare each score with the report baseline.
+bridge at $k=2$ (Table~\ref{tab:episodemetrics}).
 Conditional recall distinguishes retaining the bridge from answering
 the question: for the primary SDA seed, recall is 54.6\% with the
 bridge and 41.2\% without it, versus 48.2\% and 37.7\% for the report.
@@ -635,9 +626,8 @@ two selections. On the 249 episodes whose memory contains the bridge,
 we replace only that concept with SDA's next-ranked candidate, keeping
 the other selection, question and frozen reader fixed. Recall changes
 from 54.6\% to 37.8\%, a 16.9-point decrease: 59 previously correct
-answers become incorrect and 17 become correct (exact McNemar
-$p=1.4\times10^{-6}$). Retaining the bridge supplies information
-used by the reader.
+answers become incorrect and 17 become correct. Retaining the bridge
+supplies information used by the reader.
 
 \input{tables/tab_episode_metrics}
 
@@ -662,8 +652,7 @@ Restricting the pool with unstated distractors to episodes with an
 unstated useful concept and at least one unstated negative leaves
 345 episodes, with 5.01 qualifying candidates per episode on average.
 Within this group, report AUC is 0.880--0.897 across six models and
-workspace AUC is 0.592--0.697. Every paired 95\% interval for workspace
-minus report lies below zero (Table~\ref{tab:withinunstated}).
+workspace AUC is 0.592--0.697 (Table~\ref{tab:withinunstated}).
 This measurement holds provenance fixed; the full-pool comparison
 measures the competition between stated and unstated candidates.
 
@@ -722,10 +711,9 @@ inferences without specifying the useful concept's provenance is the
 implied-content wording. Its recall rises from 28.1/40.8/41.6\% to
 29.2/41.3/44.9\%. SDA trained and evaluated with this same wording
 reaches 37.1/50.7/51.0\% (Table~\ref{tab:wordingdistill}); all seeds
-exceed the wording alone at every budget, with exact McNemar
-$p\leq6.9\times10^{-5}$. The passage-only wording SDA means are
-37.6/50.0/52.2\% (Table~\ref{tab:baselines}). Training through the
-implied-content wording adds recall beyond the wording change alone.
+exceed the wording alone at every budget. The passage-only wording SDA
+means are 37.6/50.0/52.2\% (Table~\ref{tab:baselines}). Training through
+the implied-content wording adds recall beyond the wording change alone.
 
 \input{tables/tab_wording_distill}
 
@@ -824,8 +812,7 @@ template, so the yes/no importance report is undefined there.
 
 Workspace AUC exceeds report AUC at every measured Qwen3 size on
 Decoupled, with non-monotonic paired changes between adjacent sizes
-(Table~\ref{tab:scale}). From 8B to 32B, the paired change is $-0.0536$
-(95\% CI $[-0.1352,+0.0279]$).
+(Table~\ref{tab:scale}). From 8B to 32B, the paired change is $-0.0536$.
 
 \input{tables/iclr_scale}
 
@@ -863,8 +850,7 @@ construction.
 \label{app:sdascale}
 
 SDA raises development admission AUC at every measured Qwen3 scale
-and seed (Table~\ref{tab:sdascale}). All 18 paired 95\% intervals for
-the gain lie above zero, while the largest absolute workspace AUC
+and seed (Table~\ref{tab:sdascale}). The largest absolute workspace AUC
 change is 0.0046. The measured improvement is concentrated in the
 admission interface.
 
@@ -880,7 +866,7 @@ admission interface.
 
 Table~\ref{tab:teachermodels} reports primary-pool recall for all three
 teacher compositions; Table~\ref{tab:teachermodelpaired} gives their
-complete paired intervals.
+paired differences.
 
 \input{tables/tab_teacher_models}
 
@@ -947,20 +933,17 @@ Table~\ref{tab:crosspairmodels} gives the paired-passage results for each model.
 Table~\ref{tab:crosspair} reports SDA recall of 38.1/49.1/52.3\% at
 one, two and three stored concepts, with 48.2\% retention at one.
 Removing the workspace readout from SDA's teacher costs $5.3$ retention
-points ($[+2.4,+8.4]$) and leaves recall unchanged on this set: the
-difference is $-0.1$ points ($[-2.0,+1.8]$). Removing the output
-likelihood costs both, $2.9$ retention points ($[+0.1,+5.7]$) and $3.0$
-recall points ($[+1.1,+4.9]$). These differences are seed-averaged,
-with 95\% bootstrap intervals over episodes from 4,000 draws. Removing
+points and leaves recall unchanged on this set: the difference is $-0.1$
+points. Removing the output likelihood costs both, $2.9$ retention points
+and $3.0$ recall points. These differences are seed-averaged. Removing
 the workspace readout also costs $3.1$ and $3.5$ retention points at
-two and three stored concepts, with both intervals excluding zero. The
-both-of-a-pair column reports 20.8\% for SDA, 17.9\% for its teacher
-without the workspace readout and 20.4\% for its teacher without the
-output likelihood. A passage-blind candidate ordering cannot raise this
-rate above zero at one stored concept. Against the untrained baselines
-at one stored concept, SDA improves recall by $10.5$ points over the
-yes/no importance report ($[+6.7,+14.3]$) and by $2.5$ points over the
-1--10 importance rating ($[-1.0,+6.0]$).
+two and three stored concepts. The both-of-a-pair column reports 20.8\%
+for SDA, 17.9\% for its teacher without the workspace readout and 20.4\%
+for its teacher without the output likelihood. A passage-blind candidate
+ordering cannot raise this rate above zero at one stored concept.
+Against the untrained baselines at one stored concept, SDA improves
+recall by $10.5$ points over the yes/no importance report and by $2.5$
+points over the 1--10 importance rating.
 
 \input{tables/tab_crosspair}
 
@@ -975,10 +958,10 @@ candidate, SDA's teacher's two positive labels differ from those of the
 teacher without the workspace readout on 43.2\% of episodes and from
 those of the teacher without the output likelihood on 45.0\%. On
 disagreement episodes, SDA's teacher's labels contain the useful concept
-in 63.2\% against 58.9\% for the teacher without the workspace readout
-(exact McNemar $p=0.67$), and in 63.6\% against 48.5\% for the teacher
-without the output likelihood ($p=0.032$). Across all 220 episodes, these
-rates are 60.9\%, 59.1\% and 54.1\%, respectively.
+in 63.2\% against 58.9\% for the teacher without the workspace readout,
+and in 63.6\% against 48.5\% for the teacher without the output
+likelihood. Across all 220 episodes, these rates are 60.9\%, 59.1\% and
+54.1\%, respectively.
 
 The teacher uses each candidate's first token as specified in
 Eq.~\eqref{eq:wrr}. The full-candidate readout protocol appends the candidate and reads
@@ -1000,20 +983,19 @@ pooled and within-episode AUCs.}
 \end{table*}
 
 \paragraph{Teacher composition on the standard pool.}
-On the standard Fresh-2 pool (Table~\ref{tab:sdaablation}), the teacher without the workspace readout reaches 50.3\%, a paired
-$+0.3$ percentage points relative to SDA (95\% CI $[-2.2,+2.8]$);
-the teacher without the output likelihood reaches 47.9\%, a paired $-2.1$ points
-($[-4.1,-0.3]$).
+On the standard Fresh-2 pool (Table~\ref{tab:sdaablation}), the teacher
+without the workspace readout reaches 50.3\%, a paired $+0.3$ percentage
+points relative to SDA; the teacher without the output likelihood
+reaches 47.9\%, a paired $-2.1$ points.
 
 \input{tables/tab_sda_ablation}
 
 \paragraph{Distillation changes the usable ranking.}
-Using the combined teacher directly yields 45.7\% standard-pool Fresh-2 recall,
-$-4.3$ points relative to SDA ($[-8.9,+0.1]$). Direct workspace scoring
-yields 44.6\%, a difference of $-5.4$ points ($[-10.4,-0.5]$), and
-direct likelihood yields 48.8\%, a difference of $-1.3$ points
-($[-5.6,+2.8]$). The student learns a context-and-candidate judgment
-from the teacher's ordering.
+Using the combined teacher directly yields 45.7\% standard-pool Fresh-2
+recall, $-4.3$ points relative to SDA. Direct workspace scoring yields
+44.6\%, a difference of $-5.4$ points, and direct likelihood yields
+48.8\%, a difference of $-1.3$ points. The student learns a
+context-and-candidate judgment from the teacher's ordering.
 
 \subsection{The training objective determines admission ordering}
 \label{app:objective}
@@ -1040,10 +1022,9 @@ untrained checkpoint selected at the other learning rates.
 \input{tables/tab_objective}
 
 \paragraph{Reader reward adds task-specific supervision.}
-SDA exceeds recall-reward training by 3.7 points on Fresh-2
-($[+1.3,+6.2]$); recall-reward refinement after SDA adds 2.8 points
-($[+0.6,+5.1]$). These ablations use the same
-training episodes and adapter shape with a matched step budget
+SDA exceeds recall-reward training by 3.7 points on Fresh-2;
+recall-reward refinement after SDA adds 2.8 points. These ablations use
+the same training episodes and adapter shape with a matched step budget
 (App.~\ref{app:ablationprotocol}).
 
 \section{Prompts}

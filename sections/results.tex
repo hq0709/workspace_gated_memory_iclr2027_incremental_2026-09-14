@@ -41,9 +41,9 @@ at $k=1$ (Tables~\ref{tab:balancedbaselines}, \ref{tab:baselines}
 and~\ref{tab:paired}).
 
 SDA trails omission then report on the standard pool by $9.5$ points at
-one stored concept ($[-13.7,-5.3]$). At two stored concepts, the
-difference is $-3.4$ points ($[-7.0,+0.4]$). On the statedness-balanced
-pool, SDA exceeds this rule by $14.6$ points at two stored concepts
+one stored concept. At two stored concepts, the difference is $-3.4$
+points. On the statedness-balanced pool, SDA exceeds this rule by $14.6$
+points at two stored concepts
 (Tables~\ref{tab:paired} and~\ref{tab:balancedpaired}).
 
 \subsection{Admission Results}
@@ -52,9 +52,7 @@ pool, SDA exceeds this rule by $14.6$ points at two stored concepts
 Self-Distilled Admission (SDA) exceeds each model's own importance report
 in all 54 model--seed--budget comparisons on the statedness-balanced
 pool. At $k=2$, Qwen3-8B recall rises from 43.0\% to
-53.7/54.8/52.6\% across seeds (Table~\ref{tab:balanced}). Across budgets,
-all three seeds reach exact McNemar $p<0.05$ in 17 of 18
-model--budget cells.
+53.7/54.8/52.6\% across seeds (Table~\ref{tab:balanced}).
 
 The 1-10 importance rating is the strongest untrained admission policy
 for Qwen3-8B on this pool. We evaluate it for all six models at all three
@@ -73,12 +71,11 @@ separates the contributions of the teacher's two signals.
 
 \input{tables/tab_primary_policies}
 
-At $k=2$, SDA gains $+5.2$ recall points over the 1-10 importance rating
-($[+1.7,+8.8]$). Its gains are $+9.1$ points over implied-content
-wording, $+14.6$ over the provenance-adjusted importance report, and
-$+8.8$ over the direct combined teacher
-(Table~\ref{tab:balancedpaired}). Paired policy differences average
-seeds and use 95\% intervals from 4,000 paired episode-bootstrap draws.
+At $k=2$, SDA gains $+5.2$ recall points over the 1-10 importance rating.
+Its gains are $+9.1$ points over implied-content wording, $+14.6$ over
+ the provenance-adjusted importance report, and $+8.8$ over the direct
+combined teacher (Table~\ref{tab:balancedpaired}). Paired policy
+differences average seeds.
 
 Published admission criteria also fall below the untrained importance
 report on the primary pool. We implemented ConsistencyGate
@@ -88,9 +85,8 @@ Each admits top-$k$ candidates under the same budget protocol
 (Table~\ref{tab:balancedbaselines}). At two stored concepts, SDA gains
 $+18.7$ recall points over each ConsistencyGate form, $+14.1$ over
 A-MAC utility, and $+27.8$ over prediction error.
-All 12 paired intervals across these methods and budgets exclude zero.
 The smallest gain is $+6.9$ points over A-MAC utility at three stored
-concepts ($[+2.6,+11.1]$; Table~\ref{tab:balancedpaired}).
+concepts (Table~\ref{tab:balancedpaired}).
 
 ConsistencyGate and A-MAC utility track whether the passage states a
 candidate. On the statedness-balanced pool, their correlations with
@@ -108,8 +104,7 @@ development episodes, raises development AUC from 0.304 to 0.978.
 It lowers statedness-balanced AUC from 0.683 to 0.575. The offset ranks
 every unstated candidate ahead of every stated candidate, reproducing
 omission then report. Their recalls match at $k=2,3$; at $k=1$, they
-reach 36.6\% and 36.9\%, respectively. The offset ranks every unstated
-candidate ahead of every stated one on every pool, while SDA's ranking
+reach 36.6\% and 36.9\%, respectively. SDA's ranking
 changes with the passage (Figure~\ref{fig:replaced}).
 
 SDA improves retention of inferred useful concepts and retains stated
@@ -121,15 +116,13 @@ episodes and 64.8/64.8/64.3\% in inferred episodes.
 
 The 173 inferred-condition episodes contain no sentence naming any
 candidate. SDA reaches 37.4/50.1/46.6\% recall at $k=1,2,3$, compared
-with 24.9/40.5/37.0\% for the importance report. The gains are $12.5$
-($[+6.7,+18.7]$), $9.6$ ($[+3.7,+15.6]$), and $9.6$
-($[+4.4,+15.0]$) points. SDA also exceeds the 1-10 importance rating
-by $5.6$ points at two stored concepts ($[+0.8,+10.8]$).
-These differences average three seeds, with 95\% intervals from 4,000
-episode-bootstrap draws.
+with 24.9/40.5/37.0\% for the importance report. The gains are $12.5$,
+$9.6$, and $9.6$ points. SDA also exceeds the 1-10 importance rating
+by $5.6$ points at two stored concepts. These differences average
+three seeds.
 
 On the standard pool, all 18 runs exceed their own importance report,
-with a mean gain of 9.6 points and exact McNemar $p\leq0.026$
+with a mean gain of 9.6 points
 (Tables~\ref{tab:sdabudget} and~\ref{tab:paired}). Semantic and
 string-match grading both recover these gains (App.~\ref{app:judge}).
 
@@ -139,8 +132,7 @@ standard pool (Table~\ref{tab:episodemetrics}). We replay SDA's two
 selections on the 249 episodes where it retains the bridge, then
 replace the bridge with the next-ranked candidate. Recall falls from
 54.6\% to 37.8\%, a paired decrease of 16.9 points.
-The replacement loses 59 answers and gains 17
-(exact McNemar $p=1.4\times10^{-6}$).
+The replacement loses 59 answers and gains 17.
 
 \paragraph{Reader references and candidate proposal.}
 Question-only and whole-passage readers reach 22.9\% and 63.9\% recall
@@ -178,13 +170,11 @@ At $k=2$ on the pool with unstated distractors, SDA gains 9.6 recall
 points over the importance report, 4.1 over the 1-10 importance rating,
 and 5.8 over omission then report (Table~\ref{tab:paired}).
 On the enlarged pool, with 12.41 candidates, the corresponding gains
-are 11.0, 4.7, and 6.6 points. Every paired 95\% interval for these
-comparisons excludes zero (Table~\ref{tab:paired}).
+are 11.0, 4.7, and 6.6 points (Table~\ref{tab:paired}).
 
 At one stored concept, SDA trails omission then report by $8.4$ points
-on the pool with unstated distractors ($[-12.7,-4.2]$) and by $5.5$
-points on the enlarged pool ($[-9.6,-1.5]$)
-(Table~\ref{tab:paired}). At two and three stored concepts, SDA leads
+on the pool with unstated distractors and by $5.5$ points on the enlarged
+pool (Table~\ref{tab:paired}). At two and three stored concepts, SDA leads
 every measured baseline on both pools
 (App.~\ref{app:poolresults}).
 
@@ -209,15 +199,12 @@ Qwen2.5-7B, and OLMo-2-7B, yielding 1,810 observations per budget
 Table~\ref{tab:crosspairmodels}).
 
 At one stored concept, removing the workspace readout costs $+1.9$
-recall points ($[+1.0,+2.8]$) and $+7.3$ retention points
-($[+6.1,+8.5]$). Removing output likelihood costs $+1.3$ recall
-points ($[+0.3,+2.3]$); retention rises by $1.4$ points ($[-0.2,+2.9]$). Both ablations lower mean recall
-at every budget.
+recall points and $+7.3$ retention points. Removing output likelihood
+costs $+1.3$ recall points; retention rises by $1.4$ points. Both
+ablations lower mean recall at every budget.
 Removing the workspace readout also lowers retention at every budget
 (Table~\ref{tab:crosspairpooled}). Costs are SDA minus the trained
 ablation, averaged over three seeds and pooled over models.
-The 95\% intervals use 4,000 bootstrap draws that resample pairs,
-carrying each pair's rows across all five models together.
 
 \input{tables/tab_crosspair_pooled}
 
@@ -225,10 +212,9 @@ The replaced-passage test measures how the student's selections depend
 on the passage (Figure~\ref{fig:replaced}). We score each episode
 with its own passage and another episode's passage, keeping candidates,
 labels, and the question fixed. On 363 standard-pool episodes with one
-stored concept, Qwen3-8B SDA retention falls by $20.9$ points
-($[+14.3,+27.4]$). The student trained without the workspace readout
-loses $2.9$ points ($[-3.5,+9.2]$); the student trained without output
-likelihood loses $26.5$ points ($[+20.5,+32.6]$)
+stored concept, Qwen3-8B SDA retention falls by $20.9$ points.
+The student trained without the workspace readout loses $2.9$ points;
+the student trained without output likelihood loses $26.5$ points
 (Figure~\ref{fig:replaced}). Without the workspace readout, the
 student's ordering barely changes when the passage changes.
 
@@ -236,18 +222,17 @@ student's ordering barely changes when the passage changes.
 \centering
 \includegraphics[width=\columnwidth]{figures/fig_replaced.pdf}
 \caption{Passage replacement on the standard Fresh-2 pool, Qwen3-8B. Retention is the percentage of episodes
-whose single stored concept is useful: own passage (solid), another episode's passage (pale). Drops
-are own minus replaced retention; Table~\ref{tab:replacedpassage} includes untrained readouts.}
+whose single stored concept is useful: own passage (solid), another episode's passage (pale). Error bars: standard deviation over three seeds. Changes are replaced
+minus own retention; Table~\ref{tab:replacedpassage} includes untrained readouts.}
 \label{fig:replaced}
 \end{figure}
 
 On the primary statedness-balanced pool, removing output likelihood
 costs $+1.6$ and $+1.7$ recall points at one and two stored concepts.
 Removing the workspace readout costs $+0.7$, $+0.6$, and $+0.3$
-points at one, two, and three stored concepts; all three intervals
-include zero (Table~\ref{tab:teachermodelpaired}).
-This analysis combines five models and 1,815 observations per budget,
-with each episode moving together across models in the bootstrap.
+points at one, two, and three stored concepts
+(Table~\ref{tab:teachermodelpaired}). This analysis combines five models
+and 1,815 observations per budget.
 Table~\ref{tab:teachermodels} reports per-model recall.
 
 \paragraph{Training the importance interface beyond scoring.}
@@ -266,8 +251,7 @@ report AUC from 0.321 to 0.462 and improves recall at every budget
 (Table~\ref{tab:wordingdistill}). Holding this wording fixed for
 training and evaluation, SDA reaches 37.1/50.7/51.0\% recall at
 $k=1,2,3$. It exceeds the prompt baseline at every budget
-(exact McNemar $p\leq6.9\times10^{-5}$;
-Table~\ref{tab:wordingdistill}). SDA trained with passage-only wording
+(Table~\ref{tab:wordingdistill}). SDA trained with passage-only wording
 reaches 37.6/50.0/52.2\%
 (Tables~\ref{tab:baselines} and~\ref{tab:paired}).
 
@@ -278,9 +262,8 @@ Standard serving preserves SDA recall at 242 candidates per second
 on one A100-80GB (Table~\ref{tab:sdadeploy}).
 The served Qwen3-8B adapter reaches 50.1\% recall on the standard pool,
 within 0.3 percentage points of the reference selections.
-Paired disagreements are two versus three episodes
-(exact McNemar $p=1.0$). Top-2 memories agree on 91.7\% of episodes,
-and admission AUC differs by at most 0.001.
+Paired disagreements are two versus three episodes. Top-2 memories
+agree on 91.7\% of episodes, and admission AUC differs by at most 0.001.
 
 The throughput measurement uses batched serving with prefix caching
 over 1,607 candidates after warm-up. SDA takes 4.1\,ms per candidate;
