@@ -1,15 +1,16 @@
 \section{Limitations}
 \label{sec:limitations}
 
-The evaluation covers admission of host-supplied candidates in authored
-episodes with one later question. End-to-end long-conversation memory
-also requires proposal, revision, retrieval, and deletion. Construction
-labels identify an intended bridge rather than the optimal memory for
-every reader. Stem matching approximates provenance, and semantic
-grading uses a model judge. Serving and full-candidate readout
-measurements cover Qwen3-8B on the standard pool. Serving uses batched
+The evaluation covers admission of host-supplied candidates in generated
+episodes with one later question; end-to-end long-conversation memory
+also requires candidate extraction, update, retrieval, and deletion.
+Gold utility labels mark the generator's useful concept, while the
+optimal memory can differ by reader. Stem matching approximates
+statedness, and semantic grading uses an LLM judge. Serving and
+full-candidate workspace readout measurements (which score every token
+of a candidate) cover Qwen3-8B on the standard pool; serving uses batched
 scoring on one A100-80GB. The objective ablation measures ranking and
-recall rather than probability calibration, with three seeds at learning
-rate $10^{-5}$ and one at each smaller learning rate. The 54
-model--seed--budget comparisons share episodes. They measure consistency
-across settings rather than 54 independent replications.
+answer accuracy, with three seeds at learning rate $10^{-5}$ and one at
+each smaller learning rate.
+Because the 54 model--seed--budget comparisons share episodes, they
+measure consistency across settings, not 54 independent replications.

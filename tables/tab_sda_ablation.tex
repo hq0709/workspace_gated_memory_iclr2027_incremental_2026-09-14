@@ -1,26 +1,26 @@
 \begin{table*}[t]
 \centering
-\caption{SDA ablations on the standard Fresh-2 pool, Qwen3-8B, $k=2$. Recall is in percent; $\Delta$ is the
-recall difference from SDA in percentage points.}
+\caption{SDA ablations on the standard pool, Qwen3-8B, $k=2$. Answer accuracy is in percent; $\Delta$ is the
+accuracy difference from SDA in percentage points.}
 \label{tab:sdaablation}
 \small
 \setlength{\tabcolsep}{5pt}
 \begin{tabular}{lcc}
 \toprule
-Variant & Recall & $\Delta$ vs.\ SDA \\
+Variant & Accuracy & $\Delta$ vs.\ SDA \\
 \midrule
 \textbf{SDA} & \textbf{50.0}\,$\pm$\,1.4 & \emph{reference} \\
 \addlinespace
-\multicolumn{3}{l}{\emph{Teacher with one signal removed}} \\
+\multicolumn{3}{l}{\emph{Students of teachers with one signal removed}} \\
 Without the output likelihood & 47.9\,$\pm$\,0.6 & $-2.1$ \\
 Without the workspace readout & 50.3\,$\pm$\,1.2 & $+0.3$ \\
 \addlinespace
 \multicolumn{3}{l}{\emph{No distillation}} \\
 Combined teacher used directly & 45.7 & $-4.3$ \\
 \addlinespace
-\multicolumn{3}{l}{\emph{Recall reward}} \\
-Recall reward instead of distillation & 46.4\,$\pm$\,2.8 & $-3.7$ \\
-SDA followed by recall-reward refinement & 52.9\,$\pm$\,0.5 & $+2.8$ \\
+\multicolumn{3}{l}{\emph{Accuracy reward}} \\
+Accuracy reward instead of distillation & 46.4\,$\pm$\,2.8 & $-3.7$ \\
+SDA followed by accuracy-reward refinement & 52.9\,$\pm$\,0.5 & $+2.8$ \\
 \bottomrule
 \end{tabular}
 \end{table*}

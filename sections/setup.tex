@@ -7,15 +7,15 @@ admission stores $K\subseteq C$ with $|K|\leq k$. The future question
 $q$ and answer $a$ are hidden. When $q$ arrives, the frozen reader sees
 only $q$ and $K$; the original passage has left its window. Every policy
 receives the same candidates and budget. We measure three successive
-outcomes: within-episode ranking, retention of the useful concept, and
-downstream recall.
+outcomes: within-episode ranking, useful-concept retention, and answer
+accuracy.
 
-\paragraph{Within-Episode Ranking.}
+\paragraph{Within-episode ranking.}
 Within-episode area under the receiver operating characteristic curve
-(AUC) measures how well a policy orders candidates that compete for
-memory. It is the fraction of useful--distractor pairs ordered correctly,
-with half credit for ties, averaged across episodes. For useful concept
-$b_i$ in episode $i$, score $s$ and $n$ episodes,
+(AUC) measures how well a policy ranks candidates competing for memory.
+It is the fraction of pairs of the useful concept and another candidate
+ordered correctly, with half credit for ties, averaged across episodes.
+For useful concept $b_i$ in episode $i$, score $s$ and $n$ episodes,
 \begin{equation}
 \begin{split}
 A_{\mathrm{episode}}={}&\frac{1}{n}\sum_{i=1}^{n}\frac{1}{|C_i|-1}\\
@@ -24,50 +24,54 @@ A_{\mathrm{episode}}={}&\frac{1}{n}\sum_{i=1}^{n}\frac{1}{|C_i|-1}\\
 \end{split}
 \label{eq:episodeauc}
 \end{equation}
-Pooled AUC compares candidates across the entire battery and summarizes
+Pooled AUC compares candidates across the entire set and summarizes
 score discrimination.
 
-For the provenance analysis, we replace utility labels with statedness
-labels. The resulting \emph{provenance AUC} measures discrimination of
-stated from unstated candidates. Statedness is determined by a
-case-insensitive stem match against the passage.
+A candidate is stated when a case-insensitive stem match finds it in
+the passage and unstated otherwise. Replacing utility labels with
+statedness labels gives the \emph{statedness AUC}.
 
-\paragraph{Useful Concept Retention.}
-Bridge retention is the fraction of episodes whose stored set contains
-the construction-labelled useful concept:
+\paragraph{Useful-concept retention.}
+Useful-concept retention $B_k$ is the fraction of episodes whose stored
+set contains the useful concept:
 \begin{equation}
 B_k=\frac{1}{n}\sum_{i=1}^{n}\mathbf{1}\{b_i\in K_i\}.
 \label{eq:retention}
 \end{equation}
-This measures whether the useful concept survives the memory budget.
 A policy can rank it above most distractors and still omit it at a
-small budget. The intended-bridge reference prioritizes the intended useful
-concept and provides a reference for this construction.
+small budget. Gold-concept selection reads the gold utility label to
+rank the labeled useful concept first and appears as a reference row
+in the tables.
 
-\paragraph{Downstream Recall.}
-Recall is the fraction of future questions that a fixed, frozen reader
-answers correctly from the stored concepts. A retained useful concept
-can still lead to an incorrect answer. Correct answering also depends
-on the reader and the other stored concepts.
+\paragraph{Answer accuracy.}
+Answer accuracy is the fraction of future questions that a fixed,
+frozen reader answers correctly from the stored concepts under blind
+semantic grading. Accuracy also depends on the reader and the other
+stored concepts, so retention and accuracy can differ.
 
 The reader answers greedily, with Qwen3 thinking disabled. A blind
 semantic judge receives only the question, gold answer and response.
 It accepts a committed correct answer or exact equivalent. A separate
 string-match grader checks agreement (App.~\ref{app:judge}).
 
-Question-only and whole-passage readers establish how much of the answer
-can be recovered before admission and with the complete original input,
-respectively.
+The closed-book reader (question only) and the full-context reader
+(whole passage) measure answer recovery before admission and with the
+complete original input, respectively.
 
 \paragraph{Comparisons.}
-We compare admission policies under the same inputs and memory budget.
-Baselines include the untrained yes/no importance report, a 1-10 importance rating,
-the reversed yes/no importance report, admit what the passage omits,
-omission then report, wording variants, and the provenance-adjusted report.
-We also compare the combined teacher used directly, random selection,
-output likelihood, the workspace readout, and students trained from
-either teacher signal alone. All receive the passage with the future
-question hidden (App.~\ref{app:baselines}).
+Baselines include the importance report, a 1--10 importance rating,
+the reversed importance report, unstated-first (unstated candidates
+first, ties broken at random), unstated-first with report ordering
+(unstated candidates first, each statedness class ordered by the
+importance report), implied-content wording (an importance prompt
+that permits implied content), statedness-cued wording (an importance
+prompt that says the passage may never mention the useful concept),
+and the statedness-adjusted report (the importance report plus one
+fitted offset for stated candidates). We also compare the combined
+teacher used directly, random selection, output likelihood, the
+workspace readout, and adapters
+(students, \S\ref{sec:student}) trained on labels from one teacher
+signal (App.~\ref{app:baselines}).
 
 Trained results are the mean and sample standard deviation over three
 seeds; differences between policies are differences of means

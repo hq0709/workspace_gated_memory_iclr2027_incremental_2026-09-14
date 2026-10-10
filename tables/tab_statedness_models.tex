@@ -1,13 +1,13 @@
 \begin{table*}[t]
 \centering
-\caption{Recall (\%) at $k=2$ across models on the statedness-balanced pool (7.93 candidates per episode).
-Rating: 1--10 importance rating \citep{park2023generative}.}
+\caption{Answer accuracy (\%) at $k=2$ across models on the statedness-balanced pool (7.93 candidates per episode).
+Rating: 1--10 importance rating \citep{park2023generative}. Gold-concept selection ranks the labeled useful concept first.}
 \label{tab:balanced}
 \small
 \setlength{\tabcolsep}{4pt}
 \begin{tabular}{lccccc}
 \toprule
-Model & \shortstack{Yes/no\\report} & \shortstack{1--10\\rating} & \shortstack{Workspace\\readout} & \textbf{SDA (3 seeds)} & \shortstack{Intended-bridge\\reference} \\
+Model & \shortstack{Importance\\report} & \shortstack{1--10\\rating} & \shortstack{Workspace\\readout} & \textbf{SDA (3 seeds)} & \shortstack{Gold-concept\\selection} \\
 \midrule
 Qwen3-8B & 43.0 & 48.5 & 43.0 & \textbf{53.7 / 54.8 / 52.6} & 54.3 \\
 Qwen3-14B & 35.3 & 40.0 & 36.6 & \textbf{44.9 / 44.1 / 43.2} & 46.6 \\

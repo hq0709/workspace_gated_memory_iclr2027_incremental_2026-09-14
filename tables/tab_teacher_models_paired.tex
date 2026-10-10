@@ -1,7 +1,7 @@
 \begin{table*}[t]
 \centering
 \caption{Teacher signal ablations on the statedness-balanced pool, five models. Entries are SDA minus
-students trained with one teacher signal removed, in recall percentage points.}
+students trained with one teacher signal removed, in accuracy points.}
 \label{tab:teachermodelpaired}
 \small
 \setlength{\tabcolsep}{4pt}
@@ -9,16 +9,16 @@ students trained with one teacher signal removed, in recall percentage points.}
 \toprule
 Model & Teacher & $k=1$ & $k=2$ & $k=3$ \\
 \midrule
-Qwen3-8B & Without workspace readout & $-1.6$ & $-1.1$ & $+1.2$ \\
- & Without output likelihood & $+3.8$ & $+4.0$ & $+1.3$ \\
-Qwen3-14B & Without workspace readout & $-0.7$ & $+0.6$ & $-0.6$ \\
- & Without output likelihood & $+1.1$ & $+1.6$ & $+0.1$ \\
-Qwen3-32B & Without workspace readout & $+1.5$ & $+1.0$ & $-0.5$ \\
- & Without output likelihood & $-0.8$ & $-1.5$ & $-1.7$ \\
-Qwen2.5-7B & Without workspace readout & $+1.1$ & $+1.1$ & $+1.5$ \\
- & Without output likelihood & $-0.3$ & $+0.9$ & $+1.8$ \\
-OLMo-2-7B & Without workspace readout & $+3.3$ & $+1.3$ & $+0.0$ \\
- & Without output likelihood & $+4.3$ & $+3.6$ & $+0.3$ \\
+Qwen3-8B & Without the workspace readout & $-1.6$ & $-1.1$ & $+1.2$ \\
+ & Without the output likelihood & $+3.8$ & $+4.0$ & $+1.3$ \\
+Qwen3-14B & Without the workspace readout & $-0.7$ & $+0.6$ & $-0.6$ \\
+ & Without the output likelihood & $+1.1$ & $+1.6$ & $+0.1$ \\
+Qwen3-32B & Without the workspace readout & $+1.5$ & $+1.0$ & $-0.5$ \\
+ & Without the output likelihood & $-0.8$ & $-1.5$ & $-1.7$ \\
+Qwen2.5-7B & Without the workspace readout & $+1.1$ & $+1.1$ & $+1.5$ \\
+ & Without the output likelihood & $-0.3$ & $+0.9$ & $+1.8$ \\
+OLMo-2-7B & Without the workspace readout & $+3.3$ & $+1.3$ & $+0.0$ \\
+ & Without the output likelihood & $+4.3$ & $+3.6$ & $+0.3$ \\
 \bottomrule
 \end{tabular}
 \end{table*}

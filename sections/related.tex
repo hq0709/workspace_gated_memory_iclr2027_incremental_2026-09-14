@@ -7,9 +7,7 @@ relevance for retrieval \citep{park2023generative}. MemoryBank, MemGPT,
 Mem0 and A-MEM provide persistence, memory operations and organization
 \citep{zhong2023memorybank,packer2023memgpt,mem0,amem2025}.
 LoCoMo and LongMemEval evaluate memory over long conversations
-\citep{maharana2024locomo,wu2025longmemeval}. SDA targets admission before
-a future question, which we study through controlled tests of how
-provenance shapes the importance report.
+\citep{maharana2024locomo,wu2025longmemeval}.
 
 \paragraph{Admission criteria.}
 ConsistencyGate filters candidates by self-consistent support in the
@@ -17,9 +15,9 @@ source context \citep{consistencygate2026}, while A-MAC combines LLM
 assessment with textual support and memory attributes \citep{amac2026}.
 A multi-factor value model optimizes evidence retention
 \citep{valuemodel2026}, and Causal Memory Intervention scores answers to
-a known request under memory interventions \citep{cmi2026}. SDA derives
-admission targets from the frozen host model's workspace readout and
-output likelihood before a future question is available.
+a known request under memory interventions \citep{cmi2026}. SDA instead
+draws targets from the frozen model's own workspace readout and output
+likelihood.
 
 \paragraph{Learned memory management.}
 Nemori distills interaction sequences into memory using prediction error
@@ -27,19 +25,19 @@ Nemori distills interaction sequences into memory using prediction error
 and forgetting \citep{memcon2026}, while AgeMem trains memory tool
 actions with reinforcement learning \citep{agemem2026}. The survey of
 \citet{hu2025memorysurvey} situates these approaches within memory
-systems. SDA uses the same model's candidate rankings to supervise
-admission for a single passage.
+systems.
 
-\paragraph{Internal signals and representation readouts.}
+\paragraph{Internal signals and representation decoding.}
 EM-LLM, SirLLM and Titans use surprisal, entropy and gradient-based
 surprise for memory
 \citep{fostiropoulos2024emllm,yao2024sirllm,behrouz2025titans}.
-The logit lens and J-lens decode internal representations
+The logit lens, a J-lens with the identity map, decodes internal
+representations
 \citep{nostalgebraist2020logitlens,anthropic2026workspace}, as do tuned
 lenses, Future Lens and Patchscopes
 \citep{belrose2023tuned,pal2023futurelens,ghandeharioun2024patchscopes}.
-SDA builds its workspace readout on the logit lens and J-lens, then uses
-it offline to train a served admission interface.
+SDA's workspace readout applies the logit lens across layers
+(\S\ref{sec:teacher}).
 
 \paragraph{Memory distillation and self-distillation.}
 Knowledge distillation transfers teacher predictions to a student,
@@ -48,9 +46,8 @@ including between models of the same architecture
 TMEM writes distilled experience into low-rank weights
 \citep{tmem2026}, while Agent Memory Distillation transfers a larger
 teacher agent's trajectories into structured memory for a smaller
-student \citep{amd2026}. SDA transfers a frozen model's candidate
-rankings into its own importance prompt, keeping teacher and student
-within the same model.
+student \citep{amd2026}. Unlike TMEM and Agent Memory Distillation,
+we use the same model as teacher and student.
 
 \paragraph{Internal information and model reports.}
 Internal states can predict correctness beyond expressed confidence
@@ -58,6 +55,4 @@ Internal states can predict correctness beyond expressed confidence
 Stated reasoning can omit influences on an answer
 \citep{turpin2023cot}, and salience can be poorly reported
 \citep{trienes2025salience}. Introspection training teaches models to
-predict their own behavior \citep{binder2024introspection}. SDA trains
-the importance report to use internal rankings for a prospective
-decision: which concept to store before the question arrives.
+predict their behavior \citep{binder2024introspection}.

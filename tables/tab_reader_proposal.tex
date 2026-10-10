@@ -1,22 +1,22 @@
 \begin{table}[tbp]
 \centering
-\caption{Question-only and whole-passage reader references, plus context-only candidate proposal, on Fresh-2,
-Qwen3-8B. Recall (\%); admission stores two concepts. Proposal supplies 8.0 candidates per episode,
-including the useful concept in 1.4\% of episodes.}
+\caption{Closed-book and full-context readers, and admission from the context-only candidate extractor's candidates, on the confirmation set,
+Qwen3-8B. Answer accuracy (\%); admission stores two concepts. The extractor supplies 8.0 candidates per episode
+and includes the useful concept in 1.4\% of episodes.}
 \label{tab:readerproposal}
 \small
 \setlength{\tabcolsep}{8pt}
 \begin{tabular}{lc}
 \toprule
-Condition & Recall \\
+Condition & Accuracy \\
 \midrule
 \multicolumn{2}{l}{\emph{Reader references}} \\
-Question only & 22.9 \\
-Whole passage & 63.9 \\
+Closed-book reader & 22.9 \\
+Full-context reader & 63.9 \\
 \addlinespace
-\multicolumn{2}{l}{\emph{Admission from proposed candidates}} \\
-Yes/no importance report & 33.6 \\
-Intended-bridge reference & 34.4 \\
+\multicolumn{2}{l}{\emph{Admission from extracted candidates}} \\
+Importance report & 33.6 \\
+Gold-concept selection & 34.4 \\
 \textbf{SDA (3 seeds)} & \textbf{35.5 / 33.3 / 33.1} \\
 \bottomrule
 \end{tabular}

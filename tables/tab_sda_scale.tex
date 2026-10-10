@@ -1,14 +1,14 @@
 \begin{table*}[t]
 \centering
-\caption{Admission ranking on the Decoupled and Compositional development batteries across Qwen3 scales. $V$:
-pooled admission AUC; $\Delta V$: paired change; $|\Delta W|$: largest absolute workspace readout
-change across seeds.}
+\caption{Admission ranking on the Decoupled and Compositional development sets across Qwen3 scales. $V$:
+pooled AUC of the admission score (untrained before, SDA after); $\Delta V$: paired change; $|\Delta W|$:
+largest absolute workspace readout change across seeds.}
 \label{tab:sdascale}
 \small
 \setlength{\tabcolsep}{4pt}
 \begin{tabular}{llccccc}
 \toprule
-Model & Benchmark & $V$ before & Seed & $V$ after & $\Delta V$ & $|\Delta W|$ \\
+Model & Set & $V$ before & Seed & $V$ after & $\Delta V$ & $|\Delta W|$ \\
 \midrule
 \multirow{3}{*}{Qwen3-8B} & \multirow{3}{*}{Decoupled} & \multirow{3}{*}{0.387} & 0 & \textbf{0.756} & $+0.369$ & \multirow{3}{*}{0.0033} \\
  & & & 1 & \textbf{0.739} & $+0.352$ & \\

@@ -1,19 +1,14 @@
 \section{Implications}
 \label{sec:implications}
 
-Memory admission is a trainable component of an agent.
-Self-Distilled Admission (SDA) trains the importance interface using
-rankings from the model's own computation. A host can attach the
-adapter only to admission requests and keep the reader frozen.
-Qwen3-8B serves the standard pool through a standard serving engine
-(\S\ref{sec:deployment}). SDA improves development admission AUC
-at every tested Qwen3 training scale and seed. The workspace readout
-AUC changes by at most 0.0046 (App.~\ref{app:sdascale}).
+SDA raises pooled AUC on the development sets at every tested
+Qwen3 training scale and seed, changing the admission score while
+the adapter-enabled model's workspace readout AUC changes by at most
+0.0046 (App.~\ref{app:sdascale}).
 
-Admission evaluation should separate usefulness from provenance.
-Compare policies on the same episodes with a fixed reader and budget.
-Balance the provenance of the useful concept and include unstated
-distractors. Report within-episode ranking, retention split by
-provenance, and frozen-reader recall. Together, these measurements
-connect candidate scores to the information stored and the answers
-the reader produces.
+Separating usefulness from statedness in admission evaluation
+requires comparing policies on the same episodes with a fixed
+reader and budget, balancing the statedness of the useful concept,
+and including unstated distractors. Evaluation should report
+within-episode ranking, retention split by statedness, and answer
+accuracy (\S\ref{sec:setup}).

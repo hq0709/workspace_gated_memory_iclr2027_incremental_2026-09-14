@@ -2,32 +2,35 @@
 \label{sec:breadth}
 \label{sec:models}
 
-The principal diagnostic comparison covers eight models from four
+The main diagnostic comparison covers eight models from three
 families: Qwen2.5-7B, OLMo-2-7B, Mistral-7B and Qwen3 at 1.7B, 4B,
-8B, 14B and 32B
-\citep{qwen2025,olmo2,jiang2023mistral,qwen3}. The extended grid covers
-23 checkpoints across those families and GPT-2, including base and
-post-training stages (App.~\ref{app:breadth}).
+8B, 14B and 32B \citep{qwen2025,olmo2,jiang2023mistral,qwen3}.
+Outside the checkpoint grid of App.~\ref{app:breadth}, the short
+names Qwen2.5-7B, OLMo-2-7B and Mistral-7B denote the instruct
+checkpoints Qwen2.5-7B-Instruct, OLMo-2-1124-7B-Instruct
+and Mistral-7B-Instruct-v0.3. The extended grid covers 23 base and
+post-trained checkpoints from these families and GPT-2
+(App.~\ref{app:breadth}).
 
-SDA training covers six models with three seeds each: Qwen3-8B, 14B
-and 32B and the other three 7B families. This yields 18 principal
-training runs. Each model supplies its own teacher, adapter and
-frozen reader.
+SDA training covers six models with three seeds each: Qwen3-8B,
+Qwen3-14B, Qwen3-32B, Qwen2.5-7B, OLMo-2-7B and Mistral-7B,
+yielding 18 training runs. Each model supplies its own teacher,
+adapter and frozen reader.
 
-The training and validation splits contain 175 and 45 episodes,
-respectively. These come from 88 Explicit episodes and 132
-implied-answer episodes, including the 57-episode alternate-author
-benchmark. In an implied-answer episode, the passage cues an unstated
-useful concept that supplies the answer. Decoupled requires a further
-inference from that concept.
+Training and validation splits contain 175 and 45 episodes,
+respectively, from 88 Explicit and 132 Implied-answer episodes,
+including the 57-episode alternate-generator set. In an Implied-answer
+episode, the passage cues an unstated useful concept that supplies
+the answer.
 
 Development uses Decoupled (68 episodes), Compositional (52), and two
-separate 68-episode pools that add confusable or unrelated unstated
-distractors to Decoupled. Fresh-1 and Fresh-2 contain 316 and 363
-episodes, respectively. The entity-bridge benchmark contains 42
-episodes. Fresh-2 passage and pool controls reuse its 363 episodes.
+separate 68-episode sets adding confusable or unrelated unstated
+distractors to Decoupled. The interim held-out set and the confirmation
+set contain 316 and 363 episodes, respectively, while the entity-bridge
+set contains 42 episodes. Passage controls and pools on the
+confirmation set reuse its 363 episodes.
 
-Evaluation uses memory budgets of $k=1,2,3$. The main comparison uses
-the statedness-balanced pool, with $k=2$ reported across all six
-models. The paired Fresh-2 grading audit covers 13,068 answers across
-the 18 SDA--report comparisons. Both graders evaluate every answer.
+Evaluation uses memory budgets $k=1,2,3$. The main comparison uses
+the statedness-balanced pool, reporting $k=2$ for all six models.
+On the confirmation set, both graders score all 13,068 answers of
+the 18 SDA--report comparisons.

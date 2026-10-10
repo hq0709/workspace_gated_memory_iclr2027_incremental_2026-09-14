@@ -120,26 +120,27 @@ Self-Distilled Memory Admission for LLM Agents}
 \maketitle
 
 \begin{abstract}
-LLM agents must decide what to remember before a future question
-arrives. Useful concepts are often inferences the passage never states.
-Importance judgments rank candidates by provenance, favoring stated
-content. The model's yes/no importance report distinguishes useful
-concepts among unstated candidates alone, yet falls below chance on the
-standard pool, where useful concepts are usually unstated. Its workspace
-readout ranks them above chance there. Self-Distilled Admission (SDA)
-ranks candidates using a frozen model's workspace readout and output
-likelihood, labels the top two, and trains an admission-only LoRA
-adapter through its importance prompt. Its gradient updates use only
-labels the frozen model generates itself, with no future question or
-reward. Across six models, SDA improves answer recall
-over each model's own importance report in 54 of 54 model--seed--budget
-comparisons on the primary statedness-balanced pool. For Qwen3-8B at two
-stored concepts, SDA adds 10.7 points of answer recall over the model's
-own report; published admission criteria (ConsistencyGate, A-MAC, Nemori)
-score below the untrained report. The adapter runs in a standard serving
-engine at 242 candidates per second. \textbf{The model computes inferences
-worth keeping, but its importance report fails to follow them; SDA teaches
-the judgment to keep what it computed.}
+LLM agents must choose memories before future questions arrive, although
+useful concepts are often unstated inferences. Importance judgments favor
+candidates the passage states: the importance report distinguishes
+useful concepts among unstated candidates alone but falls below chance
+on the standard pool (the generator's original candidate lists), where
+useful concepts are usually unstated. The model's workspace readout
+(a candidate's peak reciprocal rank under the logit lens across layers)
+ranks useful concepts above chance on this pool. Self-Distilled Admission
+(SDA) labels the top two candidates by the workspace readout and output
+likelihood and, through the model's importance prompt, trains a LoRA
+adapter that is used only for admission requests. Gradient updates use
+only labels the frozen model generates, with no future question or reward.
+Across six models, SDA improves answer accuracy over each model's own
+report in 54 of 54 model--seed--budget comparisons on the primary
+statedness-balanced pool.
+Qwen3-8B gains 10.7 points at two stored concepts; published admission
+criteria (ConsistencyGate, A-MAC, Nemori) score below the untrained report.
+An off-the-shelf serving engine runs the adapter at 242 candidates per
+second. The model internally encodes concepts worth storing that its
+importance report does not reflect; SDA trains the model's answer to its
+importance prompt to admit those concepts.
 \end{abstract}
 
 \input{sections/intro}

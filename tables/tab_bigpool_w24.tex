@@ -1,12 +1,12 @@
 \begin{table*}[t]
 \centering
-\caption{Recall (\%) on the enlarged pool (Fresh-2, 12.41 candidates per episode), Qwen3-8B. }
+\caption{Answer accuracy (\%) on the enlarged pool (confirmation set, 12.41 candidates per episode), Qwen3-8B. }
 \label{tab:bigpool}
 \small
 \setlength{\tabcolsep}{3pt}
 \begin{tabular}{lccccc}
 \toprule
-Budget & \shortstack{Yes/no\\report} & \shortstack{Output\\likelihood} & \shortstack{Workspace\\readout} & \textbf{SDA (3 seeds)} & \shortstack{Intended-bridge\\reference} \\
+Budget & \shortstack{Importance\\report} & \shortstack{Output\\likelihood} & \shortstack{Workspace\\readout} & \textbf{SDA (3 seeds)} & \shortstack{Gold-concept\\selection} \\
 \midrule
 $k=1$ & 29.5 & 28.1 & 24.0 & \textbf{38.0 / 38.0 / 39.7} & 47.1 \\
 $k=2$ & 40.5 & 32.0 & 34.7 & \textbf{50.7 / 52.6 / 51.2} & 54.3 \\

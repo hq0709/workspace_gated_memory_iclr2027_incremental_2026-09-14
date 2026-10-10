@@ -1,23 +1,23 @@
 \begin{table*}[t]
 \centering
-\caption{Recall (\%) at $k{=}2$, Qwen3-8B: development batteries (left), two frozen fresh Decoupled batteries
-(right).  Rating: 1--10
+\caption{Answer accuracy (\%) at $k{=}2$, Qwen3-8B: development sets (left) and the two held-out sets built with
+the Decoupled construction (right). Rating: 1--10
 importance rating \citep{park2023generative}.}
 \label{tab:sdamain}
 \small
 \setlength{\tabcolsep}{3pt}
 \begin{tabular}{lcccccc}
 \toprule
- & \multicolumn{4}{c}{Development} & \multicolumn{2}{c}{Fresh (held out)} \\
+ & \multicolumn{4}{c}{Development} & \multicolumn{2}{c}{Held out} \\
 \cmidrule(lr){2-5} \cmidrule(lr){6-7}
-Admission policy & Decoupled & Compositional & Confusable & Unrelated & Fresh-1 & Fresh-2 \\
+Admission policy & Decoupled & Compositional & Confusable & Unrelated & Interim held-out & Confirmation \\
  & $n{=}68$ & $n{=}52$ & $n{=}68$ & $n{=}68$ & $n{=}316$ & $n{=}363$ \\
 \midrule
-Yes/no importance report & 35.3 & 46.2 & 35.3 & 36.8 & 34.8 & 40.8 \\
+Importance report & 35.3 & 46.2 & 35.3 & 36.8 & 34.8 & 40.8 \\
 1--10 importance rating & 47.1 & 53.8 & 48.5 & 48.5 & 43.7 & 45.7 \\
 \wsrow \textbf{SDA} & \textbf{49.5}\,$\pm$\,2.2 & \textbf{54.5}\,$\pm$\,1.1 & \textbf{48.5}\,$\pm$\,2.5 & \textbf{50.0}\,$\pm$\,2.5 & \textbf{44.2}\,$\pm$\,0.7 & \textbf{50.0}\,$\pm$\,1.4 \\
 \addlinespace
-\refrow Intended-bridge reference & 51.5 & 65.4 & 51.5 & 51.5 & 50.0 & 54.3 \\
+\refrow Gold-concept selection & 51.5 & 65.4 & 51.5 & 51.5 & 50.0 & 54.3 \\
 \bottomrule
 \end{tabular}
 \end{table*}

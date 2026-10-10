@@ -1,17 +1,17 @@
 \begin{table*}[t]
 \centering
-\caption{Within-episode admission ranking on the standard Fresh-2 pool, Qwen3-8B. AUC differences are
-relative to the yes/no importance report; retention (\%) measures whether the two admitted concepts
+\caption{Within-episode admission ranking on the standard pool, Qwen3-8B. AUC differences are
+relative to the importance report; retention (\%) measures whether the two admitted concepts
 include the useful concept.}
 \label{tab:episodemetrics}
 \small
 \setlength{\tabcolsep}{4pt}
 \begin{tabular}{lccc}
 \toprule
-Admission score & \shortstack{Per-episode AUC} & \shortstack{$\Delta$ vs.\ report} & \shortstack{Bridge retained\\($k=2$)} \\
+Admission score & \shortstack{Within-episode AUC} & \shortstack{$\Delta$ vs.\ report} & \shortstack{Useful concept\\retained ($k=2$)} \\
 \midrule
-Yes/no report & 0.326 & \emph{reference} & 29.8 \\
-1--10 rating \citep{park2023generative} & 0.608 & $+0.282$ & 61.2 \\
+Importance report & 0.326 & \emph{reference} & 29.8 \\
+1--10 importance rating \citep{park2023generative} & 0.608 & $+0.282$ & 61.2 \\
 Workspace readout & 0.547 & $+0.221$ & 51.0 \\
 Output likelihood & 0.619 & $+0.293$ & 59.2 \\
 \textbf{SDA (seed 0)} & \textbf{0.682} & $+0.356$ & \textbf{68.6} \\
