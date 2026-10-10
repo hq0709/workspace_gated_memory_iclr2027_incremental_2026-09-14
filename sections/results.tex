@@ -227,7 +227,20 @@ the untrained workspace readout and importance report.}
 \label{fig:replaced}
 \end{figure}
 
-On the primary statedness-balanced pool, removing output likelihood
+On the primary statedness-balanced pool, removing the workspace readout
+lowers useful-concept retention in unstated-concept episodes by $6.6$,
+$4.5$ and $2.5$ points at $k=1,2,3$, in all five models at every
+budget, whereas removing output likelihood changes it by at most
+$0.8$ points. In stated-concept episodes, removing output likelihood
+lowers retention by $2.2$, $1.9$ and $1.8$ points at $k=1,2,3$
+(Table~\ref{tab:teacherretention}). The workspace readout's contribution
+thus concentrates on unstated useful concepts, while output likelihood
+supports useful concepts the passage states. Retention differences
+reach answer accuracy only in part: on unstated-concept episodes across
+SDA and the students trained without the workspace readout, the frozen
+reader answers 47.9\% of questions correctly when the useful concept
+is in memory and 29.8\% when it is not, across five models, three seeds
+and three budgets. Across all episodes, removing output likelihood
 lowers answer accuracy by $1.6$ and $1.7$ points at $k=1,2$; removing
 the workspace readout lowers it by $0.7$, $0.6$ and $0.3$ points at
 $k=1,2,3$ (Table~\ref{tab:teachermodelpaired}). This analysis combines
@@ -240,6 +253,9 @@ compared with 45.7\% for the combined teacher used directly and
 40.2--40.5\% for the validation-selected log-odds objectives
 (Tables~\ref{tab:sdaablation} and~\ref{tab:objective};
 App.~\ref{app:objective}).
+For Qwen3-8B on the standard pool at $k=2$, useful-concept retention
+is 69.1\% for SDA, 64.0\% for the student trained without the workspace
+readout and 67.2\% for the student trained without output likelihood.
 
 To separate training gains from prompt changes, we train and evaluate
 Qwen3-8B SDA through the \emph{implied-content wording}, which permits

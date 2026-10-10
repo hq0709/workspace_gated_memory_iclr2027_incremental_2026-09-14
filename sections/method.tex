@@ -34,11 +34,20 @@ The teacher ranks each episode's candidates using two signals from the
 frozen model, defined next.
 
 \paragraph{Workspace readout.}
-The workspace readout measures how readily the unembedding recovers a
-concept during context processing. SDA uses only the logit lens, which
-decodes each layer's residual state through final normalization and
-unembedding and is the J-lens with $J=I$
+The workspace is a small, privileged set of verbalizable representations
+in the residual stream that name the concepts the model is currently
+reasoning with; these representations are neither echoes of the input
+nor predictions of the next token and are available for report and
+internal reasoning \citep{anthropic2026workspace}.
+SDA uses only the logit lens, the J-lens with $J=I$, to read this
+workspace as vocabulary tokens by decoding each layer's residual state
+through final normalization and unembedding
 \citep{nostalgebraist2020logitlens,anthropic2026workspace}.
+The workspace readout uses a candidate's peak reciprocal rank across
+layers at the final context position to measure how strongly the
+candidate is among the concepts the model is reasoning with while it
+reads the passage. An unstated useful concept can be present there
+because the model infers it.
 Let $h_\ell(x)\in\mathbb{R}^d$ be the residual state at the final context
 position after transformer layer $\ell$, with $L$ layers in total.
 Final normalization $\mathrm{LN}$ and unembedding $W_U$ give vocabulary

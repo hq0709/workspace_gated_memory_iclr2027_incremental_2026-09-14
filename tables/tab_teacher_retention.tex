@@ -1,0 +1,26 @@
+\begin{table*}[t]
+\centering
+\caption{Teacher-signal ablations by statedness condition on the statedness-balanced pool, five models. Entries are SDA minus the student trained without the named signal, in percentage points (positive: removing the signal lowers the quantity); mean\,$\pm$\,standard deviation over three seeds of the five-model average. Models: number of the five models whose difference is positive. Standard pool, Qwen3-8B, $k=2$, useful-concept retention (\%): SDA 69.1\,$\pm$\,0.6; without the workspace readout 64.0\,$\pm$\,4.8; without the output likelihood 67.2\,$\pm$\,1.4.}
+\label{tab:teacherretention}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llccccc}
+\toprule
+ & & \multicolumn{3}{c}{Without the workspace readout} & \multicolumn{2}{c}{Without the output likelihood} \\
+\cmidrule(lr){3-5}\cmidrule(lr){6-7}
+Episodes & Budget & Retention & Models & Accuracy & Retention & Accuracy \\
+\midrule
+Unstated concept (173) & $k=1$ & $+6.6$\,$\pm$\,1.3 & 5/5 & $+1.8$\,$\pm$\,0.4 & $-0.8$\,$\pm$\,2.1 & $+0.5$\,$\pm$\,1.1 \\
+ & $k=2$ & $+4.5$\,$\pm$\,1.2 & 5/5 & $+0.8$\,$\pm$\,0.5 & $+0.5$\,$\pm$\,2.1 & $+1.5$\,$\pm$\,0.7 \\
+ & $k=3$ & $+2.5$\,$\pm$\,0.3 & 5/5 & $-0.1$\,$\pm$\,1.6 & $0.0$\,$\pm$\,2.5 & $+0.6$\,$\pm$\,0.1 \\
+\addlinespace
+Stated concept (190) & $k=1$ & $-0.6$\,$\pm$\,4.7 & 3/5 & $-0.3$\,$\pm$\,1.2 & $+2.2$\,$\pm$\,3.1 & $+2.7$\,$\pm$\,0.9 \\
+ & $k=2$ & $+0.9$\,$\pm$\,3.4 & 4/5 & $+0.4$\,$\pm$\,1.5 & $+1.9$\,$\pm$\,1.9 & $+2.0$\,$\pm$\,0.7 \\
+ & $k=3$ & $+0.5$\,$\pm$\,2.7 & 3/5 & $+0.7$\,$\pm$\,0.7 & $+1.8$\,$\pm$\,0.6 & $+0.1$\,$\pm$\,0.2 \\
+\addlinespace
+All (363) & $k=1$ & $+2.8$\,$\pm$\,3.0 & 4/5 & $+0.7$\,$\pm$\,0.7 & $+0.8$\,$\pm$\,2.4 & $+1.6$\,$\pm$\,0.9 \\
+ & $k=2$ & $+2.6$\,$\pm$\,2.4 & 4/5 & $+0.6$\,$\pm$\,1.0 & $+1.2$\,$\pm$\,1.8 & $+1.7$\,$\pm$\,0.6 \\
+ & $k=3$ & $+1.4$\,$\pm$\,1.5 & 4/5 & $+0.3$\,$\pm$\,1.0 & $+0.9$\,$\pm$\,1.5 & $+0.3$\,$\pm$\,0.1 \\
+\bottomrule
+\end{tabular}
+\end{table*}

@@ -6,7 +6,8 @@ when the useful concept is unstated.
 SDA trains a LoRA adapter through the model's importance prompt on
 labels that the frozen model derives from its workspace readout and
 output likelihood, improving answer accuracy over each model's
-importance report on the statedness-balanced pool.
+importance report on the statedness-balanced pool, with the workspace
+readout supporting retention of unstated useful concepts.
 The adapter attaches only to admission requests and preserves answer
 accuracy in an off-the-shelf serving engine.
 SDA lets an agent decide what to retain before a question arrives and

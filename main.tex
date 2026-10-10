@@ -137,6 +137,8 @@ report in 54 of 54 model--seed--budget comparisons on the primary
 statedness-balanced pool.
 Qwen3-8B gains 10.7 points at two stored concepts; published admission
 criteria (ConsistencyGate, A-MAC, Nemori) score below the untrained report.
+Removing the workspace readout from SDA's teacher lowers retention of
+unstated useful concepts in all five ablated models.
 An off-the-shelf serving engine runs the adapter at 242 candidates per
 second. The model internally encodes concepts worth storing that its
 importance report does not reflect; SDA trains the model's answer to its

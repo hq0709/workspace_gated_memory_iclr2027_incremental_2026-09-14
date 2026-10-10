@@ -37,12 +37,14 @@ stated distractors. The 1--10 importance rating and published criteria
 built on context support also favor stated candidates.
 
 The model's workspace readout, the peak reciprocal rank of a candidate
-under the logit lens across layers, ranks the useful concept above
-chance on the same standard pool. The model's intermediate layers
-therefore encode information that its importance report does not
-express. Naming the useful concept in an otherwise unchanged episode
-raises AUC for both signals, with a larger increase for the workspace
-readout (Figure~\ref{fig:hero}).
+under the logit lens across layers, measures the candidate's presence
+in the model's workspace, the verbalizable concepts it is currently
+reasoning with \citep{anthropic2026workspace}, and ranks the useful
+concept above chance on the same standard pool. The model's
+intermediate layers therefore encode information that its importance
+report does not express. Naming the useful concept in an otherwise
+unchanged episode raises AUC for both signals, with a larger increase
+for the workspace readout (Figure~\ref{fig:hero}).
 
 Self-Distilled Admission (SDA) transfers the model's candidate rankings
 into its admission decision (Figure~\ref{fig:sda}). The teacher is a
@@ -65,12 +67,16 @@ report. SDA exceeds these published admission criteria by 14.1--27.8
 points at the same memory budget
 (Table~\ref{tab:balancedbaselines}).
 
-The paired-passage set, in which two episodes contain the same
-candidates in different orders but differ in passage, question, and
-useful concept, tests the teacher's use of the passage because only the
-passage identifies the useful concept. Across five models, removing
-the workspace readout from the teacher lowers answer accuracy by 1.9
-points at one stored concept (Table~\ref{tab:crosspairpooled}).
+On the primary statedness-balanced pool, removing the workspace
+readout from the teacher lowers retention of unstated useful concepts
+by 6.6 points at one stored concept, in all five models
+(Table~\ref{tab:teacherretention}). The paired-passage set, in which
+two episodes contain the same candidates in different orders but
+differ in passage, question, and useful concept, tests the teacher's
+use of the passage because only the passage identifies the useful
+concept. Across five models, removing the workspace readout from the
+teacher lowers answer accuracy by 1.9 points at one stored concept
+(Table~\ref{tab:crosspairpooled}).
 
 SDA is a plug-and-play adapter that an off-the-shelf serving engine
 applies only to admission requests. On the standard pool, the served
@@ -91,7 +97,8 @@ Our contributions are:
     across six models from three families, three seeds, three memory
     budgets, and five candidate pools establishes answer accuracy gains
     over the importance report, the rating, and published admission
-    criteria, while ablations on the paired-passage set show that both
-    teacher signals contribute to answer accuracy
-    (\S\ref{sec:recall}, \S\ref{sec:ablations}).
+    criteria, while ablations show that the workspace readout's
+    contribution concentrates on unstated useful concepts and that both
+    teacher signals contribute to answer accuracy on the paired-passage
+    set (\S\ref{sec:recall}, \S\ref{sec:ablations}).
 \end{itemize}

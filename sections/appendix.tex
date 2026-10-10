@@ -841,10 +841,25 @@ workspace AUC change is 0.0046.
 Table~\ref{tab:teachermodels} reports answer accuracy on the
 statedness-balanced pool for all three teacher compositions;
 Table~\ref{tab:teachermodelpaired} gives their paired differences.
+Table~\ref{tab:teacherretention} splits the comparison by statedness
+condition and reports retention as well as answer accuracy for five
+models across the three seeds.
+In the unstated-concept condition, removing the workspace readout lowers
+retention in all five models at every budget, by an average of 6.6, 4.5
+and 2.5 points at $k=1,2,3$, and lowers mean answer accuracy by 1.8 and
+0.8 points at $k=1,2$, whereas removing output likelihood changes mean
+retention by at most 0.8 points.
+For SDA and the students trained without the workspace readout across
+these models, seeds and budgets, the frozen reader answers 47.9\% of
+questions correctly when the unstated useful concept is in memory and
+29.8\% when it is not, so retention gains translate only partly into
+answer accuracy.
 
 \input{tables/tab_teacher_models}
 
 \input{tables/tab_teacher_models_paired}
+
+\input{tables/tab_teacher_retention}
 
 \FloatBarrier
 We construct the paired-passage set after locking the confirmation set,
